@@ -6,7 +6,7 @@ var MenuState = require('./states/menu');
 var PlayState = require('./states/play');
 var PreloadState = require('./states/preload');
 
-var game = new Phaser.Game(288, 505, Phaser.AUTO, 'flappy-bird-reborn');
+var game = new Phaser.Game(505, 505, Phaser.AUTO, 'flappy-bird-reborn');
 
 // Game States
 game.state.add('boot', BootState);

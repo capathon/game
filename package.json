@@ -23,5 +23,21 @@
   },
   "dependencies": {
     "express": "~3.4.7"
-  }
+  },
+  "description": "The HTML5 Javascript remix built with [Phaser](http://phaser.io) 2.0 and [generator-phaser-official](http://github.com/codevinsky/generator-phaser-official)",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/capathon/game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/capathon/game/issues"
+  },
+  "homepage": "https://github.com/capathon/game"
 }

@@ -1,4 +1,3 @@
-
 'use strict';
 var Bird = require('../prefabs/bird');
 var Ground = require('../prefabs/ground');

@@ -1,5 +1,3 @@
-'use strict';
-
 var Scoreboard = function(game) {
   
   var gameover;
