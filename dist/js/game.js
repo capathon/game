@@ -33,7 +33,7 @@ var Player = function(game, x, y, frame) {
   this.name = 'player';
   this.alive = false;
   this.onGround = false;
-
+  this.numberOfJumps = 0;
 
   // enable physics on the player
   // and disable gravity on the player
@@ -67,10 +67,15 @@ Player.prototype.update = function() {
 Player.prototype.jump = function() {
   if(!!this.alive) {
     this.jumpSound.play();
-    //cause our player to "jump" upward
-    this.body.velocity.y = -400;
-    // rotate the player to -40 degrees
-    this.game.add.tween(this).to({angle: -40}, 100).start();
+
+    if (this.numberOfJumps < 2) {
+        //cause our player to "jump" upward
+        this.body.velocity.y = -500;
+        // rotate the player to -40 degrees
+        this.game.add.tween(this).to({angle: -40}, 100).start();
+    }
+
+    this.numberOfJumps++;
   }
 };
 
@@ -450,7 +455,7 @@ Play.prototype = {
   },
   update: function() {
     // enable collisions between the player and the ground
-    this.game.physics.arcade.collide(this.player, this.ground, null, null, this);
+    this.game.physics.arcade.collide(this.player, this.ground, this.touchedGround, null, this);
 
     this.player.x = this.game.width/2;
 
@@ -509,6 +514,9 @@ Play.prototype = {
   pickUpObject : function(player, enemy) {
     this.checkScore();
     enemy.kill();
+  },
+  touchedGround : function(player, ground) {
+    this.player.numberOfJumps = 0;
   },
   generatePipes: function() {
     var pipeY = this.game.rnd.integerInRange(-100, 100);
