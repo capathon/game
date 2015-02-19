@@ -7,7 +7,7 @@ var MenuState = require('./states/menu');
 var PlayState = require('./states/play');
 var PreloadState = require('./states/preload');
 
-var game = new Phaser.Game(505, 505, Phaser.AUTO, 'flappy-bird-reborn');
+var game = new Phaser.Game(288, 505, Phaser.AUTO, 'dance4life');
 
 // Game States
 game.state.add('boot', BootState);
@@ -18,7 +18,7 @@ game.state.add('preload', PreloadState);
 
 game.state.start('boot');
 
-  
+
 },{"./states/boot":7,"./states/menu":8,"./states/play":9,"./states/preload":10}],2:[function(require,module,exports){
 'use strict';
 
@@ -45,8 +45,8 @@ var Bird = function(game, x, y, frame) {
 
   this.events.onKilled.add(this.onKilled, this);
 
-  
-  
+
+
 };
 
 Bird.prototype = Object.create(Phaser.Sprite.prototype);
@@ -57,7 +57,7 @@ Bird.prototype.update = function() {
   // if it is rotate the bird towards the ground by 2.5 degrees
   if(this.angle < 90 && this.alive) {
     this.angle += 2.5;
-  } 
+  }
 
   if(!this.alive) {
     this.body.velocity.x = 0;
@@ -74,7 +74,7 @@ Bird.prototype.flap = function() {
   }
 };
 
-Bird.prototype.revived = function() { 
+Bird.prototype.revived = function() {
 };
 
 Bird.prototype.onKilled = function() {
@@ -88,6 +88,8 @@ Bird.prototype.onKilled = function() {
 };
 
 module.exports = Bird;
+
+
 },{}],3:[function(require,module,exports){
 'use strict';
 
@@ -95,11 +97,11 @@ var Ground = function(game, x, y, width, height) {
   Phaser.TileSprite.call(this, game, x, y, width, height, 'ground');
   // start scrolling our ground
   this.autoScroll(-200,0);
-  
+
   // enable physics on the ground sprite
   // this is needed for collision detection
   this.game.physics.arcade.enableBody(this);
-      
+
   // we don't want the ground's body
   // to be affected by gravity or external forces
   this.body.allowGravity = false;
@@ -112,9 +114,9 @@ Ground.prototype = Object.create(Phaser.TileSprite.prototype);
 Ground.prototype.constructor = Ground;
 
 Ground.prototype.update = function() {
-  
+
   // write your prefab's specific update code here
-  
+
 };
 
 module.exports = Ground;
@@ -128,7 +130,7 @@ var Pipe = function(game, x, y, frame) {
 
   this.body.allowGravity = false;
   this.body.immovable = true;
-  
+
 };
 
 Pipe.prototype = Object.create(Phaser.Sprite.prototype);
@@ -136,7 +138,7 @@ Pipe.prototype.constructor = Pipe;
 
 Pipe.prototype.update = function() {
   // write your prefab's specific update code here
-  
+
 };
 
 module.exports = Pipe;
@@ -162,7 +164,7 @@ PipeGroup.prototype = Object.create(Phaser.Group.prototype);
 PipeGroup.prototype.constructor = PipeGroup;
 
 PipeGroup.prototype.update = function() {
-  this.checkWorldBounds(); 
+  this.checkWorldBounds();
 };
 
 PipeGroup.prototype.checkWorldBounds = function() {
@@ -189,20 +191,22 @@ PipeGroup.prototype.stop = function() {
 
 module.exports = PipeGroup;
 },{"./pipe":4}],6:[function(require,module,exports){
+'use strict';
+
 var Scoreboard = function(game) {
-  
+
   var gameover;
-  
+
   Phaser.Group.call(this, game);
   gameover = this.create(this.game.width / 2, 100, 'gameover');
   gameover.anchor.setTo(0.5, 0.5);
 
   this.scoreboard = this.create(this.game.width / 2, 200, 'scoreboard');
   this.scoreboard.anchor.setTo(0.5, 0.5);
-  
+
   this.scoreText = this.game.add.bitmapText(this.scoreboard.width, 180, 'flappyfont', '', 18);
   this.add(this.scoreText);
-  
+
   this.bestText = this.game.add.bitmapText(this.scoreboard.width, 230, 'flappyfont', '', 18);
   this.add(this.bestText);
 
@@ -214,7 +218,7 @@ var Scoreboard = function(game) {
 
   this.y = this.game.height;
   this.x = 0;
-  
+
 };
 
 Scoreboard.prototype = Object.create(Phaser.Group.prototype);
@@ -245,10 +249,10 @@ Scoreboard.prototype.show = function(score) {
   this.game.add.tween(this).to({y: 0}, 1000, Phaser.Easing.Bounce.Out, true);
 
   if (coin) {
-    
+
     coin.anchor.setTo(0.5, 0.5);
     this.scoreboard.addChild(coin);
-    
+
      // Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
     var emitter = this.game.add.emitter(coin.x, coin.y, 400);
     this.scoreboard.addChild(emitter);
@@ -272,7 +276,7 @@ Scoreboard.prototype.show = function(score) {
     emitter.setAll('body.allowGravity', false);
 
     emitter.start(false, 1000, 1000);
-    
+
   }
 };
 
@@ -289,6 +293,7 @@ Scoreboard.prototype.update = function() {
 };
 
 module.exports = Scoreboard;
+
 },{}],7:[function(require,module,exports){
 
 'use strict';
@@ -309,6 +314,7 @@ Boot.prototype = {
 module.exports = Boot;
 
 },{}],8:[function(require,module,exports){
+
 'use strict';
 function Menu() {}
 
@@ -322,8 +328,8 @@ Menu.prototype = {
 
     // add the ground sprite as a tile
     // and start scrolling in the negative x direction
-    //this.ground = this.game.add.tileSprite(0,400, 335,112,'ground');
-    //this.ground.autoScroll(-200,0);
+    this.ground = this.game.add.tileSprite(0,0, 335,112,'ground');
+    this.ground.autoScroll(-200,0);
 
     /** STEP 1 **/
     // create a group to put the title assets in
@@ -371,6 +377,7 @@ Menu.prototype = {
 module.exports = Menu;
 
 },{}],9:[function(require,module,exports){
+
 'use strict';
 var Bird = require('../prefabs/bird');
 var Ground = require('../prefabs/ground');
@@ -515,6 +522,7 @@ Play.prototype = {
 module.exports = Play;
 
 },{"../prefabs/bird":2,"../prefabs/ground":3,"../prefabs/pipe":4,"../prefabs/pipeGroup":5,"../prefabs/scoreboard":6}],10:[function(require,module,exports){
+
 'use strict';
 function Preload() {
   this.asset = null;
@@ -531,7 +539,7 @@ Preload.prototype = {
     this.load.image('background', 'assets/background.png');
     this.load.image('ground', 'assets/ground.png');
     this.load.image('title', 'assets/title.png');
-    this.load.spritesheet('bird', 'assets/bird.png', 34,24,3);
+    this.load.spritesheet('bird', 'assets/ride_anim.png', 100,100,3);
     this.load.spritesheet('pipe', 'assets/pipes.png', 54,320,2);
     this.load.image('startButton', 'assets/start-button.png');
 
