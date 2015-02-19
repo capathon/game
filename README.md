@@ -1,3 +1,5 @@
-# game
+#Flappy Bird Reborn
+The HTML5 Javascript remix built with [Phaser](http://phaser.io) 2.0 and [generator-phaser-official](http://github.com/codevinsky/generator-phaser-official)
 
-[![Join the chat at https://gitter.im/capathon/game](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/capathon/game?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Learn to make this game from the ground up
+[Phaser 2.0 Tutorial: Flappy Bird](http://codevinsky.ghost.io/phaser-2-0-tutorial-flappy-bird-part-1/)
