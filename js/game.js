@@ -7,7 +7,7 @@ var MenuState = require('./states/menu');
 var PlayState = require('./states/play');
 var PreloadState = require('./states/preload');
 
-var game = new Phaser.Game(288, 505, Phaser.AUTO, 'flappy-bird-reborn');
+var game = new Phaser.Game(288, 505, Phaser.AUTO, 'dance4life');
 
 // Game States
 game.state.add('boot', BootState);
@@ -328,7 +328,7 @@ Menu.prototype = {
 
     // add the ground sprite as a tile
     // and start scrolling in the negative x direction
-    this.ground = this.game.add.tileSprite(0,400, 335,112,'ground');
+    this.ground = this.game.add.tileSprite(0,0, 335,112,'ground');
     this.ground.autoScroll(-200,0);
 
     /** STEP 1 **/

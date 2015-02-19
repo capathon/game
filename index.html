@@ -8,7 +8,7 @@
   <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div id="flappy-bird-reborn"></div>
+  <div id="dance4life"></div>
   <script src="js/phaser.js"></script>
   <script src="js/game.js"></script>
 </body>
