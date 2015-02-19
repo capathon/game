@@ -2,9 +2,13 @@ body {
   background-color: #333;
 }
 
+<<<<<<< HEAD
 #dance4life{
+=======
+#dance4lifegame {
+>>>>>>> 6d30e96b101f2075497ce0b871e4f3f6a9245f8a
   border: 2px solid white;
-  width: 288px;
+  width: 505px;
   margin-left: auto;
   margin-right: auto;
   cursor: pointer;
