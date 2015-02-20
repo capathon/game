@@ -7,7 +7,7 @@ var CondomGroup = function(game, parent) {
     this.condom = new Condom(this.game, 0, 440, 1);
     this.add(this.condom);
 
-    this.setAll('body.velocity.x', -200);
+    this.setAll('body.velocity.x', this.game.state.states.Game.levels[this.game.state.states.Game.level].condomVelocity);
 };
 
 CondomGroup.prototype = Object.create(Phaser.Group.prototype);
@@ -28,7 +28,7 @@ CondomGroup.prototype.reset = function(x, y) {
     this.condom.reset(0,440);
     this.x = x;
     this.y = y;
-    this.setAll('body.velocity.x', -200);
+    this.setAll('body.velocity.x', this.game.state.states.Game.levels[this.game.state.states.Game.level].condomVelocity);
 };
 
 

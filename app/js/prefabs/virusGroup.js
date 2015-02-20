@@ -28,7 +28,7 @@ VirusGroup.prototype.reset = function(x, y) {
     this.virus.reset(0,440);
     this.x = x;
     this.y = y;
-    this.setAll('body.velocity.x', -250);
+    this.setAll('body.velocity.x', this.game.state.states.Game.levels[this.game.state.states.Game.level].virusVelocity);
 };
 
 
