@@ -66,9 +66,8 @@ Player.prototype.update = function() {
 
 Player.prototype.jump = function() {
   if(!!this.alive) {
-    this.jumpSound.play();
-
     if (this.numberOfJumps < 2) {
+        this.jumpSound.play();
         //cause our player to "jump" upward
         this.body.velocity.y = -500;
         // rotate the player to -40 degrees
@@ -334,7 +333,7 @@ Menu.prototype = {
 
     // add the ground sprite as a tile
     // and start scrolling in the negative x direction
-    this.ground = this.game.add.tileSprite(0,400, 505,112,'ground');
+    this.ground = this.game.add.tileSprite(0,442, 505, 63,'ground');
     this.ground.autoScroll(-200,0);
 
     /** STEP 1 **/
@@ -415,7 +414,7 @@ Play.prototype = {
 
 
     // create and add a new Ground object
-    this.ground = new Ground(this.game, 0, 400, 505, 112);
+    this.ground = new Ground(this.game, 0, 442, 505, 63);
     this.game.add.existing(this.ground);
 
 
