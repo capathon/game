@@ -18,7 +18,7 @@ game.state.add('preload', PreloadState);
 
 game.state.start('boot');
 
-  
+
 },{"./states/boot":7,"./states/menu":8,"./states/play":9,"./states/preload":10}],2:[function(require,module,exports){
 'use strict';
 
@@ -45,8 +45,8 @@ var Player = function(game, x, y, frame) {
 
   this.events.onKilled.add(this.onKilled, this);
 
-  
-  
+
+
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -57,7 +57,7 @@ Player.prototype.update = function() {
   // if it is rotate the player towards the ground by 2.5 degrees
   if(this.angle < 0 && this.alive) {
     this.angle += 2.5;
-  } 
+  }
 
   if(!this.alive) {
     this.body.velocity.x = 0;
@@ -78,7 +78,7 @@ Player.prototype.jump = function() {
   }
 };
 
-Player.prototype.revived = function() { 
+Player.prototype.revived = function() {
 };
 
 Player.prototype.onKilled = function() {
@@ -101,11 +101,11 @@ var Ground = function(game, x, y, width, height) {
   Phaser.TileSprite.call(this, game, x, y, width, height, 'ground');
   // start scrolling our ground
   this.autoScroll(-200,0);
-  
+
   // enable physics on the ground sprite
   // this is needed for collision detection
   this.game.physics.arcade.enableBody(this);
-      
+
   // we don't want the ground's body
   // to be affected by gravity or external forces
   this.body.allowGravity = false;
@@ -118,9 +118,9 @@ Ground.prototype = Object.create(Phaser.TileSprite.prototype);
 Ground.prototype.constructor = Ground;
 
 Ground.prototype.update = function() {
-  
+
   // write your prefab's specific update code here
-  
+
 };
 
 module.exports = Ground;
@@ -134,7 +134,7 @@ var Pipe = function(game, x, y, frame) {
 
   this.body.allowGravity = false;
   this.body.immovable = false;
-  
+
 };
 
 Pipe.prototype = Object.create(Phaser.Sprite.prototype);
@@ -142,7 +142,7 @@ Pipe.prototype.constructor = Pipe;
 
 Pipe.prototype.update = function() {
   // write your prefab's specific update code here
-  
+
 };
 
 module.exports = Pipe;
@@ -168,7 +168,7 @@ PipeGroup.prototype = Object.create(Phaser.Group.prototype);
 PipeGroup.prototype.constructor = PipeGroup;
 
 PipeGroup.prototype.update = function() {
-  this.checkWorldBounds(); 
+  this.checkWorldBounds();
 };
 
 PipeGroup.prototype.checkWorldBounds = function() {
@@ -198,19 +198,19 @@ module.exports = PipeGroup;
 'use strict';
 
 var Scoreboard = function(game) {
-  
+
   var gameover;
-  
+
   Phaser.Group.call(this, game);
   gameover = this.create(this.game.width / 2, 100, 'gameover');
   gameover.anchor.setTo(0.5, 0.5);
 
   this.scoreboard = this.create(this.game.width / 2, 200, 'scoreboard');
   this.scoreboard.anchor.setTo(0.5, 0.5);
-  
+
   this.scoreText = this.game.add.bitmapText(this.scoreboard.width, 180, 'jumppyfont', '', 18);
   this.add(this.scoreText);
-  
+
   this.bestText = this.game.add.bitmapText(this.scoreboard.width, 230, 'jumppyfont', '', 18);
   this.add(this.bestText);
 
@@ -222,7 +222,7 @@ var Scoreboard = function(game) {
 
   this.y = this.game.height;
   this.x = 0;
-  
+
 };
 
 Scoreboard.prototype = Object.create(Phaser.Group.prototype);
@@ -253,10 +253,10 @@ Scoreboard.prototype.show = function(score) {
   this.game.add.tween(this).to({y: 0}, 1000, Phaser.Easing.Bounce.Out, true);
 
   if (coin) {
-    
+
     coin.anchor.setTo(0.5, 0.5);
     this.scoreboard.addChild(coin);
-    
+
      // Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
     var emitter = this.game.add.emitter(coin.x, coin.y, 400);
     this.scoreboard.addChild(emitter);
@@ -280,7 +280,7 @@ Scoreboard.prototype.show = function(score) {
     emitter.setAll('body.allowGravity', false);
 
     emitter.start(false, 1000, 1000);
-    
+
   }
 };
 
@@ -330,35 +330,35 @@ Menu.prototype = {
     // add the background sprite
     this.background = this.game.add.sprite(0,0,'background');
 
-    
+
     // add the ground sprite as a tile
     // and start scrolling in the negative x direction
     this.ground = this.game.add.tileSprite(0,400, 505,112,'ground');
     this.ground.autoScroll(-200,0);
 
     /** STEP 1 **/
-    // create a group to put the title assets in 
+    // create a group to put the title assets in
     // so they can be manipulated as a whole
     this.titleGroup = this.game.add.group()
-      
+
     /** STEP 2 **/
     // create the title sprite
     // and add it to the group
     this.title = this.add.sprite(0,0,'title');
     this.titleGroup.add(this.title);
-    
+
     /** STEP 3 **/
-    // create the player sprite 
+    // create the player sprite
     // and add it to the title group
     this.player = this.add.sprite(200,5,'player');
     this.titleGroup.add(this.player);
-    
+
     /** STEP 4 **/
     // add an animation to the player
     // and begin the animation
     this.player.animations.add('jump');
     this.player.animations.play('jump', 12, true);
-    
+
     /** STEP 5 **/
     // Set the originating location of the group
     this.titleGroup.x = 30;
@@ -406,33 +406,33 @@ Play.prototype = {
 
     // create and add a group to hold our pipeGroup prefabs
     this.pipes = this.game.add.group();
-    
+
     // create and add a new Player object
     this.player = new Player(this.game, this.game.width/2, this.game.height/2);
     this.game.add.existing(this.player);
-    
-    
+
+
 
     // create and add a new Ground object
     this.ground = new Ground(this.game, 0, 400, 505, 112);
     this.game.add.existing(this.ground);
-    
+
 
     // add keyboard controls
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.jumpKey.onDown.addOnce(this.startGame, this);
     this.jumpKey.onDown.add(this.player.jump, this.player);
-    
+
 
     // add mouse/touch controls
     this.game.input.onDown.addOnce(this.startGame, this);
     this.game.input.onDown.add(this.player.jump, this.player);
-    
+
 
     // keep the spacebar from propogating up to the browser
     this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-    
+
 
     this.score = 0;
     this.scoreText = this.game.add.bitmapText(this.game.width/2, 10, 'jumppyfont',this.score.toString(), 24);
@@ -450,7 +450,7 @@ Play.prototype = {
     this.pipeHitSound = this.game.add.audio('pipeHit');
     this.groundHitSound = this.game.add.audio('groundHit');
     this.scoreSound = this.game.add.audio('score');
-    
+
   },
   update: function() {
     // enable collisions between the player and the ground
@@ -458,7 +458,7 @@ Play.prototype = {
 
     this.player.x = this.game.width/2;
 
-    if(!this.gameover) {    
+    if(!this.gameover) {
         // enable collisions between the player and each group in the pipes group
         this.pipes.forEach(function(pipeGroup) {
             this.game.physics.arcade.collide(this.player, pipeGroup, this.pickUpObject, null, this);
@@ -466,7 +466,7 @@ Play.prototype = {
     }
 
 
-    
+
   },
   shutdown: function() {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
@@ -508,7 +508,7 @@ Play.prototype = {
         this.pipeGenerator.timer.stop();
         this.ground.stopScroll();
     }
-    
+
   },
   pickUpObject : function(player, enemy) {
     this.checkScore();
@@ -521,10 +521,10 @@ Play.prototype = {
     var pipeY = this.game.rnd.integerInRange(-100, 100);
     var pipeGroup = this.pipes.getFirstExists(false);
     if(!pipeGroup) {
-        pipeGroup = new PipeGroup(this.game, this.pipes);  
+        pipeGroup = new PipeGroup(this.game, this.pipes);
     }
     pipeGroup.reset(this.game.width, pipeY);
-    
+
 
   }
 };
@@ -549,13 +549,18 @@ Preload.prototype = {
     this.load.image('background', 'assets/background.png');
     this.load.image('ground', 'assets/ground.png');
     this.load.image('title', 'assets/title.png');
+<<<<<<< HEAD
     this.load.spritesheet('player', 'assets/ride_anim.png', 76,60,3);
+    this.load.spritesheet('pipe', 'assets/condom.png', 50,36,1);
+=======
+    this.load.spritesheet('player', 'assets/ride_jump.png', 76,60,3);
     this.load.spritesheet('pipe', 'assets/pipes.png', 54,320,2);
+>>>>>>> f0bbe065fa732c843580eed651a39f17d1f76a4c
     this.load.image('startButton', 'assets/start-button.png');
-    
+
     this.load.image('instructions', 'assets/instructions.png');
     this.load.image('getReady', 'assets/get-ready.png');
-    
+
     this.load.image('scoreboard', 'assets/scoreboard.png');
     this.load.spritesheet('medals', 'assets/medals.png',44, 46, 2);
     this.load.image('gameover', 'assets/gameover.png');
