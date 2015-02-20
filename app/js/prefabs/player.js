@@ -18,7 +18,6 @@ var Player = function(game, x, y, frame) {
     this.body.allowGravity = false;
     this.body.collideWorldBounds = true;
 
-
     this.events.onKilled.add(this.onKilled, this);
 
 };

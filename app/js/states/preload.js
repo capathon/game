@@ -21,6 +21,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('logo', 'app/assets/img/logo.png');
 		this.load.image('title', 'app/assets/img/title.png');
 		this.load.image('explanation', 'app/assets/img/CatchAndAvoid.png');
+        this.load.image('ledge', 'app/assets/img/platform.png');
 
         this.load.spritesheet('player', 'app/assets/img/ride_anim.png', 76,60,3);
         this.load.spritesheet('condom', 'app/assets/img/condom.png', 50,63,1);
