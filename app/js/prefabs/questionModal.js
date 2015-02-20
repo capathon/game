@@ -74,12 +74,18 @@ QuestionModal.prototype.okButtonClick = function() {
 };
 
 QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
+    score = game.state.states.Game.score;
     if(correctAnswer){
-        game.state.states.Game.score = game.state.states.Game.score + 30;
-        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+        if(score + 30 >= 90){
+            score = 90;
+        }else{
+            score = score + 30;
+        }
+        game.state.states.Game.score = score;
+        game.state.states.Game.truthometer.updateHealthbar(score);
     }else{
         game.state.states.Game.score = 0;
-        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+        game.state.states.Game.truthometer.updateHealthbar(0);
     }
     this.questionText.destroy();
     this.answerButton1.destroy();
