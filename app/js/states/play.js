@@ -41,6 +41,9 @@ BasicGame.Game.prototype = {
         // create and add a group to hold our pipeGroup prefabs
         this.pipes = this.game.add.group();
 
+        // create and add a group to hold our virusGroup prefabs
+        this.virusses = this.game.add.group();
+
         // create and add a new Player object
         this.player = new Player(this.game, this.game.width/2, this.game.height/2);
         this.game.add.existing(this.player);
@@ -79,9 +82,12 @@ BasicGame.Game.prototype = {
 
         this.pipeGenerator = null;
 
+        this.virusGenerator = null;
+
         this.gameover = false;
 
         this.pipeHitSound = this.game.add.audio('pipeHit');
+        this.virusHitSound = this.game.add.audio('pipeHit');
         this.groundHitSound = this.game.add.audio('groundHit');
         this.scoreSound = this.game.add.audio('score');
 
@@ -98,12 +104,18 @@ BasicGame.Game.prototype = {
             this.pipes.forEach(function(pipeGroup) {
                 this.game.physics.arcade.collide(this.player, pipeGroup, this.pickUpObject, null, this);
             }, this);
+            
+            // enable collisions between the player and each group in the virusses group
+            this.virusses.forEach(function(virusGroup) {
+                this.game.physics.arcade.collide(this.player, virusGroup, this.pickUpVirus, null, this);
+            }, this);
         }
     },
     shutdown: function() {
         this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
         this.player.destroy();
         this.pipes.destroy();
+        this.virusses.destroy();
         this.scoreboard.destroy();
     },
     startGame: function() {
@@ -113,12 +125,19 @@ BasicGame.Game.prototype = {
             // add a timer
             this.pipeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generatePipes, this);
             this.pipeGenerator.timer.start();
+            this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateVirusses, this);
+            this.virusGenerator.timer.start();
 
             this.instructionGroup.destroy();
         }
     },
     checkScore: function() {
         this.score++;
+        this.scoreText.setText(this.score.toString());
+        // this.scoreSound.play();
+    },
+    downScore: function() {
+        this.score = this.score - 5;
         this.scoreText.setText(this.score.toString());
         // this.scoreSound.play();
     },
@@ -131,19 +150,27 @@ BasicGame.Game.prototype = {
             this.player.onGround = true;
         } else if (enemy instanceof Pipe){
             this.pipeHitSound.play();
+        }   else if (enemy instanceof Virus){
+            this.pipeHitSound.play();
         }
 
         if(!this.gameover) {
             this.gameover = true;
             this.player.kill();
             this.pipes.callAll('stop');
-            this.pipeGenerator.timer.stop();
+            this.pipeGenerator.timer.stop();           
+            this.virusses.callAll('stop');
+            this.virusGenerator.timer.stop();
             this.ground.stopScroll();
         }
 
     },
     pickUpObject : function(player, enemy) {
         this.checkScore();
+        enemy.kill();
+    },
+    pickUpVirus : function(player, enemy) {
+        this.downScore();
         enemy.kill();
     },
     touchedGround : function(player, ground) {
@@ -156,6 +183,14 @@ BasicGame.Game.prototype = {
             pipeGroup = new PipeGroup(this.game, this.pipes);
         }
         pipeGroup.reset(this.game.width, pipeY);
+    },
+    generateVirusses: function() {
+        var virusY = this.game.rnd.integerInRange(-250, -25);
+        var virusGroup = this.virusses.getFirstExists(false);
+        if(!virusGroup) {
+            virusGroup = new VirusGroup(this.game, this.virusses);
+        }
+        virusGroup.reset(this.game.width, virusY);
     }
 
 };
