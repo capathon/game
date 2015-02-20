@@ -8,7 +8,6 @@ var VirusGroup = function(game, parent) {
     this.virus = new Virus(this.game, 0, 440, 1);
     this.add(this.virus);
 
-    this.setAll('body.velocity.x', -200);
 };
 
 VirusGroup.prototype = Object.create(Phaser.Group.prototype);
