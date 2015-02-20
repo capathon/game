@@ -31,13 +31,25 @@ BasicGame.Game.prototype = {
         // start the phaser arcade physics engine
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
         // give our world an initial gravity of 1200
         this.game.physics.arcade.gravity.y = 1200;
 
+
+
         // add the background sprite, also as a tile
-        this.background = this.game.add.tileSprite(0,0,505,505,'background');
+        this.background = this.game.add.tileSprite(0,0,this.game.width,this.game.height,'background');
         this.background.autoScroll(-20,0);
+
+        // add the ground sprite as a tile
+        // and start scrolling in the negative x direction
+        var groundHeight = 63;
+        this.ground = this.game.add.tileSprite(0,this.game.height-groundHeight, this.game.width, groundHeight,'ground');
+        this.ground.autoScroll(-200,0);
+
+
+
+
+
 
         // create and add a group to hold our condomGroup prefabs
         this.condoms = this.game.add.group();
@@ -52,9 +64,6 @@ BasicGame.Game.prototype = {
 
 
 
-        // create and add a new Ground object
-        this.ground = new Ground(this.game, 0, 442, 505, 63);
-        this.game.add.existing(this.ground);
 
 
         // add keyboard controls
