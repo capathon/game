@@ -23,6 +23,8 @@ BasicGame.Preloader.prototype = {
         this.load.spritesheet('condom', 'app/assets/img/condom.png', 50,63,1);
         this.load.spritesheet('virus', 'app/assets/img/virus.png', 43,43,1);
         this.load.image('startButton', 'app/assets/img/start-button.png');
+        this.load.image('buttonTrue', 'app/assets/img/buttonTrue.png');
+        this.load.image('buttonFalse', 'app/assets/img/buttonFalse.png');
 
         this.load.image('instructions', 'app/assets/img/instructions.png');
         this.load.image('getReady', 'app/assets/img/get-ready.png');
