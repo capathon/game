@@ -43,12 +43,8 @@ BasicGame.Game.prototype = {
         // add the ground sprite as a tile
         // and start scrolling in the negative x direction
         var groundHeight = 63;
-        this.ground = this.game.add.tileSprite(0,this.game.height-groundHeight, this.game.width, groundHeight,'ground');
-        this.ground.autoScroll(-200,0);
-
-
-
-
+        this.ground = new Ground(this.game, 0, this.game.height-groundHeight, this.game.width, groundHeight);
+        this.game.add.existing(this.ground);
 
 
         // create and add a group to hold our condomGroup prefabs
