@@ -361,6 +361,8 @@ BasicGame.Game.prototype = {
 
         this.background.stopScroll();
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
+
+
     }
 };
 
