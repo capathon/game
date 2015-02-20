@@ -126,13 +126,11 @@ BasicGame.Game.prototype = {
         this.ground = new Ground(this.game, 0, this.game.height - groundHeight, this.game.width, groundHeight);
         this.game.add.existing(this.ground);
 
-
         // create and add a group to hold our condomGroup prefabs
         this.condoms = this.game.add.group();
 
         // create and add a group to hold our virusGroup prefabs
         this.virusses = this.game.add.group();
-
 
         // create and add a group to hold our virusGroup prefabs
         this.ledges = this.game.add.group();
@@ -141,17 +139,19 @@ BasicGame.Game.prototype = {
         this.player = new Player(this.game, this.game.width / 2, this.game.height / 2);
         this.game.add.existing(this.player);
 
-
         // add keyboard controls
         this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.jumpKey.onDown.addOnce(this.startGame, this);
-        this.jumpKey.onDown.add(this.player.jump, this.player);
 
+        this.jumpKey.onDown.add(this.player.startJump, this.player);
+        this.jumpKey.onUp.add(this.player.stopJump, this.player);
 
         // add mouse/touch controls
         this.game.input.onDown.addOnce(this.startGame, this);
-        this.game.input.onDown.add(this.player.jump, this.player);
+        //this.game.input.onDown.add(this.player.jump, this.player);
 
+        this.game.input.onDown.add(this.player.startJump, this.player);
+        this.game.input.onUp.add(this.player.stopJump, this.player);
 
         // keep the spacebar from propogating up to the browser
         this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -160,7 +160,6 @@ BasicGame.Game.prototype = {
         this.score = 0;
         this.truthometer.updateHealthbar(this.score);
         this.game.add.existing(this.truthometer);
-
 
         this.instructionGroup = this.game.add.group();
         this.instructionGroup.add(this.game.add.sprite(this.game.width / 2, 100, 'getReady'));
@@ -262,14 +261,18 @@ BasicGame.Game.prototype = {
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
-    deathHandler: function (player, enemy) {
-        if (enemy instanceof Ground && !this.player.onGround) {
+    deathHandler: function(player, enemy) {
+        if(enemy instanceof Ground && !this.player.state === "ground") {
             this.groundHitSound.play();
+
             this.scoreboard = new Scoreboard(this.game);
             this.game.add.existing(this.scoreboard);
             this.scoreboard.show(this.score);
-            this.player.onGround = true;
-        } else if (enemy instanceof Condom) {
+            //this.player.onGround = true;
+
+            this.player.state  = "ground";
+
+        } else if (enemy instanceof Condom){
             this.condomHitSound.play();
         } else if (enemy instanceof Virus) {
             this.condomHitSound.play();
@@ -303,6 +306,8 @@ BasicGame.Game.prototype = {
     },
     touchedGround: function (player, ground) {
         this.player.numberOfJumps = 0;
+        this.player.status = "ground";
+        this.player.stopJump();
     },
     generateCondoms: function () {
         var quarterScreen = this.game.height / 4;
@@ -383,7 +388,5 @@ BasicGame.Game.prototype = {
 
         this.background.stopScroll();
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
-
-
     }
 };
