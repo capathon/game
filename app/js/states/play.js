@@ -23,37 +23,58 @@ BasicGame.Game = function (game) {
         {
             level: 1,
             backgroundAutoScroll: -20,
+            groundAutoScroll: -200,
             condomTimer: 1.25,
+            condomVelocity: -200,
             virusTimer: 1.50,
-            ledgeTimer: 5.00
+            virusVelocity: -250,
+            ledgeTimer: 5.00,
+            ledgeVelocity: -150
         }, {
             level: 2,
-            pointsToReach: 45,
+            pointsForNextLevel: 45,
             backgroundAutoScroll: -30,
+            groundAutoScroll: -200,
             condomTimer: 1.25,
+            condomVelocity: -200,
             virusTimer: 1.50,
-            ledgeTimer: 5.00
+            virusVelocity: -250,
+            ledgeTimer: 5.00,
+            ledgeVelocity: -150,
+            ledgeVelocity: -150
         }, {
             level: 3,
-            pointsToReach: 90,
+            pointsForNextLevel: 90,
             backgroundAutoScroll: -40,
+            groundAutoScroll: -200,
             condomTimer: 1.25,
+            condomVelocity: -200,
+            virusVelocity: -250,
             virusTimer: 1.50,
-            ledgeTimer: 5.00
+            ledgeTimer: 5.00,
+            ledgeVelocity: -150
         }, {
             level: 4,
-            pointsToReach: 30,
+            pointsForNextLevel: 30,
             backgroundAutoScroll: -50,
+            groundAutoScroll: -200,
             condomTimer: 1.25,
+            condomVelocity: -200,
             virusTimer: 1.50,
-            ledgeTimer: 5.00
+            virusVelocity: -250,
+            ledgeTimer: 5.00,
+            ledgeVelocity: -150
         }, {
             level: 5,
-            pointsToReach: 30,
+            pointsForNextLevel: 30,
             backgroundAutoScroll: -60,
+            groundAutoScroll: -200,
             condomTimer: 1.25,
+            condomVelocity: -200,
             virusTimer: 1.50,
-            ledgeTimer: 5.00
+            virusVelocity: -250,
+            ledgeTimer: 5.00,
+            ledgeVelocity: -150
         }
     ];
 
@@ -207,9 +228,19 @@ BasicGame.Game.prototype = {
     checkScore: function() {
         if(this.score + 5 >= 90){
             this.score = 90;
-        }else{
+        } else{
             this.score = this.score + 5;
         }
+
+
+        var nextLevel = this.level + 1,
+            pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
+        if (this.score >= pointsForNextLevel) {
+            this.level = nextLevel;
+            this.updateToCurrentLevel();
+            this.score = 0;
+        }
+
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
@@ -320,16 +351,37 @@ BasicGame.Game.prototype = {
         this.virusses = this.game.add.group();
         this.ledges = this.game.add.group();
 
-        this.ground.autoScroll(-200,0);
+        this.ground.autoScroll(this.levels[this.level].groundAutoScroll, 0);
 
-        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateCondoms, this);
+        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].condomTimer, this.generateCondoms, this);
         this.condomGenerator.timer.start();
-        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateVirusses, this);
+        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].virusTimer, this.generateVirusses, this);
         this.virusGenerator.timer.start();
-        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 5.00, this.generateLedges, this);
+        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
         this.ledgeGenerator.timer.start();
 
         this.player.animations.play('jump', 12, true);
+    },
+    updateToCurrentLevel: function () {
+        this.condomGenerator.timer.stop();  
+        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].condomTimer, this.generateCondoms, this);
+        this.condomGenerator.timer.start();
+
+        this.virusGenerator.timer.stop();
+        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].virusTimer, this.generateVirusses, this);
+        this.virusGenerator.timer.start();
+
+        this.ledgeGenerator.timer.stop();
+        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
+        this.ledgeGenerator.timer.start();
+
+        this.ground.stopScroll();
+        this.ground.autoScroll(this.levels[this.level].groundAutoScroll, 0);
+
+        this.background.stopScroll();
+        this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
+
+
     }
 };
 
