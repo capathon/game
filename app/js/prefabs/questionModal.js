@@ -24,19 +24,16 @@ var QuestionModal = function(game, parent) {
     this.questionText.wordWrap = true;
     this.questionText.wordWrapWidth = 300;
     this.questionText.align = 'center';
-    //this.add(this.questionText);
 
     // add our True button with a callback
     this.answerButton1 = this.game.add.button(-195, 0, 'buttonTrue', this.answerButtonClick1, this);
     this.answerButton1.width = 175;
     this.answerButton1.inputEnabled = true;
-    //this.add(this.answerButton1);
 
     // add our False button with a callback
     this.answerButton2 = this.game.add.button(15, 0, 'buttonFalse', this.answerButtonClick2, this);
     this.answerButton2.width = 175;
     this.answerButton2.inputEnabled = true;
-    //this.add(this.answerButton2);
 
     this.questionmodalGroup.add(this.questionmodal);
     this.questionmodalGroup.add(this.questionText);
@@ -73,6 +70,7 @@ QuestionModal.prototype.answerButtonClick2 = function() {
 QuestionModal.prototype.okButtonClick = function() {
     this.game.state.states.Game.resGame();
     this.destroy();
+    this.questionmodalGroup.destroy();
 };
 
 QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
@@ -88,13 +86,15 @@ QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     this.answerButton2.destroy();
 
     var style = { font: "25px Arial", fill: "#fff", align: "center" };
-    this.answerText = this.game.add.text(135, -385, text, style);
+    this.answerText = this.game.add.text(-125, -150, text, style);
     this.answerText.wordWrap = true;
     this.answerText.wordWrapWidth = 300;
     this.answerText.align = 'center';
-    this.add(this.answerText);
 
-    this.okButton = this.game.add.button(200, -230, 'buttonOk', this.okButtonClick, this);
+    this.okButton = this.game.add.button(-75, 0, 'buttonOk', this.okButtonClick, this);
     this.okButton.inputEnabled = true;
-    this.add(this.okButton);
+    this.okButton.width = 175;
+
+    this.questionmodalGroup.add(this.okButton);
+    this.questionmodalGroup.add(this.answerText);
 };
