@@ -24,31 +24,36 @@ BasicGame.Game = function (game) {
             level: 1,
             backgroundAutoScroll: -20,
             condomTimer: 1.25,
-            virusTimer: 1.50
+            virusTimer: 1.50,
+            ledgeTimer: 5.00
         }, {
             level: 2,
             pointsToReach: 45,
             backgroundAutoScroll: -30,
             condomTimer: 1.25,
-            virusTimer: 1.50
+            virusTimer: 1.50,
+            ledgeTimer: 5.00
         }, {
             level: 3,
             pointsToReach: 90,
             backgroundAutoScroll: -40,
             condomTimer: 1.25,
-            virusTimer: 1.50
+            virusTimer: 1.50,
+            ledgeTimer: 5.00
         }, {
             level: 4,
             pointsToReach: 30,
             backgroundAutoScroll: -50,
             condomTimer: 1.25,
-            virusTimer: 1.50
+            virusTimer: 1.50,
+            ledgeTimer: 5.00
         }, {
             level: 5,
             pointsToReach: 30,
             backgroundAutoScroll: -60,
             condomTimer: 1.25,
-            virusTimer: 1.50
+            virusTimer: 1.50,
+            ledgeTimer: 5.00
         }
     ];
 
@@ -180,7 +185,7 @@ BasicGame.Game.prototype = {
             this.condomGenerator.timer.start();
             this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].virusTimer, this.generateVirusses, this);
             this.virusGenerator.timer.start();
-            this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 5.0, this.generateLedges, this);
+            this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
             this.ledgeGenerator.timer.start();
 
             this.instructionGroup.destroy();
@@ -302,10 +307,8 @@ BasicGame.Game.prototype = {
         this.condomGenerator.timer.start();
         this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateVirusses, this);
         this.virusGenerator.timer.start();
-        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateLedges, this);
+        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 5.00, this.generateLedges, this);
         this.ledgeGenerator.timer.start();
-        this.ledgesGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 5.00, this.generateLedges, this);
-        this.ledgesGenerator.timer.start();
 
         this.player.animations.play('jump', 12, true);
     }
