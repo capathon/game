@@ -17,5 +17,3 @@ Pipe.prototype.update = function() {
   // write your prefab's specific update code here
   
 };
-
-module.exports = Pipe;

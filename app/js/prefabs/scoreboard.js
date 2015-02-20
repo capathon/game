@@ -9,10 +9,10 @@ var Scoreboard = function(game) {
   this.scoreboard = this.create(this.game.width / 2, 200, 'scoreboard');
   this.scoreboard.anchor.setTo(0.5, 0.5);
   
-  this.scoreText = this.game.add.bitmapText(this.scoreboard.width, 180, 'flappyfont', '', 18);
+  this.scoreText = this.game.add.bitmapText(this.scoreboard.width, 180, 'jumppyfont', '', 18);
   this.add(this.scoreText);
   
-  this.bestText = this.game.add.bitmapText(this.scoreboard.width, 230, 'flappyfont', '', 18);
+  this.bestText = this.game.add.bitmapText(this.scoreboard.width, 230, 'jumppyfont', '', 18);
   this.add(this.bestText);
 
   // add our start button with a callback
@@ -96,5 +96,3 @@ Scoreboard.prototype.startClick = function() {
 Scoreboard.prototype.update = function() {
   // write your prefab's specific update code here
 };
-
-module.exports = Scoreboard;

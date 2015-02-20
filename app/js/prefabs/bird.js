@@ -64,5 +64,3 @@ Bird.prototype.onKilled = function() {
   console.log('killed');
   console.log('alive:', this.alive);
 };
-
-module.exports = Bird;

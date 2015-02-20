@@ -1,6 +1,5 @@
 'use strict';
 
-var Pipe = require('./pipe');
 
 var PipeGroup = function(game, parent) {
 
@@ -43,5 +42,3 @@ PipeGroup.prototype.reset = function(x, y) {
 PipeGroup.prototype.stop = function() {
   this.setAll('body.velocity.x', 0);
 };
-
-module.exports = PipeGroup;
