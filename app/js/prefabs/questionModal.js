@@ -20,13 +20,13 @@ var QuestionModal = function(game, parent) {
     this.question = this.questions[Math.floor(Math.random()*this.questions.length)];
     var style = { font: "25px Arial", fill: "#fff", align: "center" };
 
-    this.questionText = this.game.add.text(-125, -150, this.question.statement, style);
+    this.questionText = this.game.add.text(-125, -135, this.question.statement, style);
     this.questionText.wordWrap = true;
     this.questionText.wordWrapWidth = 300;
     this.questionText.align = 'center';
 
     // add our True button with a callback
-    this.answerButton1 = this.game.add.button(-195, 0, 'buttonTrue', this.answerButtonClick1, this);
+    this.answerButton1 = this.game.add.button(-125, 0, 'buttonTrue', this.answerButtonClick1, this);
     this.answerButton1.width = 95;
     this.answerButton1.inputEnabled = true;
 
@@ -86,12 +86,12 @@ QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     this.answerButton2.destroy();
 
     var style = { font: "25px Arial", fill: "#fff", align: "center" };
-    this.answerText = this.game.add.text(-125, -150, text, style);
+    this.answerText = this.game.add.text(-125, -125, text, style);
     this.answerText.wordWrap = true;
     this.answerText.wordWrapWidth = 300;
     this.answerText.align = 'center';
 
-    this.okButton = this.game.add.button(-75, 0, 'buttonOk', this.okButtonClick, this);
+    this.okButton = this.game.add.button(-40, 0, 'buttonOk', this.okButtonClick, this);
     this.okButton.inputEnabled = true;
     this.okButton.width = 75;
 
