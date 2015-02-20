@@ -26,13 +26,13 @@ var QuestionModal = function(game, parent) {
     this.questionText.align = 'center';
 
     // add our True button with a callback
-    this.answerButton1 = this.game.add.button(-195, 0, 'buttonTrue', this.answerButtonClick1, this);
-    this.answerButton1.width = 175;
+    this.answerButton1 = this.game.add.button(-195, 50, 'buttonTrue', this.answerButtonClick1, this);
+    this.answerButton1.width = 75;
     this.answerButton1.inputEnabled = true;
 
     // add our False button with a callback
-    this.answerButton2 = this.game.add.button(15, 0, 'buttonFalse', this.answerButtonClick2, this);
-    this.answerButton2.width = 175;
+    this.answerButton2 = this.game.add.button(115, 50, 'buttonFalse', this.answerButtonClick2, this);
+    this.answerButton2.width = 75;
     this.answerButton2.inputEnabled = true;
 
     this.questionmodalGroup.add(this.questionmodal);
