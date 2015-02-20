@@ -55,7 +55,7 @@ BasicGame.Game = function (game) {
             ledgeVelocity: -150
         }, {
             level: 4,
-            pointsForNextLevel: 30,
+            pointsForNextLevel: 120,
             backgroundAutoScroll: -50,
             groundAutoScroll: -200,
             condomTimer: 1.25,
@@ -66,7 +66,7 @@ BasicGame.Game = function (game) {
             ledgeVelocity: -150
         }, {
             level: 5,
-            pointsForNextLevel: 30,
+            pointsForNextLevel: 150,
             backgroundAutoScroll: -60,
             groundAutoScroll: -200,
             condomTimer: 1.25,
@@ -236,6 +236,7 @@ BasicGame.Game.prototype = {
         var nextLevel = this.level + 1,
             pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
         if (this.score >= pointsForNextLevel) {
+            debugger;
             this.level = nextLevel;
             this.updateToCurrentLevel();
             this.score = 0;
@@ -380,8 +381,6 @@ BasicGame.Game.prototype = {
 
         this.background.stopScroll();
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
-
-
     }
 };
 
