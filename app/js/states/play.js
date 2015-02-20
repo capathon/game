@@ -104,12 +104,25 @@ BasicGame.Game.prototype = {
         // add keyboard controls
         this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.jumpKey.onDown.addOnce(this.startGame, this);
-        this.jumpKey.onDown.add(this.player.jump, this.player);
+        //this.jumpKey.onDown.add(this.player.jump, this.player);
+
+        this.jumpKey.onDown.add(this.player.startJump, this.player);
+        this.jumpKey.onUp.add(this.player.stopJump, this.player);
+/*
+        var game = this;
+        setInterval(function(){
+            console.log(game.player.body.velocity.y);
+        },100)*/
 
 
         // add mouse/touch controls
         this.game.input.onDown.addOnce(this.startGame, this);
-        this.game.input.onDown.add(this.player.jump, this.player);
+        //this.game.input.onDown.add(this.player.jump, this.player);
+
+        this.game.input.onDown.add(this.player.startJump, this.player);
+        this.game.input.onUp.add(this.player.stopJump, this.player);
+
+
 
 
         // keep the spacebar from propogating up to the browser
@@ -210,12 +223,16 @@ BasicGame.Game.prototype = {
         // this.scoreSound.play();
     },
     deathHandler: function(player, enemy) {
-        if(enemy instanceof Ground && !this.player.onGround) {
+        if(enemy instanceof Ground && !this.player.state === "ground") {
             this.groundHitSound.play();
+
             this.scoreboard = new Scoreboard(this.game);
             this.game.add.existing(this.scoreboard);
             this.scoreboard.show(this.score);
-            this.player.onGround = true;
+            //this.player.onGround = true;
+
+            this.player.state  = "ground";
+
         } else if (enemy instanceof Condom){
             this.condomHitSound.play();
         }   else if (enemy instanceof Virus){
@@ -250,6 +267,8 @@ BasicGame.Game.prototype = {
     },
     touchedGround : function(player, ground) {
         this.player.numberOfJumps = 0;
+        this.player.status = "ground";
+        this.player.stopJump();
     },
     generateCondoms: function() {
         var quarterScreen = this.game.height / 4;

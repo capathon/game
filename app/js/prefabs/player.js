@@ -8,7 +8,8 @@ var Player = function(game, x, y, frame) {
 
     this.name = 'player';
     this.alive = false;
-    this.onGround = false;
+
+    this.state = "ground";
     this.numberOfJumps = 0;
 
     // enable physics on the player
@@ -46,10 +47,27 @@ Player.prototype.jump = function() {
             // rotate the player to -40 degrees
             this.game.add.tween(this).to({angle: -40}, 100).start();
         }
-
         this.numberOfJumps++;
     }
 };
+
+Player.prototype.startJump = function() {
+    if (this.numberOfJumps < 2) {
+        //state mgmt
+        this.state = "jumping";
+        this.jumpSound.play();
+        //this.body.velocity.y = -(this.game.height * 1.1);
+        this.body.velocity.y = -(5);
+        console.log(this.body.velocity.y);
+    }
+}
+
+Player.prototype.stopJump = function() {
+    this.numberOfJumps++;
+}
+
+
+
 
 Player.prototype.revived = function() {
 };
