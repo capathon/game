@@ -47,14 +47,20 @@ QuestionModal.prototype.update = function() {
 
 QuestionModal.prototype.answerButtonClick1 = function() {
     // Answered True
-
-    this.showAnswer(this.question.motivations.true);
+    var correctAnswer = false;
+    if (this.question.answer === true){
+        correctAnswer = true;
+    }
+    this.showAnswer(this.question.motivations.true, correctAnswer);
 };
 
 QuestionModal.prototype.answerButtonClick2 = function() {
     // Answered False
-
-    this.showAnswer(this.question.motivations.false);
+    var correctAnswer = false;
+    if (this.question.answer === false){
+        correctAnswer = true;
+    }
+    this.showAnswer(this.question.motivations.false, correctAnswer);
 };
 
 QuestionModal.prototype.okButtonClick = function() {
@@ -62,7 +68,14 @@ QuestionModal.prototype.okButtonClick = function() {
     this.destroy();
 };
 
-QuestionModal.prototype.showAnswer = function(text) {
+QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
+    if(correctAnswer){
+        game.state.states.Game.score = game.state.states.Game.score + 30;
+        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+    }else{
+        game.state.states.Game.score = 0;
+        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+    }
     this.questionText.destroy();
     this.answerButton1.destroy();
     this.answerButton2.destroy();

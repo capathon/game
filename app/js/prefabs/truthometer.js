@@ -6,7 +6,7 @@ var Truthometer = function(game, x, y, frame) {
     this.body.allowGravity = false;
     this.body.immovable = false;
     this.health = game.add.graphics(29, 118);
-    
+    this.globalUpdateHealthbar = this.updateHealthbar;
 };
 
 Truthometer.prototype = Object.create(Phaser.Sprite.prototype);
