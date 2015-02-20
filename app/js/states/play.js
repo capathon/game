@@ -58,15 +58,10 @@ BasicGame.Game.prototype = {
         this.player = new Player(this.game, this.game.width/2, this.game.height/2);
         this.game.add.existing(this.player);
 
-
-
-
-
         // add keyboard controls
         this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.jumpKey.onDown.addOnce(this.startGame, this);
         this.jumpKey.onDown.add(this.player.jump, this.player);
-
 
         // add mouse/touch controls
         this.game.input.onDown.addOnce(this.startGame, this);
@@ -80,6 +75,8 @@ BasicGame.Game.prototype = {
         this.score = 0;
         this.truthometer.updateHealthbar(this.score);
         this.game.add.existing(this.truthometer);
+
+        
 
 
         this.instructionGroup = this.game.add.group();
@@ -102,6 +99,11 @@ BasicGame.Game.prototype = {
         this.resGame = this.resumeGame;
 
         this.questions = JSON.parse(game.cache.getText('someData'));
+
+        this.danceometer = new DanceOMeter(this.game, 20, 20);
+        this.score = 0;
+        this.danceometer.updateDanceLevelBar(this.score);
+        this.game.add.existing(this.danceometer);
 
     },
 
@@ -146,6 +148,7 @@ BasicGame.Game.prototype = {
     checkScore: function() {
         if(this.score + 5 >= 90){
             this.score = 90;
+            this.danceOMeterStart();
         }else{
             this.score = this.score + 5;
         }
@@ -246,6 +249,29 @@ BasicGame.Game.prototype = {
         this.virusGenerator.timer.start();
 
         this.player.animations.play('jump', 12, true);
+    },
+    danceOMeterStart: function() {
+        var accElem = document.getElementById('acceleration'),
+            accGravityElem = document.getElementById('acceleration-gravity'),
+            dancOMeterLevel = 0,
+            // Define an event handler function for processing the device’s acceleration values
+            handleDeviceMotionEvent = function(e) {
+                                
+                // Get the current acceleration values in 3 axes and find the greatest of these
+                var acc = e.acceleration,
+                    maxAcc = Math.max(acc.x, acc.y, acc.z),
+         
+                    // Get the acceleration values including gravity and find the greatest of these
+                    accGravity = e.accelerationIncludingGravity,
+                    maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
+                    if(maxAccGravity > 10 || maxAccGravity < 9){
+                        dancOMeterLevel++;
+                        game.state.states.Game.danceometer.globalUpdateDanceLevelBar(dancOMeterLevel);
+                    }
+            };
+         
+        // Assign the event handler function to execute when the device is moving
+        window.addEventListener('devicemotion', handleDeviceMotionEvent, false);
     }
 };
 
