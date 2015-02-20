@@ -142,6 +142,7 @@ BasicGame.Game.prototype = {
         this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.jumpKey.onDown.addOnce(this.startGame, this);
 
+
         this.jumpKey.onDown.add(this.player.startJump, this.player);
         this.jumpKey.onUp.add(this.player.stopJump, this.player);
 
@@ -159,6 +160,7 @@ BasicGame.Game.prototype = {
         this.score = 0;
         this.truthometer.updateHealthbar(this.score);
         this.game.add.existing(this.truthometer);
+
 
         this.instructionGroup = this.game.add.group();
         this.instructionGroup.add(this.game.add.sprite(this.game.width / 2, 100, 'getReady'));
@@ -178,8 +180,14 @@ BasicGame.Game.prototype = {
         this.scoreSound = this.game.add.audio('score');
 
         this.resGame = this.resumeGame;
+        this.evalLevel = this.evaluateLevel;
 
         this.questions = JSON.parse(game.cache.getText('someData'));
+
+        this.danceometer = new DanceOMeter(this.game, 20, 20);
+        this.score = 0;
+        this.danceometer.updateDanceLevelBar(this.score);
+        this.game.add.existing(this.danceometer);
 
         this.speedbooster = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.speedUp, this);
         this.speedbooster.timer.start();
@@ -233,22 +241,12 @@ BasicGame.Game.prototype = {
         }
     },
     checkScore: function () {
-        if (this.score + 5 >= 90) {
-            this.score = 90;
-        } else {
-            this.score = this.score + 5;
-        }
+        this.score = this.score + 5;
 
-
-        var nextLevel = this.level + 1,
-            pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
-        if (this.score >= pointsForNextLevel) {
-            this.level = nextLevel;
-            this.updateToCurrentLevel();
-            this.score = 0;
-        }
+        this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
+        this.evaluateLevel();
         // this.scoreSound.play();
     },
     downScore: function () {
@@ -257,6 +255,9 @@ BasicGame.Game.prototype = {
         } else {
             this.score = this.score - 10;
         }
+
+        this.evaluateLevel();
+
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
@@ -368,6 +369,40 @@ BasicGame.Game.prototype = {
         this.ledgeGenerator.timer.start();
 
         this.player.animations.play('jump', 12, true);
+    },
+    evaluateLevel: function () {
+        var nextLevel = this.level + 1,
+            pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
+        if (this.score >= pointsForNextLevel) {
+            this.level = nextLevel;
+            this.updateToCurrentLevel();
+            this.score = 0;
+            console.log("Set to level: " + this.level);
+            this.game.state.states.Game.truthometer.updateHealthbar(this.score);
+        }
+    },
+    danceOMeterStart: function() {
+        var accElem = document.getElementById('acceleration'),
+            accGravityElem = document.getElementById('acceleration-gravity'),
+            dancOMeterLevel = 0,
+            // Define an event handler function for processing the device’s acceleration values
+            handleDeviceMotionEvent = function(e) {
+                                
+                // Get the current acceleration values in 3 axes and find the greatest of these
+                var acc = e.acceleration,
+                    maxAcc = Math.max(acc.x, acc.y, acc.z),
+         
+                    // Get the acceleration values including gravity and find the greatest of these
+                    accGravity = e.accelerationIncludingGravity,
+                    maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
+                    if(maxAccGravity > 10 || maxAccGravity < 9){
+                        dancOMeterLevel++;
+                        game.state.states.Game.danceometer.globalUpdateDanceLevelBar(dancOMeterLevel);
+                    }
+            };
+         
+        // Assign the event handler function to execute when the device is moving
+        window.addEventListener('devicemotion', handleDeviceMotionEvent, false);
     },
     updateToCurrentLevel: function () {
         this.condomGenerator.timer.stop();
