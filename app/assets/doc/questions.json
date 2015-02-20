@@ -1,44 +1,133 @@
-{  
-   "questions":[
-      {
-         "statement":"When I have oral sex without a condom, I will not get HIV/AIDS.",
-         "answer":false,
-         "motivations":{  
-            "true":"False! Semen or pre-ejaculate fluids can carry HIV and transmit it through oral contact.",
-            "false":"Correct! Semen or pre-ejaculate fluids can carry HIV and transmit it through oral contact."
-         }
-      },
-      {  
-         "statement":"When I sit on a toilet seat that has been used by a person with HIV/AIDS, I will get HIV too.",
-         "answer":false,
-         "motivations":{  
-            "true":"Incorrect! The HIV virus cannot survive on a toilet seat.",
-            "false":"Well done! The HIV virus cannot survive on a toilet seat."
-         }
-      },
-      {  
-         "statement":"When you are circumcised you can not get HIV.",
-         "answer":false,
-         "motivations":{  
-            "true":"No, this is a myth. Anyone can get HIV/AIDS.",
-            "false":"Correct. People that are circumcised can also get HIV/AIDS."
-         }
-      },
-      {  
-         "statement":"When I have sex without a condom, I have a risk of getting HIV/AIDS.",
-         "answer":true,
-         "motivations":{  
-            "true":"That's right! Using a condom prevents the exchange of genital fluids that might carry HIV.",
-            "false":"Wrong! Using a condom while having sex prevents the exchange of genital fluids that might carry the HIV virus."
-         }
-      },
-      {  
-         "statement":"The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk.",
-         "answer":true,
-         "motivations":{  
-            "true":"That's right! The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk.",
-            "false":"Wrong! The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk."
-         }
+{
+  "questions":[
+    {
+      "statement":"When I have oral sex without a condom, I will not get HIV/AIDS.",
+      "answer":false,
+      "motivations":{
+        "true":"False! Semen or pre-ejaculate fluids can carry HIV and transmit it through oral contact.",
+        "false":"Correct! Semen or pre-ejaculate fluids can carry HIV and transmit it through oral contact."
       }
-   ]
+    },
+    {
+      "statement":"When I sit on a toilet seat that has been used by a person with HIV/AIDS, I will get HIV too.",
+      "answer":false,
+      "motivations":{
+        "true":"Incorrect! The HIV virus cannot survive on a toilet seat.",
+        "false":"Well done! The HIV virus cannot survive on a toilet seat."
+      }
+    },
+    {
+      "statement":"When you are circumcised you can not get HIV.",
+      "answer":false,
+      "motivations":{
+        "true":"No, this is a myth. Anyone can get HIV/AIDS.",
+        "false":"Correct. People that are circumcised can also get HIV/AIDS."
+      }
+    },
+    {
+      "statement":"When I have sex without a condom, I have a risk of getting HIV/AIDS.",
+      "answer":true,
+      "motivations":{
+        "true":"That's right! Using a condom prevents the exchange of genital fluids that might carry HIV.",
+        "false":"Wrong! Using a condom while having sex prevents the exchange of genital fluids that might carry the HIV virus."
+      }
+    },
+    {
+      "statement":"The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk.",
+      "answer":true,
+      "motivations":{
+        "true":"That's right! The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk.",
+        "false":"Wrong! The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk."
+      }
+    },
+    {
+      "statement":"A mother with HIV might infect her unborn child ",
+      "answer":true,
+      "motivations":{
+        "true":"True! While a woman with HIV who is pregnant can spread the virus to her child during childbirth or pregnancy.",
+        "false":"Wrong! While a woman with HIV who is pregnant can spread the virus to her child during childbirth or pregnancy."
+      }
+    },
+    {
+      "statement":"When I use a needle that has been used by someone infected with HIV, I have a high risk of being infected with HIV myself",
+      "answer":true,
+      "motivations":{
+        "true":"True! Sharing contaminated hypodermic needles can spread HIV infection.",
+        "false":"Wrong! Sharing contaminated hypodermic needles can spread HIV infection."
+      }
+    },
+    {
+      "statement":"I can get infected with HIV through mosquito bites",
+      "answer":false,
+      "motivations":{
+        "true":"Wrong! Mosquito can carry infections such as malaria, dengue fever, but HIV cannot be transmitted in that way.",
+        "false":"True! Mosquito can carry infections such as malaria, dengue fever, but HIV cannot be transmitted in that way."
+      }
+    },
+    {
+      "statement":"The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk. ",
+      "answer":true,
+      "motivations":{
+        "true":"True. HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk.",
+        "false":"False! HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk."
+      }
+    },
+    {
+      "statement":"When I get HIV, I will certainly die?",
+      "answer":false,
+      "motivations":{
+        "true":"Wrong! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives.",
+        "false":"True! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives."
+      }
+    },
+    {
+      "statement":"When I get HIV, I will certainly die?",
+      "answer":false,
+      "motivations":{
+        "true":"Wrong! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives.",
+        "false":"True! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives."
+      }
+    },
+    {
+      "statement":"When I have HIV, I can not get children without giving them HIV, too?",
+      "answer":false,
+      "motivations":{
+        "true":"Wrong! Women living with HIV can and do have families. While certain steps and precautions have to be taken.",
+        "false":"True! Women living with HIV can and do have families. While certain steps and precautions have to be taken."
+      }
+    },
+    {
+      "statement":"Only gay men will get HIV/AIDS?",
+      "answer":false,
+      "motivations":{
+        "true":"Wrong! HIV is an equal opportunity virus. It can affect newborn babies, women, seniors, teens and people of any race or nationality.",
+        "false":"True! HIV is an equal opportunity virus. It can affect newborn babies, women, seniors, teens and people of any race or nationality."
+      }
+    },
+    {
+      "statement":"People over 50 don't get HIV and AIDS?",
+      "answer":false,
+      "motivations":{
+        "true":"Wrong! Don't bet on it. In fact, people over 50 make up a rapidly growing segment of the HIV and AIDS population.",
+        "false":"True! In fact, people over 50 make up a rapidly growing segment of the HIV and AIDS population. "
+      }
+    },
+    {
+      "statement":"We both have HIV and AIDS...we don't need a condom?",
+      "answer":false,
+      "motivations":{
+        "true":"Not true. Experts are seeing more an more incidences of re-infection, making HIV and AIDS treatment even more difficult.",
+        "false":"True! Experts are seeing more an more incidences of re-infection, making HIV and AIDS treatment even more difficult. "
+      }
+    },
+    {
+      "statement":"HIV and AIDS are the same thing?",
+      "answer":false,
+      "motivations":{
+        "true":"Not true. HIV is a virus and AIDS is a collection of illnesses.",
+        "false":"True! HIV is a virus and AIDS is a collection of illnesses."
+      }
+    }
+
+  ]
 }
