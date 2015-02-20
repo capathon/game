@@ -167,8 +167,8 @@ BasicGame.Game.prototype = {
         this.instructionGroup.setAll('anchor.y', 0.5);
 
         this.condomGenerator = null;
-
         this.virusGenerator = null;
+        this.ledgeGenerator = null;
 
         this.gameover = false;
 
@@ -371,21 +371,27 @@ BasicGame.Game.prototype = {
     },
     updateToCurrentLevel: function () {
         this.condomGenerator.timer.stop();
-        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].condomTimer, this.generateCondoms, this);
-        this.condomGenerator.timer.start();
-
+        this.condomGenerator = null;
         this.virusGenerator.timer.stop();
-        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].virusTimer, this.generateVirusses, this);
-        this.virusGenerator.timer.start();
-
+        this.virusGenerator = null;
         this.ledgeGenerator.timer.stop();
-        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
-        this.ledgeGenerator.timer.start();
+        this.ledgeGenerator = null;
+
+        this.background.stopScroll();
+        this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
 
         this.ground.stopScroll();
         this.ground.autoScroll(this.levels[this.level].groundAutoScroll, 0);
 
-        this.background.stopScroll();
-        this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
+        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].condomTimer, this.generateCondoms, this);
+        this.condomGenerator.timer.start();
+
+        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].virusTimer, this.generateVirusses, this);
+        this.virusGenerator.timer.start();
+
+        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
+        this.ledgeGenerator.timer.start();
+
+
     }
 };
