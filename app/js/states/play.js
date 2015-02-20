@@ -173,6 +173,8 @@ BasicGame.Game.prototype = {
     pickUpVirus : function(player, enemy) {
         this.downScore();
         enemy.kill();
+        this.game.paused = true;
+        this.questionModal = new QuestionModal(this.game);
     },
     touchedGround : function(player, ground) {
         this.player.numberOfJumps = 0;

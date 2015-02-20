@@ -28,6 +28,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('getReady', 'app/assets/img/get-ready.png');
 
         this.load.image('scoreboard', 'app/assets/img/scoreboard.png');
+        this.load.image('questionmodal', 'app/assets/img/questionmodal.png');
         this.load.spritesheet('medals', 'app/assets/img/medals.png',44, 46, 2);
         this.load.image('gameover', 'app/assets/img/gameover.png');
         this.load.image('particle', 'app/assets/img/particle.png');
