@@ -53,14 +53,15 @@ BasicGame.MainMenu.prototype = {
 
         /** STEP 6 **/
         //  create an oscillating animation tween for the group
-        this.game.add.tween(this.titleGroup).to({y:100}, 800, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
+        this.game.add.tween(this.titleGroup).to({y:110}, 800, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
 		// Adding the explanation that you need to catch the condoms, avoid the viruses. 
+		this.explanation = this.add.sprite(160,190,'explanation');		
 		
 		
 		
         // add our start button with a callback
-        this.startButton = this.game.add.button(this.game.width/2, 350, 'startButton', this.startClick, this);
+        this.startButton = this.game.add.button(this.game.width/2, 360, 'startButton', this.startClick, this);
         this.startButton.anchor.setTo(0.5,0.5);
 
     },
