@@ -155,11 +155,8 @@ var PipeGroup = function(game, parent) {
 
   Phaser.Group.call(this, game, parent);
 
-  this.topPipe = new Pipe(this.game, 0, 0, 0);
   this.bottomPipe = new Pipe(this.game, 0, 440, 1);
-  this.add(this.topPipe);
   this.add(this.bottomPipe);
-  this.hasScored = false;
 
   this.setAll('body.velocity.x', -200);
 };
@@ -172,19 +169,17 @@ PipeGroup.prototype.update = function() {
 };
 
 PipeGroup.prototype.checkWorldBounds = function() {
-  if(!this.topPipe.inWorld) {
+  if(!this.bottomPipe.inWorld) {
     this.exists = false;
   }
 };
 
 
 PipeGroup.prototype.reset = function(x, y) {
-  this.topPipe.reset(0,0);
   this.bottomPipe.reset(0,440);
   this.x = x;
   this.y = y;
   this.setAll('body.velocity.x', -200);
-  this.hasScored = false;
   this.exists = true;
 };
 
@@ -518,7 +513,7 @@ Play.prototype = {
     this.player.numberOfJumps = 0;
   },
   generatePipes: function() {
-    var pipeY = this.game.rnd.integerInRange(-100, 100);
+    var pipeY = this.game.rnd.integerInRange(-250, -25);
     var pipeGroup = this.pipes.getFirstExists(false);
     if(!pipeGroup) {
         pipeGroup = new PipeGroup(this.game, this.pipes);
