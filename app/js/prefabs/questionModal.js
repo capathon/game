@@ -8,10 +8,14 @@ var QuestionModal = function(game, parent) {
     this.questionmodal.anchor.setTo(0.5, 0.5);
 
     // Add the question
-    var text = "Dit gaat je vraag\nworden.\nWat denk je?";
-    var style = { font: "35px Arial", fill: "#fff", align: "center" };
+    this.questions = game.state.states.Game.questions.questions;
+    this.question = this.questions[Math.floor(Math.random()*this.questions.length)];
+    var style = { font: "25px Arial", fill: "#fff", align: "center" };
 
-    this.questionText = this.game.add.text(135, -385, text, style);
+    this.questionText = this.game.add.text(135, -385, this.question.statement, style);
+    this.questionText.wordWrap = true;
+    this.questionText.wordWrapWidth = 300;
+    this.questionText.align = 'center';
     this.add(this.questionText);
 
 
@@ -29,6 +33,8 @@ var QuestionModal = function(game, parent) {
     this.y = this.game.height;
     this.x = 0;
 
+
+
 };
 
 QuestionModal.prototype = Object.create(Phaser.Group.prototype);
@@ -40,14 +46,47 @@ QuestionModal.prototype.update = function() {
 };
 
 QuestionModal.prototype.answerButtonClick1 = function() {
-    // Answer True
-    this.game.state.states.Game.resGame();
-    this.destroy();
+    // Answered True
+
+    if (this.question.answer) {
+        //correct
+        this.showAnswer(this.question.motivations.true);
+    } else {
+        //wrong
+        this.showAnswer(this.question.motivations.false);
+    }
 };
 
 QuestionModal.prototype.answerButtonClick2 = function() {
-    // Answer False
+    // Answered False
+
+    if (!this.question.answer) {
+        //correct
+        this.showAnswer(this.question.motivations.true);
+    } else {
+        //wrong
+        this.showAnswer(this.question.motivations.false);
+    }
+};
+
+QuestionModal.prototype.okButtonClick = function() {
     this.game.state.states.Game.resGame();
     this.destroy();
 };
 
+QuestionModal.prototype.showAnswer = function(text) {
+    this.questionText.destroy();
+    this.answerButton1.destroy();
+    this.answerButton2.destroy();
+
+    var style = { font: "30px Arial", fill: "#fff", align: "center" };
+    this.answerText = this.game.add.text(135, -385, text, style);
+    this.answerText.wordWrap = true;
+    this.answerText.wordWrapWidth = 300;
+    this.answerText.align = 'center';
+    this.add(this.answerText);
+
+    this.okButton = this.game.add.button(200, -230, 'buttonOk', this.okButtonClick, this);
+    this.okButton.inputEnabled = true;
+    this.add(this.okButton);
+};

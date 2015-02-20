@@ -92,8 +92,11 @@ BasicGame.Game.prototype = {
         this.groundHitSound = this.game.add.audio('groundHit');
         this.scoreSound = this.game.add.audio('score');
 
-
         this.resGame = this.resumeGame;
+
+
+        this.questions = JSON.parse(game.cache.getText('someData'));
+
     },
 
     update: function () {
