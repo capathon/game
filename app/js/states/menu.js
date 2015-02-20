@@ -9,8 +9,9 @@ BasicGame.MainMenu = function (game) {
 BasicGame.MainMenu.prototype = {
 
     create: function () {
-        // add the background sprite
-        this.background = this.game.add.sprite(0,0,'background');
+        // add the background sprite, also as a tile
+        this.background = this.game.add.tileSprite(0,0,505,505,'background');
+        this.background.autoScroll(-20,0);
 
 
         // add the ground sprite as a tile

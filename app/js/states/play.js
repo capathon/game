@@ -36,8 +36,9 @@ BasicGame.Game.prototype = {
         this.game.physics.arcade.gravity.y = 1200;
 
         // add the background sprite
-        this.background = this.game.add.sprite(0,0,'background');
-
+        this.background = this.game.add.tileSprite(0,0,505,505,'background');
+        this.background.autoScroll(-20,0);
+		
         // create and add a group to hold our pipeGroup prefabs
         this.pipes = this.game.add.group();
 
