@@ -145,7 +145,11 @@ BasicGame.Game.prototype = {
         // this.scoreSound.play();
     },
     downScore: function() {
-        this.score = this.score - 100;
+        if (this.score - 10 <= 0){
+            this.score = 0;
+        }else{
+            this.score = this.score - 10;
+        }   
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
