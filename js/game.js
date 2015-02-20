@@ -361,7 +361,7 @@ Menu.prototype = {
 
     /** STEP 5 **/
     // Set the originating location of the group
-    this.titleGroup.x = 30;
+    this.titleGroup.x = 120;
     this.titleGroup.y = 100;
 
     /** STEP 6 **/
