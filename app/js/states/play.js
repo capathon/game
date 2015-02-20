@@ -45,6 +45,7 @@ BasicGame.Game.prototype = {
         // create and add a group to hold our virusGroup prefabs
         this.virusses = this.game.add.group();
 
+
         // create and add a new Player object
         this.player = new Player(this.game, this.game.width/2, this.game.height/2);
         this.game.add.existing(this.player);
@@ -70,10 +71,11 @@ BasicGame.Game.prototype = {
         // keep the spacebar from propogating up to the browser
         this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-
-
+        this.truthometer = new Truthometer(this.game, 20, 20);
         this.score = 0;
-        this.scoreText = this.game.add.bitmapText(this.game.width/2, 10, 'jumppyfont',this.score.toString(), 24);
+        this.truthometer.updateHealthbar(this.score);
+        this.game.add.existing(this.truthometer);
+
 
         this.instructionGroup = this.game.add.group();
         this.instructionGroup.add(this.game.add.sprite(this.game.width/2, 100,'getReady'));
@@ -138,13 +140,13 @@ BasicGame.Game.prototype = {
         }
     },
     checkScore: function() {
-        this.score++;
-        this.scoreText.setText(this.score.toString());
+        this.score = this.score + 5;
+        this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
     downScore: function() {
-        this.score = this.score - 5;
-        this.scoreText.setText(this.score.toString());
+        this.score = this.score - 100;
+        this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
     deathHandler: function(player, enemy) {
