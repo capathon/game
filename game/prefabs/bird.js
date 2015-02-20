@@ -66,4 +66,3 @@ Bird.prototype.onKilled = function() {
 };
 
 module.exports = Bird;
-

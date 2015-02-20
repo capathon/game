@@ -1,4 +1,3 @@
-
 'use strict';
 function Preload() {
   this.asset = null;
