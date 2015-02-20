@@ -55,15 +55,28 @@ Player.prototype.startJump = function() {
     if (this.numberOfJumps < 2) {
         //state mgmt
         this.state = "jumping";
+        this.numberOfJumps++;
         this.jumpSound.play();
         //this.body.velocity.y = -(this.game.height * 1.1);
-        this.body.velocity.y = -(5);
-        console.log(this.body.velocity.y);
+        this.body.velocity.y = -(500);
+        this.body.allowGravity = false;
+        //console.log("startjump");
+        var player = this;
+        setTimeout(function(){
+            console.log("jump timeout");
+            if (player.state === "jumping") {
+                player.stopJump();
+            }
+        },1000);
     }
 }
 
 Player.prototype.stopJump = function() {
-    this.numberOfJumps++;
+    this.body.allowGravity = true;
+    //console.log("stopjump");
+    this.state = "falling";
+
+
 }
 
 
