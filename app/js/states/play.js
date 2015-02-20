@@ -53,10 +53,6 @@ BasicGame.Game.prototype = {
         // create and add a group to hold our virusGroup prefabs
         this.virusses = this.game.add.group();
 
-        // create and add a group to hold our virusGroup prefabs
-        this.ledges = this.game.add.group();
-
-
 
         // create and add a new Player object
         this.player = new Player(this.game, this.game.width/2, this.game.height/2);
@@ -105,7 +101,6 @@ BasicGame.Game.prototype = {
 
         this.resGame = this.resumeGame;
 
-
         this.questions = JSON.parse(game.cache.getText('someData'));
 
     },
@@ -126,11 +121,6 @@ BasicGame.Game.prototype = {
             this.virusses.forEach(function(virusGroup) {
                 this.game.physics.arcade.collide(this.player, virusGroup, this.pickUpVirus, null, this);
             }, this);
-
-            // enable collisions between the player and each group in the ledges group
-            this.ledges.forEach(function(ledgeGroup) {
-                this.game.physics.arcade.collide(this.player, ledgeGroup, this.touchedGround, null, this);
-            }, this);
         }
     },
     shutdown: function() {
@@ -138,7 +128,6 @@ BasicGame.Game.prototype = {
         this.player.destroy();
         this.condoms.destroy();
         this.virusses.destroy();
-        this.ledges.destroy();
         // this.questionmodal.destroy();
     },
     startGame: function() {
@@ -151,14 +140,15 @@ BasicGame.Game.prototype = {
             this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateVirusses, this);
             this.virusGenerator.timer.start();
 
-            this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 5.0, this.generateLedges, this);
-            this.ledgeGenerator.timer.start();
-
             this.instructionGroup.destroy();
         }
     },
     checkScore: function() {
-        this.score = this.score + 5;
+        if(this.score + 5 >= 90){
+            this.score = 90;
+        }else{
+            this.score = this.score + 5;
+        }
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
@@ -174,6 +164,9 @@ BasicGame.Game.prototype = {
     deathHandler: function(player, enemy) {
         if(enemy instanceof Ground && !this.player.onGround) {
             this.groundHitSound.play();
+            this.scoreboard = new Scoreboard(this.game);
+            this.game.add.existing(this.scoreboard);
+            this.scoreboard.show(this.score);
             this.player.onGround = true;
         } else if (enemy instanceof Condom){
             this.condomHitSound.play();
@@ -188,8 +181,6 @@ BasicGame.Game.prototype = {
             this.condomGenerator.timer.stop();           
             this.virusses.callAll('stop');
             this.virusGenerator.timer.stop();
-            this.ledges.callAll('stop');
-            this.ledgeGenerator.timer.stop();
             this.ground.stopScroll();
         }
 
@@ -211,8 +202,9 @@ BasicGame.Game.prototype = {
         this.player.numberOfJumps = 0;
     },
     generateCondoms: function() {
-        var quarterScreen = this.game.height / 4;
+        var quarterScreen = this.game.height/4;
         var condomY = this.game.rnd.integerInRange(-quarterScreen, quarterScreen*1.5);
+        console.log(condomY);
         var condomGroup = this.condoms.getFirstExists(false);
         if(!condomGroup) {
             condomGroup = new CondomGroup(this.game, this.condoms);
@@ -220,7 +212,7 @@ BasicGame.Game.prototype = {
         condomGroup.reset(this.game.width -10, condomY);
     },
     generateVirusses: function() {
-        var quarterScreen = this.game.height / 4;
+        var quarterScreen = this.game.height/4;
         var virusY = this.game.rnd.integerInRange(-quarterScreen, (2*quarterScreen)-63);
         var virusGroup = this.virusses.getFirstExists(false);
         if(!virusGroup) {
@@ -228,28 +220,15 @@ BasicGame.Game.prototype = {
         }
         virusGroup.reset(this.game.width, virusY);
     },
-    generateLedges: function() {
-        var quarterScreen = this.game.height / 4;
-        var ledgeY = this.game.rnd.integerInRange(-quarterScreen, (2*quarterScreen)-63);
-        var ledgeGroup = this.ledges.getFirstExists(false);
-        if(!ledgeGroup) {
-            ledgeGroup = new LedgeGroup(this.game, this.ledges);
-        }
-        ledgeGroup.reset(this.game.width, ledgeY);
-    },
     pauseGame: function () {
         this.condoms.destroy();
         this.virusses.destroy();
-        this.ledges.destroy();
 
         this.condoms.callAll('stop');
         this.condomGenerator.timer.stop();  
 
         this.virusses.callAll('stop');
         this.virusGenerator.timer.stop();
-
-        this.ledges.callAll('stop');
-        this.ledgeGenerator.timer.stop();
         
         this.ground.stopScroll();
 
@@ -258,7 +237,6 @@ BasicGame.Game.prototype = {
     resumeGame: function () {
         this.condoms = this.game.add.group();
         this.virusses = this.game.add.group();
-        this.ledges = this.game.add.group();
 
         this.ground.autoScroll(-200,0);
 
@@ -266,8 +244,6 @@ BasicGame.Game.prototype = {
         this.condomGenerator.timer.start();
         this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateVirusses, this);
         this.virusGenerator.timer.start();
-        this.ledgesGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 5.00, this.generateLedges, this);
-        this.ledgesGenerator.timer.start();
 
         this.player.animations.play('jump', 12, true);
     }
