@@ -185,8 +185,6 @@ BasicGame.Game.prototype = {
 
         this.questionModal = new QuestionModal(this.game);
         this.game.add.existing(this.questionModal);
-
-        // debugger;
     },
     touchedGround : function(player, ground) {
         this.player.numberOfJumps = 0;

@@ -48,25 +48,13 @@ QuestionModal.prototype.update = function() {
 QuestionModal.prototype.answerButtonClick1 = function() {
     // Answered True
 
-    if (this.question.answer) {
-        //correct
-        this.showAnswer(this.question.motivations.true);
-    } else {
-        //wrong
-        this.showAnswer(this.question.motivations.false);
-    }
+    this.showAnswer(this.question.motivations.true);
 };
 
 QuestionModal.prototype.answerButtonClick2 = function() {
     // Answered False
 
-    if (!this.question.answer) {
-        //correct
-        this.showAnswer(this.question.motivations.true);
-    } else {
-        //wrong
-        this.showAnswer(this.question.motivations.false);
-    }
+    this.showAnswer(this.question.motivations.false);
 };
 
 QuestionModal.prototype.okButtonClick = function() {
