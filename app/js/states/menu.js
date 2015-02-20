@@ -24,6 +24,10 @@ BasicGame.MainMenu.prototype = {
         // so they can be manipulated as a whole
         this.titleGroup = this.game.add.group()
 
+		// Add the logo of dance4life
+        this.logo = this.add.sprite(160,20,'logo');		
+		
+		
         /** STEP 2 **/
         // create the title sprite
         // and add it to the group
@@ -33,7 +37,7 @@ BasicGame.MainMenu.prototype = {
         /** STEP 3 **/
         // create the player sprite
         // and add it to the title group
-        this.player = this.add.sprite(200,5,'player');
+	    this.player = this.add.sprite(185,10,'player');
         this.titleGroup.add(this.player);
 
         /** STEP 4 **/
@@ -45,14 +49,18 @@ BasicGame.MainMenu.prototype = {
         /** STEP 5 **/
         // Set the originating location of the group
         this.titleGroup.x = 120;
-        this.titleGroup.y = 100;
+        this.titleGroup.y = 80;
 
         /** STEP 6 **/
         //  create an oscillating animation tween for the group
-        this.game.add.tween(this.titleGroup).to({y:115}, 350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
+        this.game.add.tween(this.titleGroup).to({y:100}, 800, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
+		// Adding the explanation that you need to catch the condoms, avoid the viruses. 
+		
+		
+		
         // add our start button with a callback
-        this.startButton = this.game.add.button(this.game.width/2, 300, 'startButton', this.startClick, this);
+        this.startButton = this.game.add.button(this.game.width/2, 350, 'startButton', this.startClick, this);
         this.startButton.anchor.setTo(0.5,0.5);
 
     },

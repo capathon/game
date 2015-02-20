@@ -18,7 +18,8 @@ BasicGame.Preloader.prototype = {
         this.load.setPreloadSprite(this.asset);
         this.load.image('background', 'app/assets/img/background.png');
         this.load.image('ground', 'app/assets/img/ground.png');
-        this.load.image('title', 'app/assets/img/title.png');
+        this.load.image('logo', 'app/assets/img/logo.png');
+		this.load.image('title', 'app/assets/img/title.png');
         this.load.spritesheet('player', 'app/assets/img/ride_anim.png', 76,60,3);
         this.load.spritesheet('condom', 'app/assets/img/condom.png', 50,63,1);
         this.load.spritesheet('virus', 'app/assets/img/virus.png', 43,43,1);
