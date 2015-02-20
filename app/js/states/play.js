@@ -35,8 +35,9 @@ BasicGame.Game.prototype = {
         // give our world an initial gravity of 1200
         this.game.physics.arcade.gravity.y = 1200;
 
-        // add the background sprite
-        this.background = this.game.add.sprite(0,0,'background');
+        // add the background sprite, also as a tile
+        this.background = this.game.add.tileSprite(0,0,505,505,'background');
+        this.background.autoScroll(-20,0);
 
         // create and add a group to hold our condomGroup prefabs
         this.condoms = this.game.add.group();
