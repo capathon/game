@@ -7,7 +7,7 @@ var LedgeGroup = function(game, parent) {
     this.ledge = new Ledge(this.game, 0, 12, this.game.rnd.integerInRange(50,215), 35);
     this.add(this.ledge);
 
-    this.setAll('body.velocity.x', -150);
+    this.setAll('body.velocity.x', this.game.state.states.Game.levels[this.game.state.states.Game.level].ledgeVelocity);
 };
 
 LedgeGroup.prototype = Object.create(Phaser.Group.prototype);
@@ -19,7 +19,7 @@ LedgeGroup.prototype.update = function() {
 
 LedgeGroup.prototype.checkWorldBounds = function() {
     if(!this.ledge.inWorld) {
-        this.exists = false;
+        this.destroy();
     }
 };
 
@@ -28,8 +28,7 @@ LedgeGroup.prototype.reset = function(x, y) {
     this.ledge.reset(0,440);
     this.x = x;
     this.y = y;
-    this.setAll('body.velocity.x', -150);
-    this.exists = true;
+    this.setAll('body.velocity.x', this.game.state.states.Game.levels[this.game.state.states.Game.level].ledgeVelocity);
 };
 
 
