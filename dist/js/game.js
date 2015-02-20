@@ -88,6 +88,8 @@ Bird.prototype.onKilled = function() {
 };
 
 module.exports = Bird;
+
+
 },{}],3:[function(require,module,exports){
 'use strict';
 
@@ -189,6 +191,8 @@ PipeGroup.prototype.stop = function() {
 
 module.exports = PipeGroup;
 },{"./pipe":4}],6:[function(require,module,exports){
+'use strict';
+
 var Scoreboard = function(game) {
   
   var gameover;
@@ -289,6 +293,7 @@ Scoreboard.prototype.update = function() {
 };
 
 module.exports = Scoreboard;
+
 },{}],7:[function(require,module,exports){
 
 'use strict';
@@ -309,6 +314,7 @@ Boot.prototype = {
 module.exports = Boot;
 
 },{}],8:[function(require,module,exports){
+
 'use strict';
 function Menu() {}
 
@@ -319,35 +325,35 @@ Menu.prototype = {
   create: function() {
     // add the background sprite
     this.background = this.game.add.sprite(0,0,'background');
-
+    
     // add the ground sprite as a tile
     // and start scrolling in the negative x direction
-    //this.ground = this.game.add.tileSprite(0,400, 335,112,'ground');
-    //this.ground.autoScroll(-200,0);
+    this.ground = this.game.add.tileSprite(0,400, 335,112,'ground');
+    this.ground.autoScroll(-200,0);
 
     /** STEP 1 **/
-    // create a group to put the title assets in
+    // create a group to put the title assets in 
     // so they can be manipulated as a whole
     this.titleGroup = this.game.add.group()
-
+      
     /** STEP 2 **/
     // create the title sprite
     // and add it to the group
     this.title = this.add.sprite(0,0,'title');
     this.titleGroup.add(this.title);
-
+    
     /** STEP 3 **/
-    // create the bird sprite
+    // create the bird sprite 
     // and add it to the title group
     this.bird = this.add.sprite(200,5,'bird');
     this.titleGroup.add(this.bird);
-
+    
     /** STEP 4 **/
     // add an animation to the bird
     // and begin the animation
     this.bird.animations.add('flap');
     this.bird.animations.play('flap', 12, true);
-
+    
     /** STEP 5 **/
     // Set the originating location of the group
     this.titleGroup.x = 30;
@@ -371,6 +377,7 @@ Menu.prototype = {
 module.exports = Menu;
 
 },{}],9:[function(require,module,exports){
+
 'use strict';
 var Bird = require('../prefabs/bird');
 var Ground = require('../prefabs/ground');
@@ -394,33 +401,33 @@ Play.prototype = {
 
     // create and add a group to hold our pipeGroup prefabs
     this.pipes = this.game.add.group();
-
+    
     // create and add a new Bird object
     this.bird = new Bird(this.game, 100, this.game.height/2);
     this.game.add.existing(this.bird);
-
-
+    
+    
 
     // create and add a new Ground object
     this.ground = new Ground(this.game, 0, 400, 335, 112);
     this.game.add.existing(this.ground);
-
+    
 
     // add keyboard controls
     this.flapKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.flapKey.onDown.addOnce(this.startGame, this);
     this.flapKey.onDown.add(this.bird.flap, this.bird);
-
+    
 
     // add mouse/touch controls
     this.game.input.onDown.addOnce(this.startGame, this);
     this.game.input.onDown.add(this.bird.flap, this.bird);
-
+    
 
     // keep the spacebar from propogating up to the browser
     this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-
+    
 
     this.score = 0;
     this.scoreText = this.game.add.bitmapText(this.game.width/2, 10, 'flappyfont',this.score.toString(), 24);
@@ -438,13 +445,13 @@ Play.prototype = {
     this.pipeHitSound = this.game.add.audio('pipeHit');
     this.groundHitSound = this.game.add.audio('groundHit');
     this.scoreSound = this.game.add.audio('score');
-
+    
   },
   update: function() {
     // enable collisions between the bird and the ground
     this.game.physics.arcade.collide(this.bird, this.ground, this.deathHandler, null, this);
 
-    if(!this.gameover) {
+    if(!this.gameover) {    
         // enable collisions between the bird and each group in the pipes group
         this.pipes.forEach(function(pipeGroup) {
             this.checkScore(pipeGroup);
@@ -453,7 +460,7 @@ Play.prototype = {
     }
 
 
-
+    
   },
   shutdown: function() {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
@@ -498,16 +505,16 @@ Play.prototype = {
         this.pipeGenerator.timer.stop();
         this.ground.stopScroll();
     }
-
+    
   },
   generatePipes: function() {
     var pipeY = this.game.rnd.integerInRange(-100, 100);
     var pipeGroup = this.pipes.getFirstExists(false);
     if(!pipeGroup) {
-        pipeGroup = new PipeGroup(this.game, this.pipes);
+        pipeGroup = new PipeGroup(this.game, this.pipes);  
     }
     pipeGroup.reset(this.game.width, pipeY);
-
+    
 
   }
 };
@@ -515,6 +522,7 @@ Play.prototype = {
 module.exports = Play;
 
 },{"../prefabs/bird":2,"../prefabs/ground":3,"../prefabs/pipe":4,"../prefabs/pipeGroup":5,"../prefabs/scoreboard":6}],10:[function(require,module,exports){
+
 'use strict';
 function Preload() {
   this.asset = null;
@@ -534,10 +542,10 @@ Preload.prototype = {
     this.load.spritesheet('bird', 'assets/bird.png', 34,24,3);
     this.load.spritesheet('pipe', 'assets/pipes.png', 54,320,2);
     this.load.image('startButton', 'assets/start-button.png');
-
+    
     this.load.image('instructions', 'assets/instructions.png');
     this.load.image('getReady', 'assets/get-ready.png');
-
+    
     this.load.image('scoreboard', 'assets/scoreboard.png');
     this.load.spritesheet('medals', 'assets/medals.png',44, 46, 2);
     this.load.image('gameover', 'assets/gameover.png');
