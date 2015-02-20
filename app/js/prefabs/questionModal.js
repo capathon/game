@@ -20,7 +20,7 @@ var QuestionModal = function(game, parent) {
     this.question = this.questions[Math.floor(Math.random()*this.questions.length)];
     var style = { font: "25px Arial", fill: "#fff", align: "center" };
 
-    this.questionText = this.game.add.text(-125, -150, this.question.statement, style);
+    this.questionText = this.game.add.text(-125, -125, this.question.statement, style);
     this.questionText.wordWrap = true;
     this.questionText.wordWrapWidth = 300;
     this.questionText.align = 'center';
