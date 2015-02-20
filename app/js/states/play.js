@@ -1,4 +1,3 @@
-
 BasicGame.Game = function (game) {
 
     //  When a State is added to Phaser it automatically has the following properties set on it, even if they already exist:
@@ -33,8 +32,8 @@ BasicGame.Game = function (game) {
         }, {
             level: 2,
             pointsForNextLevel: 45,
-            backgroundAutoScroll: -30,
-            groundAutoScroll: -200,
+            backgroundAutoScroll: -120,
+            groundAutoScroll: -300,
             condomTimer: 1.25,
             condomVelocity: -200,
             virusTimer: 1.50,
@@ -77,6 +76,7 @@ BasicGame.Game = function (game) {
             ledgeVelocity: -150
         }
     ];
+    this.processSpeed = {}; // boost the autoScroll;
 
     //  You can use any of these from any function within this State.
     //  But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
@@ -84,6 +84,21 @@ BasicGame.Game = function (game) {
 };
 
 BasicGame.Game.prototype = {
+
+    speedUp: function () {
+        if (this.processSpeed.background.speed == this.levels[this.level+1].backgroundAutoScroll){
+            this.speedbooster.timer.stop();
+            return;
+        }
+
+        this.processSpeed.background.speed--;
+        this.processSpeed.ground.speed--;
+        
+        this.background.stopScroll();
+        this.background.autoScroll(this.processSpeed.background.speed, 0);
+        this.ground.stopScroll();
+        this.ground.autoScroll(this.processSpeed.ground.speed, 0);
+    },
 
     create: function () {
         // start the phaser arcade physics engine
@@ -96,13 +111,19 @@ BasicGame.Game.prototype = {
         this.level = 1;
 
         // add the background sprite, also as a tile
-        this.background = this.game.add.tileSprite(0,0,this.game.width,this.game.height,'background');
+        this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
+        this.processSpeed['background'] = {
+            "speed": this.levels[this.level].backgroundAutoScroll
+        };
+        this.processSpeed['ground'] = {
+            "speed": this.levels[this.level].groundAutoScroll
+        };
 
         // add the ground sprite as a tile
         // and start scrolling in the negative x direction
         var groundHeight = 63;
-        this.ground = new Ground(this.game, 0, this.game.height-groundHeight, this.game.width, groundHeight);
+        this.ground = new Ground(this.game, 0, this.game.height - groundHeight, this.game.width, groundHeight);
         this.game.add.existing(this.ground);
 
 
@@ -117,9 +138,8 @@ BasicGame.Game.prototype = {
         this.ledges = this.game.add.group();
 
         // create and add a new Player object
-        this.player = new Player(this.game, this.game.width/2, this.game.height/2);
+        this.player = new Player(this.game, this.game.width / 2, this.game.height / 2);
         this.game.add.existing(this.player);
-
 
 
         // add keyboard controls
@@ -143,8 +163,8 @@ BasicGame.Game.prototype = {
 
 
         this.instructionGroup = this.game.add.group();
-        this.instructionGroup.add(this.game.add.sprite(this.game.width/2, 100,'getReady'));
-        this.instructionGroup.add(this.game.add.sprite(this.game.width/2, 325,'instructions'));
+        this.instructionGroup.add(this.game.add.sprite(this.game.width / 2, 100, 'getReady'));
+        this.instructionGroup.add(this.game.add.sprite(this.game.width / 2, 325, 'instructions'));
         this.instructionGroup.setAll('anchor.x', 0.5);
         this.instructionGroup.setAll('anchor.y', 0.5);
 
@@ -163,33 +183,35 @@ BasicGame.Game.prototype = {
 
         this.questions = JSON.parse(game.cache.getText('someData'));
 
+        this.speedbooster = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.speedUp, this);
+        this.speedbooster.timer.start();
     },
 
     update: function () {
         // enable collisions between the player and the ground
         this.game.physics.arcade.collide(this.player, this.ground, this.touchedGround, null, this);
 
-        this.player.x = this.game.width/2;
+        this.player.x = this.game.width / 2;
 
-        if(!this.gameover) {
+        if (!this.gameover) {
             // enable collisions between the player and each group in the condoms group
-            this.condoms.forEach(function(condomGroup) {
+            this.condoms.forEach(function (condomGroup) {
                 this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpObject, null, this);
             }, this);
-            
+
             // enable collisions between the player and each group in the virusses group
-            this.virusses.forEach(function(virusGroup) {
+            this.virusses.forEach(function (virusGroup) {
                 this.game.physics.arcade.collide(this.player, virusGroup, this.pickUpVirus, null, this);
             }, this);
 
 
             // enable collisions between the player and each group in the ledges group
-            this.ledges.forEach(function(ledgeGroup) {
+            this.ledges.forEach(function (ledgeGroup) {
                 this.game.physics.arcade.collide(this.player, ledgeGroup, this.touchedGround, null, this);
             }, this);
         }
     },
-    shutdown: function() {
+    shutdown: function () {
         this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
         this.player.destroy();
         this.condoms.destroy();
@@ -197,8 +219,8 @@ BasicGame.Game.prototype = {
         this.ledges.destroy();
         // this.questionmodal.destroy();
     },
-    startGame: function() {
-        if(!this.player.alive && !this.gameover) {
+    startGame: function () {
+        if (!this.player.alive && !this.gameover) {
             this.player.body.allowGravity = true;
             this.player.alive = true;
             // add a timer
@@ -212,10 +234,10 @@ BasicGame.Game.prototype = {
             this.instructionGroup.destroy();
         }
     },
-    checkScore: function() {
-        if(this.score + 5 >= 90){
+    checkScore: function () {
+        if (this.score + 5 >= 90) {
             this.score = 90;
-        } else{
+        } else {
             this.score = this.score + 5;
         }
 
@@ -231,33 +253,33 @@ BasicGame.Game.prototype = {
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
-    downScore: function() {
-        if (this.score - 10 <= 0){
+    downScore: function () {
+        if (this.score - 10 <= 0) {
             this.score = 0;
-        }else{
+        } else {
             this.score = this.score - 10;
-        }   
+        }
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
-    deathHandler: function(player, enemy) {
-        if(enemy instanceof Ground && !this.player.onGround) {
+    deathHandler: function (player, enemy) {
+        if (enemy instanceof Ground && !this.player.onGround) {
             this.groundHitSound.play();
             this.scoreboard = new Scoreboard(this.game);
             this.game.add.existing(this.scoreboard);
             this.scoreboard.show(this.score);
             this.player.onGround = true;
-        } else if (enemy instanceof Condom){
+        } else if (enemy instanceof Condom) {
             this.condomHitSound.play();
-        }   else if (enemy instanceof Virus){
+        } else if (enemy instanceof Virus) {
             this.condomHitSound.play();
         }
 
-        if(!this.gameover) {
+        if (!this.gameover) {
             this.gameover = true;
             this.player.kill();
             this.condoms.callAll('stop');
-            this.condomGenerator.timer.stop();           
+            this.condomGenerator.timer.stop();
             this.virusses.callAll('stop');
             this.virusGenerator.timer.stop();
             this.ledges.callAll('stop');
@@ -266,45 +288,45 @@ BasicGame.Game.prototype = {
         }
 
     },
-    pickUpObject : function(player, enemy) {
+    pickUpObject: function (player, enemy) {
         this.checkScore();
         enemy.kill();
     },
-    pickUpVirus : function(player, enemy) {
+    pickUpVirus: function (player, enemy) {
         this.downScore();
         enemy.kill();
-        
+
         this.pauseGame();
 
         this.questionModal = new QuestionModal(this.game);
         this.game.add.existing(this.questionModal);
     },
-    touchedGround : function(player, ground) {
+    touchedGround: function (player, ground) {
         this.player.numberOfJumps = 0;
     },
-    generateCondoms: function() {
+    generateCondoms: function () {
         var quarterScreen = this.game.height / 4;
-        var condomY = this.game.rnd.integerInRange(-quarterScreen, quarterScreen*1.5);
+        var condomY = this.game.rnd.integerInRange(-quarterScreen, quarterScreen * 1.5);
         var condomGroup = this.condoms.getFirstExists(false);
-        if(!condomGroup) {
+        if (!condomGroup) {
             condomGroup = new CondomGroup(this.game, this.condoms);
         }
-        condomGroup.reset(this.game.width -10, condomY);
+        condomGroup.reset(this.game.width - 10, condomY);
     },
-    generateVirusses: function() {
+    generateVirusses: function () {
         var quarterScreen = this.game.height / 4;
-        var virusY = this.game.rnd.integerInRange(-quarterScreen, (2*quarterScreen)-63);
+        var virusY = this.game.rnd.integerInRange(-quarterScreen, (2 * quarterScreen) - 63);
         var virusGroup = this.virusses.getFirstExists(false);
-        if(!virusGroup) {
+        if (!virusGroup) {
             virusGroup = new VirusGroup(this.game, this.virusses);
         }
         virusGroup.reset(this.game.width, virusY);
     },
-    generateLedges: function() {
+    generateLedges: function () {
         var quarterScreen = this.game.height / 4;
-        var ledgeY = this.game.rnd.integerInRange(-quarterScreen, (2*quarterScreen)-63);
+        var ledgeY = this.game.rnd.integerInRange(-quarterScreen, (2 * quarterScreen) - 63);
         var ledgeGroup = this.ledges.getFirstExists(false);
-        if(!ledgeGroup) {
+        if (!ledgeGroup) {
             ledgeGroup = new LedgeGroup(this.game, this.ledges);
         }
         ledgeGroup.reset(this.game.width, ledgeY);
@@ -315,11 +337,11 @@ BasicGame.Game.prototype = {
         this.ledges.destroy();
 
         this.condoms.callAll('stop');
-        this.condomGenerator.timer.stop();  
+        this.condomGenerator.timer.stop();
 
         this.virusses.callAll('stop');
         this.virusGenerator.timer.stop();
-        
+
         this.ledges.callAll('stop');
         this.ledgeGenerator.timer.stop();
 
@@ -344,7 +366,7 @@ BasicGame.Game.prototype = {
         this.player.animations.play('jump', 12, true);
     },
     updateToCurrentLevel: function () {
-        this.condomGenerator.timer.stop();  
+        this.condomGenerator.timer.stop();
         this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].condomTimer, this.generateCondoms, this);
         this.condomGenerator.timer.start();
 
@@ -365,4 +387,3 @@ BasicGame.Game.prototype = {
 
     }
 };
-
