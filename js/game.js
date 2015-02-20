@@ -66,9 +66,8 @@ Player.prototype.update = function() {
 
 Player.prototype.jump = function() {
   if(!!this.alive) {
-    this.jumpSound.play();
-
     if (this.numberOfJumps < 2) {
+        this.jumpSound.play();
         //cause our player to "jump" upward
         this.body.velocity.y = -500;
         // rotate the player to -40 degrees
