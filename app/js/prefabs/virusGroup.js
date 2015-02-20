@@ -19,7 +19,7 @@ VirusGroup.prototype.update = function() {
 
 VirusGroup.prototype.checkWorldBounds = function() {
     if(!this.virus.inWorld) {
-        this.exists = false;
+        this.destroy();
     }
 };
 
@@ -29,7 +29,6 @@ VirusGroup.prototype.reset = function(x, y) {
     this.x = x;
     this.y = y;
     this.setAll('body.velocity.x', -250);
-    this.exists = true;
 };
 
 

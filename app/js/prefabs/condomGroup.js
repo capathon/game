@@ -19,7 +19,7 @@ CondomGroup.prototype.update = function() {
 
 CondomGroup.prototype.checkWorldBounds = function() {
     if(!this.condom.inWorld) {
-        this.exists = false;
+        this.destroy();
     }
 };
 
@@ -29,7 +29,6 @@ CondomGroup.prototype.reset = function(x, y) {
     this.x = x;
     this.y = y;
     this.setAll('body.velocity.x', -200);
-    this.exists = true;
 };
 
 

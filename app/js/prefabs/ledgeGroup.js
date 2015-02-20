@@ -19,7 +19,7 @@ LedgeGroup.prototype.update = function() {
 
 LedgeGroup.prototype.checkWorldBounds = function() {
     if(!this.ledge.inWorld) {
-        this.exists = false;
+        this.destroy();
     }
 };
 
@@ -29,7 +29,6 @@ LedgeGroup.prototype.reset = function(x, y) {
     this.x = x;
     this.y = y;
     this.setAll('body.velocity.x', -150);
-    this.exists = true;
 };
 
 

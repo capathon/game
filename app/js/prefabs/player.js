@@ -55,7 +55,6 @@ Player.prototype.revived = function() {
 };
 
 Player.prototype.onKilled = function() {
-    this.exists = true;
     this.visible = true;
     this.animations.stop();
     var duration = 90 / this.y * 300;
