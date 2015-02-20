@@ -125,7 +125,7 @@ BasicGame.Game.prototype = {
             // add a timer
             this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateCondoms, this);
             this.condomGenerator.timer.start();
-            this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateVirusses, this);
+            this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateVirusses, this);
             this.virusGenerator.timer.start();
 
             this.instructionGroup.destroy();
@@ -182,7 +182,7 @@ BasicGame.Game.prototype = {
         if(!condomGroup) {
             condomGroup = new CondomGroup(this.game, this.condoms);
         }
-        condomGroup.reset(this.game.width, condomY);
+        condomGroup.reset(this.game.width -10, condomY);
     },
     generateVirusses: function() {
         var virusY = this.game.rnd.integerInRange(-250, -25);

@@ -2,7 +2,6 @@
 
 
 var CondomGroup = function(game, parent) {
-
     Phaser.Group.call(this, game, parent);
 
     this.condom = new Condom(this.game, 0, 440, 1);
