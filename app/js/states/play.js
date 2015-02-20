@@ -157,9 +157,6 @@ BasicGame.Game.prototype = {
     deathHandler: function(player, enemy) {
         if(enemy instanceof Ground && !this.player.onGround) {
             this.groundHitSound.play();
-            this.scoreboard = new Scoreboard(this.game);
-            this.game.add.existing(this.scoreboard);
-            this.scoreboard.show(this.score);
             this.player.onGround = true;
         } else if (enemy instanceof Condom){
             this.condomHitSound.play();
