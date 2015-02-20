@@ -190,7 +190,7 @@ BasicGame.Game.prototype = {
         this.player.numberOfJumps = 0;
     },
     generateCondoms: function() {
-        var condomY = this.game.rnd.integerInRange(-250, -25);
+        var condomY = this.game.rnd.integerInRange(-300, -25);
         var condomGroup = this.condoms.getFirstExists(false);
         if(!condomGroup) {
             condomGroup = new CondomGroup(this.game, this.condoms);
@@ -198,7 +198,7 @@ BasicGame.Game.prototype = {
         condomGroup.reset(this.game.width -10, condomY);
     },
     generateVirusses: function() {
-        var virusY = this.game.rnd.integerInRange(-250, -25);
+        var virusY = this.game.rnd.integerInRange(-300, -25);
         var virusGroup = this.virusses.getFirstExists(false);
         if(!virusGroup) {
             virusGroup = new VirusGroup(this.game, this.virusses);

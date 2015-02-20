@@ -79,7 +79,7 @@ QuestionModal.prototype.showAnswer = function(text) {
     this.answerButton1.destroy();
     this.answerButton2.destroy();
 
-    var style = { font: "30px Arial", fill: "#fff", align: "center" };
+    var style = { font: "25px Arial", fill: "#fff", align: "center" };
     this.answerText = this.game.add.text(135, -385, text, style);
     this.answerText.wordWrap = true;
     this.answerText.wordWrapWidth = 300;
