@@ -110,7 +110,7 @@ BasicGame.Game.prototype = {
         this.level = 1;
 
         // add the background sprite, also as a tile
-        this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
+        this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height*0.95, 'background');
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
         this.processSpeed['background'] = {
             "speed": this.levels[this.level].backgroundAutoScroll
@@ -121,7 +121,7 @@ BasicGame.Game.prototype = {
 
         // add the ground sprite as a tile
         // and start scrolling in the negative x direction
-        var groundHeight = 63;
+        var groundHeight = this.game.height*0.05;
         this.ground = new Ground(this.game, 0, this.game.height - groundHeight, this.game.width, groundHeight);
         this.game.add.existing(this.ground);
 
@@ -156,7 +156,7 @@ BasicGame.Game.prototype = {
         // keep the spacebar from propogating up to the browser
         this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-        this.truthometer = new Truthometer(this.game, 20, 20);
+        this.truthometer = new Truthometer(this.game, this.game.width*0.05, this.game.height*0.05);
         this.score = 0;
         this.truthometer.updateHealthbar(this.score);
         this.game.add.existing(this.truthometer);
@@ -310,8 +310,7 @@ BasicGame.Game.prototype = {
         this.player.stopJump();
     },
     generateCondoms: function () {
-        var quarterScreen = this.game.height / 4;
-        var condomY = this.game.rnd.integerInRange(-quarterScreen, quarterScreen * 1.5);
+        var condomY = this.game.rnd.integerInRange(-(this.game.height*0.95), -(this.game.height*0.40));
         var condomGroup = this.condoms.getFirstExists(false);
         if (!condomGroup) {
             condomGroup = new CondomGroup(this.game, this.condoms);
@@ -319,8 +318,7 @@ BasicGame.Game.prototype = {
         condomGroup.reset(this.game.width - 10, condomY);
     },
     generateVirusses: function () {
-        var quarterScreen = this.game.height / 4;
-        var virusY = this.game.rnd.integerInRange(-quarterScreen, (2 * quarterScreen) - 63);
+        var virusY = this.game.rnd.integerInRange(-(this.game.height*0.75), -(this.game.height*0.05));
         var virusGroup = this.virusses.getFirstExists(false);
         if (!virusGroup) {
             virusGroup = new VirusGroup(this.game, this.virusses);
@@ -329,7 +327,7 @@ BasicGame.Game.prototype = {
     },
     generateLedges: function () {
         var quarterScreen = this.game.height / 4;
-        var ledgeY = this.game.rnd.integerInRange(-quarterScreen, (2 * quarterScreen) - 63);
+        var ledgeY = this.game.rnd.integerInRange(-(this.game.height*0.50), -(this.game.height*0.10));
         var ledgeGroup = this.ledges.getFirstExists(false);
         if (!ledgeGroup) {
             ledgeGroup = new LedgeGroup(this.game, this.ledges);
