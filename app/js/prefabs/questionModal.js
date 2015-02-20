@@ -2,39 +2,46 @@ var QuestionModal = function(game, parent) {
 
     Phaser.Group.call(this, game, parent);
 
-
     // Add the modal
-    this.questionmodal = this.create(this.game.width / 2, -250, 'questionmodal');
+    //this.questionmodal = this.create(this.game.width/2, -this.game.height/2, 'questionmodal');
+    this.questionmodal = this.create(0, 0, 'questionmodal');
     this.questionmodal.anchor.setTo(0.5, 0.5);
+
+    this.questionmodalGroup = this.game.add.group();
+    this.questionmodalGroup.width = 0;
+    this.questionmodalGroup.height = 0;
+    this.questionmodalGroup.x = 0;
+    this.questionmodalGroup.x = (this.game.width-this.questionmodalGroup.width)/2;
+    this.questionmodalGroup.y = 0;
+    this.questionmodalGroup.y = (this.game.height-this.questionmodalGroup.height-200)/2;
 
     // Add the question
     this.questions = game.state.states.Game.questions.questions;
     this.question = this.questions[Math.floor(Math.random()*this.questions.length)];
     var style = { font: "25px Arial", fill: "#fff", align: "center" };
 
-    this.questionText = this.game.add.text(135, -385, this.question.statement, style);
+    this.questionText = this.game.add.text(-125, -150, this.question.statement, style);
     this.questionText.wordWrap = true;
     this.questionText.wordWrapWidth = 300;
     this.questionText.align = 'center';
-    this.add(this.questionText);
-
+    //this.add(this.questionText);
 
     // add our True button with a callback
-    this.answerButton1 = this.game.add.button(75, -230, 'buttonTrue', this.answerButtonClick1, this);
+    this.answerButton1 = this.game.add.button(-195, 0, 'buttonTrue', this.answerButtonClick1, this);
+    this.answerButton1.width = 175;
     this.answerButton1.inputEnabled = true;
-    this.add(this.answerButton1);
+    //this.add(this.answerButton1);
 
     // add our False button with a callback
-    this.answerButton2 = this.game.add.button(254, -230, 'buttonFalse', this.answerButtonClick2, this);
+    this.answerButton2 = this.game.add.button(15, 0, 'buttonFalse', this.answerButtonClick2, this);
+    this.answerButton2.width = 175;
     this.answerButton2.inputEnabled = true;
-    this.add(this.answerButton2);
+    //this.add(this.answerButton2);
 
-
-    this.y = this.game.height;
-    this.x = 0;
-
-
-
+    this.questionmodalGroup.add(this.questionmodal);
+    this.questionmodalGroup.add(this.questionText);
+    this.questionmodalGroup.add(this.answerButton1);
+    this.questionmodalGroup.add(this.answerButton2);
 };
 
 QuestionModal.prototype = Object.create(Phaser.Group.prototype);
