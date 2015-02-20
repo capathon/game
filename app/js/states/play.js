@@ -38,8 +38,8 @@ BasicGame.Game.prototype = {
         // add the background sprite
         this.background = this.game.add.sprite(0,0,'background');
 
-        // create and add a group to hold our pipeGroup prefabs
-        this.pipes = this.game.add.group();
+        // create and add a group to hold our condomGroup prefabs
+        this.condoms = this.game.add.group();
 
         // create and add a group to hold our virusGroup prefabs
         this.virusses = this.game.add.group();
@@ -80,14 +80,14 @@ BasicGame.Game.prototype = {
         this.instructionGroup.setAll('anchor.x', 0.5);
         this.instructionGroup.setAll('anchor.y', 0.5);
 
-        this.pipeGenerator = null;
+        this.condomGenerator = null;
 
         this.virusGenerator = null;
 
         this.gameover = false;
 
-        this.pipeHitSound = this.game.add.audio('pipeHit');
-        this.virusHitSound = this.game.add.audio('pipeHit');
+        this.condomHitSound = this.game.add.audio('condomHit');
+        this.virusHitSound = this.game.add.audio('condomHit');
         this.groundHitSound = this.game.add.audio('groundHit');
         this.scoreSound = this.game.add.audio('score');
 
@@ -100,9 +100,9 @@ BasicGame.Game.prototype = {
         this.player.x = this.game.width/2;
 
         if(!this.gameover) {
-            // enable collisions between the player and each group in the pipes group
-            this.pipes.forEach(function(pipeGroup) {
-                this.game.physics.arcade.collide(this.player, pipeGroup, this.pickUpObject, null, this);
+            // enable collisions between the player and each group in the condoms group
+            this.condoms.forEach(function(condomGroup) {
+                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpObject, null, this);
             }, this);
             
             // enable collisions between the player and each group in the virusses group
@@ -114,7 +114,7 @@ BasicGame.Game.prototype = {
     shutdown: function() {
         this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
         this.player.destroy();
-        this.pipes.destroy();
+        this.condoms.destroy();
         this.virusses.destroy();
         this.scoreboard.destroy();
     },
@@ -123,8 +123,8 @@ BasicGame.Game.prototype = {
             this.player.body.allowGravity = true;
             this.player.alive = true;
             // add a timer
-            this.pipeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generatePipes, this);
-            this.pipeGenerator.timer.start();
+            this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateCondoms, this);
+            this.condomGenerator.timer.start();
             this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateVirusses, this);
             this.virusGenerator.timer.start();
 
@@ -148,17 +148,17 @@ BasicGame.Game.prototype = {
             this.game.add.existing(this.scoreboard);
             this.scoreboard.show(this.score);
             this.player.onGround = true;
-        } else if (enemy instanceof Pipe){
-            this.pipeHitSound.play();
+        } else if (enemy instanceof Condom){
+            this.condomHitSound.play();
         }   else if (enemy instanceof Virus){
-            this.pipeHitSound.play();
+            this.condomHitSound.play();
         }
 
         if(!this.gameover) {
             this.gameover = true;
             this.player.kill();
-            this.pipes.callAll('stop');
-            this.pipeGenerator.timer.stop();           
+            this.condoms.callAll('stop');
+            this.condomGenerator.timer.stop();           
             this.virusses.callAll('stop');
             this.virusGenerator.timer.stop();
             this.ground.stopScroll();
@@ -176,13 +176,13 @@ BasicGame.Game.prototype = {
     touchedGround : function(player, ground) {
         this.player.numberOfJumps = 0;
     },
-    generatePipes: function() {
-        var pipeY = this.game.rnd.integerInRange(-250, -25);
-        var pipeGroup = this.pipes.getFirstExists(false);
-        if(!pipeGroup) {
-            pipeGroup = new PipeGroup(this.game, this.pipes);
+    generateCondoms: function() {
+        var condomY = this.game.rnd.integerInRange(-250, -25);
+        var condomGroup = this.condoms.getFirstExists(false);
+        if(!condomGroup) {
+            condomGroup = new CondomGroup(this.game, this.condoms);
         }
-        pipeGroup.reset(this.game.width, pipeY);
+        condomGroup.reset(this.game.width, condomY);
     },
     generateVirusses: function() {
         var virusY = this.game.rnd.integerInRange(-250, -25);
