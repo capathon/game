@@ -236,7 +236,6 @@ BasicGame.Game.prototype = {
         var nextLevel = this.level + 1,
             pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
         if (this.score >= pointsForNextLevel) {
-            debugger;
             this.level = nextLevel;
             this.updateToCurrentLevel();
             this.score = 0;
