@@ -54,7 +54,7 @@ BasicGame.Game = function (game) {
             ledgeVelocity: -150
         }, {
             level: 4,
-            pointsForNextLevel: 30,
+            pointsForNextLevel: 120,
             backgroundAutoScroll: -50,
             groundAutoScroll: -200,
             condomTimer: 1.25,
@@ -65,7 +65,7 @@ BasicGame.Game = function (game) {
             ledgeVelocity: -150
         }, {
             level: 5,
-            pointsForNextLevel: 30,
+            pointsForNextLevel: 150,
             backgroundAutoScroll: -60,
             groundAutoScroll: -200,
             condomTimer: 1.25,
@@ -93,7 +93,7 @@ BasicGame.Game.prototype = {
 
         this.processSpeed.background.speed--;
         this.processSpeed.ground.speed--;
-        
+
         this.background.stopScroll();
         this.background.autoScroll(this.processSpeed.background.speed, 0);
         this.ground.stopScroll();
