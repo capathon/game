@@ -150,16 +150,17 @@ BasicGame.Game.prototype = {
         // this.scoreSound.play();
     },
     downScore: function() {
-        this.score = this.score - 100;
+        if (this.score - 10 <= 0){
+            this.score = 0;
+        }else{
+            this.score = this.score - 10;
+        }   
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
     deathHandler: function(player, enemy) {
         if(enemy instanceof Ground && !this.player.onGround) {
             this.groundHitSound.play();
-            this.scoreboard = new Scoreboard(this.game);
-            this.game.add.existing(this.scoreboard);
-            this.scoreboard.show(this.score);
             this.player.onGround = true;
         } else if (enemy instanceof Condom){
             this.condomHitSound.play();
