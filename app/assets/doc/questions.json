@@ -1,0 +1,47 @@
+"questions": {
+  "1": {
+    "statement": "When I have oral sex without a condom, I will not get HIV/AIDS.", 
+    "answer": "false",
+    "motivations": {
+      "true": "False! Semen or pre-ejaculate fluids can carry HIV and transmit it through oral contact.",
+      "false": "Correct! Semen or pre-ejaculate fluids can carry HIV and transmit it through oral contact."
+    }
+  },
+    "2": {
+    "statement": "When I sit on a toilet seat that has been used by a person with HIV/AIDS, I will get HIV too.", 
+    "answer": "false",
+    "motivations": {
+      "true": "Incorrect! The HIV virus cannot survive on a toilet seat.",
+      "false": "Well done! The HIV virus cannot survive on a toilet seat."
+    }
+  },
+    "3": {
+    "statement": "When you are circumcised you can not get HIV.", 
+    "answer": "false",
+    "motivations": {
+      "true": "No, this is a myth. Anyone can get HIV/AIDS.",
+      "false": "Correct. People that are circumcised can also get HIV/AIDS."
+    }
+  },
+    "4": {
+    "statement": "When I have sex without a condom, I have a risk of getting HIV/AIDS.", 
+    "answer": "true",
+    "motivations": {
+      "true": "That's right! Using a condom prevents the exchange of genital fluids that might carry HIV.",
+      "false": "Wrong! Using a condom while having sex prevents the exchange of genital fluids that might carry the HIV virus."
+    }
+  },
+  "5": {
+    "statement": "The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk.", 
+    "answer": "true",
+    "motivations": {
+      "true": "That's right! The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk.",
+      "false": "Wrong! The HIV virus can occur in blood, sperm, pre-ejaculate, vaginal fluids and breast milk."
+    }
+  }
+}
+
+  
+  
+  
+  
