@@ -31,13 +31,21 @@ BasicGame.Game.prototype = {
         // start the phaser arcade physics engine
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
         // give our world an initial gravity of 1200
         this.game.physics.arcade.gravity.y = 1200;
 
+
+
         // add the background sprite, also as a tile
-        this.background = this.game.add.tileSprite(0,0,505,505,'background');
+        this.background = this.game.add.tileSprite(0,0,this.game.width,this.game.height,'background');
         this.background.autoScroll(-20,0);
+
+        // add the ground sprite as a tile
+        // and start scrolling in the negative x direction
+        var groundHeight = 63;
+        this.ground = new Ground(this.game, 0, this.game.height-groundHeight, this.game.width, groundHeight);
+        this.game.add.existing(this.ground);
+
 
         // create and add a group to hold our condomGroup prefabs
         this.condoms = this.game.add.group();
@@ -52,9 +60,6 @@ BasicGame.Game.prototype = {
 
 
 
-        // create and add a new Ground object
-        this.ground = new Ground(this.game, 0, 442, 505, 63);
-        this.game.add.existing(this.ground);
 
 
         // add keyboard controls
@@ -194,7 +199,9 @@ BasicGame.Game.prototype = {
         this.player.numberOfJumps = 0;
     },
     generateCondoms: function() {
-        var condomY = this.game.rnd.integerInRange(-300, -25);
+        var quarterScreen = this.game.height/4;
+        var condomY = this.game.rnd.integerInRange(-quarterScreen, quarterScreen*1.5);
+        console.log(condomY);
         var condomGroup = this.condoms.getFirstExists(false);
         if(!condomGroup) {
             condomGroup = new CondomGroup(this.game, this.condoms);
@@ -202,7 +209,8 @@ BasicGame.Game.prototype = {
         condomGroup.reset(this.game.width -10, condomY);
     },
     generateVirusses: function() {
-        var virusY = this.game.rnd.integerInRange(-300, -25);
+        var quarterScreen = this.game.height/4;
+        var virusY = this.game.rnd.integerInRange(-quarterScreen, (2*quarterScreen)-63);
         var virusGroup = this.virusses.getFirstExists(false);
         if(!virusGroup) {
             virusGroup = new VirusGroup(this.game, this.virusses);
