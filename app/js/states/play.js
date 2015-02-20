@@ -94,6 +94,11 @@ BasicGame.Game.prototype = {
         this.groundHitSound = this.game.add.audio('groundHit');
         this.scoreSound = this.game.add.audio('score');
 
+        this.resGame = this.resumeGame;
+
+
+        this.questions = JSON.parse(game.cache.getText('someData'));
+
     },
 
     update: function () {
@@ -119,7 +124,7 @@ BasicGame.Game.prototype = {
         this.player.destroy();
         this.condoms.destroy();
         this.virusses.destroy();
-        this.scoreboard.destroy();
+        // this.questionmodal.destroy();
     },
     startGame: function() {
         if(!this.player.alive && !this.gameover) {
@@ -175,8 +180,13 @@ BasicGame.Game.prototype = {
     pickUpVirus : function(player, enemy) {
         this.downScore();
         enemy.kill();
-        this.game.paused = true;
+        
+        this.pauseGame();
+
         this.questionModal = new QuestionModal(this.game);
+        this.game.add.existing(this.questionModal);
+
+        // debugger;
     },
     touchedGround : function(player, ground) {
         this.player.numberOfJumps = 0;
@@ -196,6 +206,33 @@ BasicGame.Game.prototype = {
             virusGroup = new VirusGroup(this.game, this.virusses);
         }
         virusGroup.reset(this.game.width, virusY);
-    }
+    },
+    pauseGame: function () {
+        this.condoms.destroy();
+        this.virusses.destroy();
 
+        this.condoms.callAll('stop');
+        this.condomGenerator.timer.stop();  
+
+        this.virusses.callAll('stop');
+        this.virusGenerator.timer.stop();
+        
+        this.ground.stopScroll();
+
+        this.player.animations.stop();
+    },
+    resumeGame: function () {
+        this.condoms = this.game.add.group();
+        this.virusses = this.game.add.group();
+
+        this.ground.autoScroll(-200,0);
+
+        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateCondoms, this);
+        this.condomGenerator.timer.start();
+        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateVirusses, this);
+        this.virusGenerator.timer.start();
+
+        this.player.animations.play('jump', 12, true);
+    }
 };
+
