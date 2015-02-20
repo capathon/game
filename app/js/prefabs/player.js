@@ -43,7 +43,7 @@ Player.prototype.jump = function() {
         if (this.numberOfJumps < 2) {
             this.jumpSound.play();
             //cause our player to "jump" upward
-            this.body.velocity.y = -650;
+            this.body.velocity.y = -(this.game.height * 1.1);
             // rotate the player to -40 degrees
             this.game.add.tween(this).to({angle: -40}, 100).start();
         }
