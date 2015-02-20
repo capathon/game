@@ -57,6 +57,7 @@ BasicGame.Game.prototype = {
         // create and add a group to hold our virusGroup prefabs
         this.virusses = this.game.add.group();
 
+
         // create and add a new Player object
         this.player = new Player(this.game, this.game.width/2, this.game.height/2);
         this.game.add.existing(this.player);
@@ -79,10 +80,11 @@ BasicGame.Game.prototype = {
         // keep the spacebar from propogating up to the browser
         this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-
-
+        this.truthometer = new Truthometer(this.game, 20, 20);
         this.score = 0;
-        this.scoreText = this.game.add.bitmapText(this.game.width/2, 10, 'jumppyfont',this.score.toString(), 24);
+        this.truthometer.updateHealthbar(this.score);
+        this.game.add.existing(this.truthometer);
+
 
         this.instructionGroup = this.game.add.group();
         this.instructionGroup.add(this.game.add.sprite(this.game.width/2, 100,'getReady'));
@@ -100,6 +102,11 @@ BasicGame.Game.prototype = {
         this.virusHitSound = this.game.add.audio('condomHit');
         this.groundHitSound = this.game.add.audio('groundHit');
         this.scoreSound = this.game.add.audio('score');
+
+        this.resGame = this.resumeGame;
+
+
+        this.questions = JSON.parse(game.cache.getText('someData'));
 
     },
 
@@ -126,7 +133,7 @@ BasicGame.Game.prototype = {
         this.player.destroy();
         this.condoms.destroy();
         this.virusses.destroy();
-        this.scoreboard.destroy();
+        // this.questionmodal.destroy();
     },
     startGame: function() {
         if(!this.player.alive && !this.gameover) {
@@ -142,13 +149,13 @@ BasicGame.Game.prototype = {
         }
     },
     checkScore: function() {
-        this.score++;
-        this.scoreText.setText(this.score.toString());
+        this.score = this.score + 5;
+        this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
     downScore: function() {
-        this.score = this.score - 5;
-        this.scoreText.setText(this.score.toString());
+        this.score = this.score - 100;
+        this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
     deathHandler: function(player, enemy) {
@@ -182,14 +189,17 @@ BasicGame.Game.prototype = {
     pickUpVirus : function(player, enemy) {
         this.downScore();
         enemy.kill();
-        this.game.paused = true;
+        
+        this.pauseGame();
+
         this.questionModal = new QuestionModal(this.game);
+        this.game.add.existing(this.questionModal);
     },
     touchedGround : function(player, ground) {
         this.player.numberOfJumps = 0;
     },
     generateCondoms: function() {
-        var condomY = this.game.rnd.integerInRange(-250, -25);
+        var condomY = this.game.rnd.integerInRange(-300, -25);
         var condomGroup = this.condoms.getFirstExists(false);
         if(!condomGroup) {
             condomGroup = new CondomGroup(this.game, this.condoms);
@@ -197,12 +207,39 @@ BasicGame.Game.prototype = {
         condomGroup.reset(this.game.width -10, condomY);
     },
     generateVirusses: function() {
-        var virusY = this.game.rnd.integerInRange(-250, -25);
+        var virusY = this.game.rnd.integerInRange(-300, -25);
         var virusGroup = this.virusses.getFirstExists(false);
         if(!virusGroup) {
             virusGroup = new VirusGroup(this.game, this.virusses);
         }
         virusGroup.reset(this.game.width, virusY);
-    }
+    },
+    pauseGame: function () {
+        this.condoms.destroy();
+        this.virusses.destroy();
 
+        this.condoms.callAll('stop');
+        this.condomGenerator.timer.stop();  
+
+        this.virusses.callAll('stop');
+        this.virusGenerator.timer.stop();
+        
+        this.ground.stopScroll();
+
+        this.player.animations.stop();
+    },
+    resumeGame: function () {
+        this.condoms = this.game.add.group();
+        this.virusses = this.game.add.group();
+
+        this.ground.autoScroll(-200,0);
+
+        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.25, this.generateCondoms, this);
+        this.condomGenerator.timer.start();
+        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.50, this.generateVirusses, this);
+        this.virusGenerator.timer.start();
+
+        this.player.animations.play('jump', 12, true);
+    }
 };
+

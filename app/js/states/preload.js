@@ -25,7 +25,11 @@ BasicGame.Preloader.prototype = {
         this.load.spritesheet('player', 'app/assets/img/ride_anim.png', 76,60,3);
         this.load.spritesheet('condom', 'app/assets/img/condom.png', 50,63,1);
         this.load.spritesheet('virus', 'app/assets/img/virus.png', 43,43,1);
+        this.load.spritesheet('truthometer', 'app/assets/img/truth-o-meter.png', 40,132,1);
         this.load.image('startButton', 'app/assets/img/start-button.png');
+        this.load.image('buttonTrue', 'app/assets/img/buttonTrue.png');
+        this.load.image('buttonFalse', 'app/assets/img/buttonFalse.png');
+        this.load.image('buttonOk', 'app/assets/img/buttonOk.png');
 
         this.load.image('instructions', 'app/assets/img/instructions.png');
         this.load.image('getReady', 'app/assets/img/get-ready.png');
@@ -43,6 +47,8 @@ BasicGame.Preloader.prototype = {
         this.load.audio('ouch', 'app/assets/sounds/ouch.wav');
 
         this.load.bitmapFont('jumppyfont', 'app/assets/fonts/jumppyfont/jumppyfont.png', 'app/assets/fonts/jumppyfont/jumppyfont.fnt');
+
+        this.load.text('someData', 'app/assets/doc/questions.json');
     },
 
     create: function () {
