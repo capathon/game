@@ -76,14 +76,11 @@ QuestionModal.prototype.okButtonClick = function() {
 QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     score = game.state.states.Game.score;
     if(correctAnswer){
-        if(score + 30 >= 90){
-            score = 90;
-        }else{
-            score = score + 30;
-        }
+        score = score + 30;
+
         game.state.states.Game.score = score;
         game.state.states.Game.truthometer.updateHealthbar(score);
-    }else{
+    } else{
         game.state.states.Game.score = 0;
         game.state.states.Game.truthometer.updateHealthbar(0);
     }
@@ -103,4 +100,5 @@ QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
 
     this.questionmodalGroup.add(this.okButton);
     this.questionmodalGroup.add(this.answerText);
+
 };

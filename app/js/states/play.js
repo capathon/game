@@ -178,6 +178,7 @@ BasicGame.Game.prototype = {
         this.scoreSound = this.game.add.audio('score');
 
         this.resGame = this.resumeGame;
+        this.evalLevel = this.evaluateLevel;
 
         this.questions = JSON.parse(game.cache.getText('someData'));
 
@@ -233,22 +234,12 @@ BasicGame.Game.prototype = {
         }
     },
     checkScore: function () {
-        if (this.score + 5 >= 90) {
-            this.score = 90;
-        } else {
-            this.score = this.score + 5;
-        }
+        this.score = this.score + 5;
 
-
-        var nextLevel = this.level + 1,
-            pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
-        if (this.score >= pointsForNextLevel) {
-            this.level = nextLevel;
-            this.updateToCurrentLevel();
-            this.score = 0;
-        }
+        this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
+        this.evaluateLevel();
         // this.scoreSound.play();
     },
     downScore: function () {
@@ -257,6 +248,9 @@ BasicGame.Game.prototype = {
         } else {
             this.score = this.score - 10;
         }
+
+        this.evaluateLevel();
+
         this.truthometer.updateHealthbar(this.score);
         // this.scoreSound.play();
     },
@@ -368,6 +362,17 @@ BasicGame.Game.prototype = {
         this.ledgeGenerator.timer.start();
 
         this.player.animations.play('jump', 12, true);
+    },
+    evaluateLevel: function () {
+        var nextLevel = this.level + 1,
+            pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
+        if (this.score >= pointsForNextLevel) {
+            this.level = nextLevel;
+            this.updateToCurrentLevel();
+            this.score = 0;
+            console.log("Set to level: " + this.level);
+            this.game.state.states.Game.truthometer.updateHealthbar(this.score);
+        }
     },
     updateToCurrentLevel: function () {
         this.condomGenerator.timer.stop();
