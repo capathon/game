@@ -29,7 +29,9 @@ BasicGame.Game = function (game) {
             virusVelocity: -200,
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
-            pointsForNextLevel: 10
+            pointsForNextLevel: 10,
+            backgroundColor: '#ffffff',
+            backgroundAlpha: 1
         }, {
             level: 2,
             backgroundAutoScroll: -220,
@@ -197,7 +199,7 @@ BasicGame.Game.prototype = {
         this.speedbooster = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.speedUp, this);
         this.speedbooster.timer.start();
 
-        this.globalUpdateToCurrentLevel = this.updateToCurrentLevel;
+        this.globalUpdateToCurrentLevel = this.resumeGame;
     },
 
     update: function () {
@@ -304,7 +306,7 @@ BasicGame.Game.prototype = {
         this.checkScore();
     },
     pickUpVirus: function (player, enemy) {
-        //this.downScore();
+        this.downScore();
         enemy.kill();
 
         //this.pauseGame();
@@ -357,6 +359,8 @@ BasicGame.Game.prototype = {
         this.virusses.destroy();
         this.ledges.destroy();
 
+        console.log("PAUSED GAME");
+
         this.condoms.callAll('stop');
         this.condomGenerator.timer.stop();
 
@@ -370,23 +374,6 @@ BasicGame.Game.prototype = {
         this.background.stopScroll();
 
         this.player.animations.stop();
-    },
-    resumeGame: function () {
-        this.condoms = this.game.add.group();
-        this.virusses = this.game.add.group();
-        this.ledges = this.game.add.group();
-
-        this.ground.autoScroll(this.levels[this.level].groundAutoScroll, 0);
-        this.background.autoScroll(this.processSpeed.background.speed, 0);
-
-        this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].condomTimer, this.generateCondoms, this);
-        this.condomGenerator.timer.start();
-        this.virusGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].virusTimer, this.generateVirusses, this);
-        this.virusGenerator.timer.start();
-        this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
-        this.ledgeGenerator.timer.start();
-
-        this.player.animations.play('jump', 12, true);
     },
     evaluateLevel: function () {
         var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
@@ -437,7 +424,7 @@ BasicGame.Game.prototype = {
 
         // TODO fixme, if end of game, do not go to next level
         this.level ++;
-        this.updateToCurrentLevel();
+        this.resumeGame();
         this.score = 0;
         console.log("Set to level: " + this.level);
         this.game.state.states.Game.truthometer.updateHealthbar(this.score);
@@ -518,13 +505,10 @@ BasicGame.Game.prototype = {
         // Assign the event handler function to execute when the device is moving
         window.addEventListener('devicemotion', handleDeviceMotionEvent, false);
     },
-    updateToCurrentLevel: function () {
-        // this.condomGenerator.timer.stop();
-        // this.condomGenerator = null;
-        // this.virusGenerator.timer.stop();
-        // this.virusGenerator = null;
-        // this.ledgeGenerator.timer.stop();
-        // this.ledgeGenerator = null;
+    resumeGame: function () {
+        this.condoms = this.game.add.group();
+        this.virusses = this.game.add.group();
+        this.ledges = this.game.add.group();
 
         this.background.stopScroll();
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
@@ -543,8 +527,7 @@ BasicGame.Game.prototype = {
         this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
         this.ledgeGenerator.timer.start();
 
-
-
+        this.player.animations.play('jump', 12, true);
     },
 
     render: function() {
