@@ -1,4 +1,4 @@
-var EndModal = function(game, parent) {
+var EndModal = function(game, totalscore, parent) {
   Phaser.Group.call(this, game, parent);
 // Add the modal
 //  this.endmodal = this.create(this.game.width / 2, -400, 'endmodal');
@@ -13,7 +13,7 @@ var EndModal = function(game, parent) {
   this.endModalGroup.x = 0;
   this.endModalGroup.x = (this.game.width-this.endModalGroup.width)/2;
   this.endModalGroup.y = 0;
-  this.endModalGroup.y = (this.game.height-this.endModalGroup.height-200)/2;
+  this.endModalGroup.y = (this.game.height-200)/2;
 
   var text = "Congratulations!";
   var congratulationTextStyle = { font: "32px Arial", fill: "#ffb62a", align: "center" };
@@ -23,7 +23,7 @@ var EndModal = function(game, parent) {
   this.congratulationText.wordWrapWidth = 300;
   this.congratulationText.align = 'center';
 
-  var totaltext = "Your score: 999";
+  var totaltext = "Your score: "+totalscore;
   var totaltextStyle = { font: "24px Arial", fill: "#000", align: "center" };
 
   this.totalScoreText = this.game.add.text(-120, -80, totaltext, totaltextStyle);
