@@ -344,6 +344,9 @@ BasicGame.Game.prototype = {
         this.condomsInRow++;
         if (this.condomsInRow % 2 === 0) {
             this.multiplier++;
+            if (this.multiplier > 8) {
+                this.multiplier = 8;
+            }
         }
 
         enemy.kill();
@@ -367,7 +370,7 @@ BasicGame.Game.prototype = {
         this.score += 30;
         this.finalScore += 30;
 
-        this.scoreboard.updateTotalScore(game.state.states.Game.finalScore);
+        this.scoreboard.updateTotalScore(this.finalScore);
         //game.state.states.Game.score = score;
         game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
     },
