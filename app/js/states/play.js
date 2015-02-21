@@ -440,5 +440,12 @@ BasicGame.Game.prototype = {
 
 
 
+    },
+
+    render: function() {
+        if (document.location.hostname == "localhost") {
+            this.game.time.advancedTiming = true;
+            this.game.debug.text(this.game.time.fps || '--', 2, 14, "#ffffff");
+        }
     }
 };
