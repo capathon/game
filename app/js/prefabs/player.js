@@ -60,6 +60,7 @@ Player.prototype.startJump = function() {
         //this.body.velocity.y = -(this.game.height * 1.1);
         this.body.velocity.y = -(500);
         this.body.allowGravity = false;
+        this.game.add.tween(this).to({angle: -40}, 100).start();
         //console.log("startjump");
         var player = this;
         setTimeout(function(){
@@ -67,13 +68,14 @@ Player.prototype.startJump = function() {
             if (player.state === "jumping") {
                 player.stopJump();
             }
-        },1000);
+        },500);
     }
 }
 
 Player.prototype.stopJump = function() {
     this.body.allowGravity = true;
     //console.log("stopjump");
+    this.game.add.tween(this).to({angle: 0}, 100).start();
     this.state = "falling";
 
 

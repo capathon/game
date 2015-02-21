@@ -26,12 +26,12 @@ BasicGame.Game = function (game) {
             condomTimer: 1.25,
             condomVelocity: -200,
             virusTimer: 1.50,
-            virusVelocity: -250,
+            virusVelocity: -200,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 10
         }, {
             level: 2,
-            pointsForNextLevel: 45,
             backgroundAutoScroll: -220,
             groundAutoScroll: -400,
             condomTimer: 1.25,
@@ -39,40 +39,41 @@ BasicGame.Game = function (game) {
             virusTimer: 1.50,
             virusVelocity: -250,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 20
         }, {
             level: 3,
-            pointsForNextLevel: 90,
             backgroundAutoScroll: -420,
             groundAutoScroll: -600,
             condomTimer: 1.25,
-            condomVelocity: -200,
+            condomVelocity: -600,
             virusVelocity: -250,
             virusTimer: 1.50,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 40
         }, {
             level: 4,
-            pointsForNextLevel: 120,
             backgroundAutoScroll: -720,
             groundAutoScroll: -900,
             condomTimer: 1.25,
             condomVelocity: -200,
-            virusTimer: 1.50,
-            virusVelocity: -250,
+            virusTimer: 3.50,
+            virusVelocity: -100,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 60
         }, {
             level: 5,
-            pointsForNextLevel: 150,
             backgroundAutoScroll: -920,
             groundAutoScroll: -1100,
             condomTimer: 1.25,
             condomVelocity: -200,
             virusTimer: 1.50,
-            virusVelocity: -250,
+            virusVelocity: -400,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 60
         }
     ];
     this.processSpeed = {}; // boost the autoScroll;
@@ -367,8 +368,8 @@ BasicGame.Game.prototype = {
         this.player.animations.play('jump', 12, true);
     },
     evaluateLevel: function () {
-        var nextLevel = this.level + 1,
-            pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
+        var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
+        var nextLevel = this.level + 1;
         if (this.score >= pointsForNextLevel) {
             this.level = nextLevel;
             this.updateToCurrentLevel();

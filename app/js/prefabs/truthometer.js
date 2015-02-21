@@ -20,7 +20,7 @@ Truthometer.prototype.updateHealthbar = function(score) {
         this.health = game.add.graphics(this.game.width*0.10, this.game.height*0.45);
     }
 
-    var pointsToNextLevel = this.game.state.states.Game.levels[this.game.state.states.Game.level + 1].pointsForNextLevel,
+    var pointsToNextLevel = this.game.state.states.Game.levels[this.game.state.states.Game.level].pointsForNextLevel,
         percentage = Math.abs((score / pointsToNextLevel)) * this.maxHeight;
 
     this.health.beginFill(0xff0000, 1);
