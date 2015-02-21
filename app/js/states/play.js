@@ -345,6 +345,7 @@ BasicGame.Game.prototype = {
         this.ledgeGenerator.timer.stop();
 
         this.ground.stopScroll();
+        this.background.stopScroll();
 
         this.player.animations.stop();
     },
@@ -354,6 +355,7 @@ BasicGame.Game.prototype = {
         this.ledges = this.game.add.group();
 
         this.ground.autoScroll(this.levels[this.level].groundAutoScroll, 0);
+        this.background.autoScroll(this.processSpeed.background.speed, 0);
 
         this.condomGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].condomTimer, this.generateCondoms, this);
         this.condomGenerator.timer.start();
