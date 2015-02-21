@@ -41,7 +41,7 @@ BasicGame.Game = function (game) {
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
             pointsForNextLevel: 20,
-            backgroundColor: '#ffff66',
+            backgroundColor: '#ffff00',
             backgroundAlpha: 0.5
         }, {
             level: 3,
@@ -54,7 +54,7 @@ BasicGame.Game = function (game) {
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
             pointsForNextLevel: 40,
-            backgroundColor: '#ffcc00',
+            backgroundColor: '#cccc00',
             backgroundAlpha: 0.5
         }, {
             level: 4,
@@ -80,7 +80,7 @@ BasicGame.Game = function (game) {
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
             pointsForNextLevel: 60,
-            backgroundColor: '#ff0000',
+            backgroundColor: '#cc0000',
             backgroundAlpha: 0.5
         }
     ];
