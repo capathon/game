@@ -441,7 +441,7 @@ BasicGame.Game.prototype = {
         this.danceDoneText.setText("You can go to the next level!");
 
 
-        this.danceometer = new DanceOMeter(this.game, 0, 0);
+        this.danceometer = new DanceOMeter(this.game, -200, -200);
         this.danceometer.updateDanceLevelBar(0);
         this.game.add.existing(this.danceometer);
 
