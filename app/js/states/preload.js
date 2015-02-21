@@ -19,6 +19,7 @@ BasicGame.Preloader.prototype = {
         this.load.image('background', 'app/assets/img/background.png');
         this.load.image('ground', 'app/assets/img/ground.png');
         this.load.image('logo', 'app/assets/img/logo.png');
+        this.load.image('logo_large', 'app/assets/img/logo_large.png');
 		this.load.image('title', 'app/assets/img/title.png');
 		this.load.image('explanation', 'app/assets/img/CatchAndAvoid.png');
         this.load.image('ledge', 'app/assets/img/platform.png');
