@@ -40,7 +40,9 @@ BasicGame.Game = function (game) {
             virusVelocity: -250,
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
-            pointsForNextLevel: 20
+            pointsForNextLevel: 20,
+            backgroundColor: '#ffff66',
+            backgroundAlpha: 0.5
         }, {
             level: 3,
             backgroundAutoScroll: -420,
@@ -51,7 +53,9 @@ BasicGame.Game = function (game) {
             virusTimer: 1.50,
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
-            pointsForNextLevel: 40
+            pointsForNextLevel: 40,
+            backgroundColor: '#ffcc00',
+            backgroundAlpha: 0.5
         }, {
             level: 4,
             backgroundAutoScroll: -720,
@@ -62,7 +66,9 @@ BasicGame.Game = function (game) {
             virusVelocity: -100,
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
-            pointsForNextLevel: 60
+            pointsForNextLevel: 60,
+            backgroundColor: '#ff00ff',
+            backgroundAlpha: 0.5
         }, {
             level: 5,
             backgroundAutoScroll: -920,
@@ -73,7 +79,9 @@ BasicGame.Game = function (game) {
             virusVelocity: -400,
             ledgeTimer: 5.00,
             ledgeVelocity: -150,
-            pointsForNextLevel: 60
+            pointsForNextLevel: 60,
+            backgroundColor: '#ff0000',
+            backgroundAlpha: 0.5
         }
     ];
     this.processSpeed = {}; // boost the autoScroll;
@@ -415,6 +423,8 @@ BasicGame.Game.prototype = {
 
         this.background.stopScroll();
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
+        game.stage.backgroundColor = this.levels[this.level].backgroundColor;
+        this.background.alpha = this.levels[this.level].backgroundAlpha;
 
         this.ground.stopScroll();
         this.ground.autoScroll(this.levels[this.level].groundAutoScroll, 0);
@@ -427,6 +437,7 @@ BasicGame.Game.prototype = {
 
         this.ledgeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * this.levels[this.level].ledgeTimer, this.generateLedges, this);
         this.ledgeGenerator.timer.start();
+
 
 
     }
