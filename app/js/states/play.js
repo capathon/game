@@ -50,7 +50,7 @@ BasicGame.Game = function (game) {
             backgroundAutoScroll: -420,
             groundAutoScroll: -600,
             condomTimer: 1.25,
-            condomVelocity: -600,
+            condomVelocity: -300,
             virusVelocity: -250,
             virusTimer: 1.50,
             ledgeTimer: 5.00,
@@ -63,7 +63,7 @@ BasicGame.Game = function (game) {
             backgroundAutoScroll: -720,
             groundAutoScroll: -900,
             condomTimer: 1.25,
-            condomVelocity: -200,
+            condomVelocity: -400,
             virusTimer: 3.50,
             virusVelocity: -100,
             ledgeTimer: 5.00,
@@ -76,7 +76,7 @@ BasicGame.Game = function (game) {
             backgroundAutoScroll: -920,
             groundAutoScroll: -1100,
             condomTimer: 1.25,
-            condomVelocity: -200,
+            condomVelocity: -500,
             virusTimer: 1.50,
             virusVelocity: -400,
             ledgeTimer: 5.00,
@@ -207,16 +207,6 @@ BasicGame.Game.prototype = {
         this.globalUpdateToCurrentLevel = this.resumeGame;
 
         this.scoreboard = new Scoreboard(this.game);
-        //this.scoreboard.show(100);
-        //this.scoreboard = this.game.add.group();
-        //this.scoreboard.z = 1000;
-        //
-        //var text = "- phaser -\n with a sprinkle of \n pixi dust.";
-        //var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-        //
-        //var t = this.game.add.text(game.world.centerX-300, 0, text, style);
-        //
-        //this.scoreboard.add(t);
     },
 
     update: function () {
@@ -469,12 +459,20 @@ BasicGame.Game.prototype = {
                 this.questionModal = new QuestionModal(function(){
                     console.log("answered correctly, starting to dance");
                     // on correct answer: count the correct answers, when enough go to next level
+
+                    that.scoreSound.play();
                     that.danceOMeterStart(function(){
                         console.log("going to next level");
                         that.gotoNextLevel();
                     });
                 }, function() {
                     // do nothing on a wrong answer
+
+                    that.wrongSound.play();
+                    game.state.states.Game.score = Math.abs(game.state.states.Game.score / 2);
+                    game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+
+                    that.resumeGame();
                 }, this.game);
                 this.game.add.existing(this.questionModal);
             }
@@ -504,7 +502,7 @@ BasicGame.Game.prototype = {
         );      
         this.danceText.anchor.setTo(0.5, 0.5);
 
-        this.danceText.setText("Now Dance for Live!/n shake or mouse!");
+        this.danceText.setText("Now Dance for Life! Shake or mouse!");
 
         this.danceDoneText = this.add.text(
             this.world.centerX,
@@ -548,8 +546,7 @@ BasicGame.Game.prototype = {
                     maxAcc = Math.max(acc.x, acc.y, acc.z);
                     var accGravity = e.accelerationIncludingGravity,
                         maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
-
-                    isdancing = maxAccGravity > 10 || maxAccGravity < 9;
+                    isdancing = maxAccGravity > 10 || maxAccGravity < 7;
                 }
 
          
