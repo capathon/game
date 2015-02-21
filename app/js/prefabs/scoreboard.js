@@ -14,7 +14,7 @@ var Scoreboard = function (game, parent) {
     this.virusScoreGroup = this.game.add.group();
 
     // Define the scoreboard text styling
-    var style = {font: "18px Arial", fill: "#fff", align: "right"};
+    var style = {font: "18px Arial", fill: "#fff", align: "left"};
 
     // Total score
     this.totalScoreText = this.game.add.text(this.game.width - 100, 10, this.totalScore.toString(), style);
