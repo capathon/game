@@ -170,6 +170,9 @@ BasicGame.Game.prototype = {
         this.truthometer = new Truthometer(this.game, this.game.width*0.05, this.game.height*0.05);
         this.truthometer.z = 1000;
         this.score = 0;
+        this.finalScore = 0;
+        this.multiplier = 1;
+        this.condomsInRow = 0;
         this.truthometer.updateHealthbar(this.score);
         this.game.add.existing(this.truthometer);
 
@@ -225,7 +228,7 @@ BasicGame.Game.prototype = {
         if (!this.gameover) {
             // enable collisions between the player and each group in the condoms group
             this.condoms.forEach(function (condomGroup) {
-                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpObject, null, this);
+                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpCondom, null, this);
             }, this);
 
             // enable collisions between the player and each group in the virusses group
@@ -265,8 +268,9 @@ BasicGame.Game.prototype = {
     },
     checkScore: function () {
         this.score = this.score + 5;
+        this.finalScore = this.finalScore + (5 * this.multiplier);
 
-        this.scoreboard.updateTotalScore(this.score);
+        this.scoreboard.updateTotalScore(this.finalScore);
 
         this.truthometer.updateHealthbar(this.score);
 
@@ -304,6 +308,12 @@ BasicGame.Game.prototype = {
             this.score = this.score - 10;
         }
 
+        if (this.finalScore - 10 <= 0) {
+            this.finalScore = 0;
+        } else {
+            this.finalScore -= 10;
+        }
+
         this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
@@ -339,8 +349,13 @@ BasicGame.Game.prototype = {
         }
 
     },
-    pickUpObject: function (player, enemy) {
+    pickUpCondom: function (player, enemy) {
         this.scoreboard.updateCondomScore(1);
+        this.condomsInRow++;
+        if (this.condomsInRow % 2 === 0) {
+            this.multiplier++;
+        }
+
         enemy.kill();
         this.scoreSound.play();
         this.checkScore();
@@ -350,6 +365,8 @@ BasicGame.Game.prototype = {
         this.downScore();
         enemy.kill();
         this.wrongSound.play();
+        this.condomsInRow = 0;
+        this.multiplier = 1;
 
         //this.pauseGame();
         //this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
@@ -357,15 +374,18 @@ BasicGame.Game.prototype = {
     },
     doPositive : function() {
 
-        game.state.states.Game.score+= 30;
+        this.score += 30;
+        this.finalScore += 30;
 
-        this.scoreboard.updateTotalScore(game.state.states.Game.score);
+        this.scoreboard.updateTotalScore(game.state.states.Game.finalScore);
         //game.state.states.Game.score = score;
         game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
     },
     doNegative : function() {
-        game.state.states.Game.score = 0;
-        game.state.states.Game.truthometer.updateHealthbar(0);
+        game.state.states.Game.score = Math.abs(game.state.states.Game.score / 2);
+        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+
+        this.game.state.states.Game.resGame();
     },
     touchedGround: function (player, ground) {
         this.player.numberOfJumps = 0;
@@ -402,8 +422,6 @@ BasicGame.Game.prototype = {
         this.virusses.destroy();
         this.ledges.destroy();
 
-        console.log("PAUSED GAME");
-
         this.condoms.callAll('stop');
         this.condomGenerator.timer.stop();
 
@@ -422,7 +440,6 @@ BasicGame.Game.prototype = {
         var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
         var nextLevel = this.level + 1;
         //debugger;
-        console.log(this.score);
         if (this.score >= pointsForNextLevel) {
 
             if (this.levels[nextLevel] === undefined) {
@@ -450,10 +467,12 @@ BasicGame.Game.prototype = {
                 this.pauseGame();
                 var that = this;
                 this.questionModal = new QuestionModal(function(){
+                    console.log("answered correctly, starting to dance");
                     // on correct answer: count the correct answers, when enough go to next level
-                    console.log("going to next level");
-                    //this.danceOMeterStart();
-                    that.gotoNextLevel();
+                    that.danceOMeterStart(function(){
+                        console.log("going to next level");
+                        that.gotoNextLevel();
+                    });
                 }, function() {
                     // do nothing on a wrong answer
                 }, this.game);
@@ -464,17 +483,15 @@ BasicGame.Game.prototype = {
         }
     },
     gotoNextLevel: function() {
-
-        // TODO fixme, if end of game, do not go to next level
         this.level ++;
         this.resumeGame();
         this.score = 0;
-        console.log("Set to level: " + this.level);
         this.game.state.states.Game.truthometer.updateHealthbar(this.score);
 
     },
-    danceOMeterStart: function() {
-        this.pauseGame();
+    danceOMeterStart: function(doneCallback) {
+        //this.pauseGame();
+        console.log("doncemotorstart")
         this.danceText = this.add.text(
             this.world.centerX,
             this.world.centerY,
@@ -487,7 +504,7 @@ BasicGame.Game.prototype = {
         );      
         this.danceText.anchor.setTo(0.5, 0.5);
 
-        this.danceText.setText("Now Dance for Live!");
+        this.danceText.setText("Now Dance for Live!/n shake or mouse!");
 
         this.danceDoneText = this.add.text(
             this.world.centerX,
@@ -518,15 +535,27 @@ BasicGame.Game.prototype = {
             danceOMeterLevel = 0,
             // Define an event handler function for processing the device’s acceleration values
             handleDeviceMotionEvent = function(e) {
-                                
-                // Get the current acceleration values in 3 axes and find the greatest of these
-                var acc = e.acceleration,
-                    maxAcc = Math.max(acc.x, acc.y, acc.z),
+
+                //debugger;
+                var acc, maxAcc, isdancing =false;
+
+                if (e.type === "mousemove") {
+                    maxAcc = Math.max(e.screenX, e.screenY);
+                    isdancing = true;
+                } else {
+                    // Get the current acceleration values in 3 axes and find the greatest of these
+                    acc = e.acceleration;
+                    maxAcc = Math.max(acc.x, acc.y, acc.z);
+                    var accGravity = e.accelerationIncludingGravity,
+                        maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
+
+                    isdancing = maxAccGravity > 10 || maxAccGravity < 9;
+                }
+
          
                     // Get the acceleration values including gravity and find the greatest of these
-                    accGravity = e.accelerationIncludingGravity,
-                    maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
-                    if(maxAccGravity > 10 || maxAccGravity < 9){
+
+                    if(isdancing){
                         danceOMeterLevel++;
                         if (danceOMeterLevel <= game.height){
                            game.state.states.Game.danceometer.globalUpdateDanceLevelBar(danceOMeterLevel);
@@ -536,17 +565,26 @@ BasicGame.Game.prototype = {
                         game.state.states.Game.danceDoneText.alpha = 1;
 
 
+                        window.removeEventListener('devicemotion', handleDeviceMotionEvent);
+                        window.removeEventListener('mousemove', handleDeviceMotionEvent);
                         setTimeout(function(){
-                            window.removeEventListener('devicemotion');
                             game.state.states.Game.danceDoneText.destroy();
                             game.state.states.Game.danceometer.globalRemoveDanceLevelBar();
-                            game.state.states.Game.globalUpdateToCurrentLevel();
+                            //game.state.states.Game.globalUpdateToCurrentLevel();
+
+                            // done
+                            doneCallback();
                         }, 500);
+
+
                     }
             };
          
         // Assign the event handler function to execute when the device is moving
         window.addEventListener('devicemotion', handleDeviceMotionEvent, false);
+
+        //assign to mousemove for desktop
+        window.addEventListener('mousemove', handleDeviceMotionEvent, false);
     },
     resumeGame: function () {
         this.condoms = this.game.add.group();
@@ -554,6 +592,7 @@ BasicGame.Game.prototype = {
         this.ledges = this.game.add.group();
 
         this.background.stopScroll();
+        //errors backgroundAutoScroll, condomVelocity of undefined
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
         game.stage.backgroundColor = this.levels[this.level].backgroundColor;
         this.background.alpha = this.levels[this.level].backgroundAlpha;

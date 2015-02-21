@@ -19,7 +19,6 @@ DanceOMeter.prototype.updateDanceLevelBar = function(danceLevelScore) {
         this.danceLevelBar.destroy();
         this.danceLevelBar = game.add.graphics(0, game.height);
     }
-    window.console.log('dancelevel = ' + danceLevelScore);
     this.danceLevelBar.beginFill(0xff0000, 1);
     this.danceLevelBar.drawRect(0, 0, game.width, danceLevelScore * -1);
     this.danceLevelBar.endFill();
