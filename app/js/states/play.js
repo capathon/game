@@ -253,7 +253,28 @@ BasicGame.Game.prototype = {
         this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
-        this.evaluateLevel();
+
+        if (this.score = 90 && this.level == 5 ){
+
+          this.condoms.callAll('stop');
+          this.condomGenerator.timer.stop();
+
+          this.virusses.callAll('stop');
+          this.virusGenerator.timer.stop();
+
+          this.ledges.callAll('stop');
+          this.ledgeGenerator.timer.stop();
+
+          this.ground.stopScroll();
+
+          this.player.animations.stop();
+
+          this.endModal = new EndModal(this.game);
+          this.game.add.existing(this.endModal);
+
+          $('.twitter-icon').removeClass('hidden');
+
+        }
         // this.scoreSound.play();
     },
     downScore: function () {
