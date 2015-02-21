@@ -269,7 +269,7 @@ BasicGame.Game.prototype = {
 
         this.truthometer.updateHealthbar(this.score);
 
-        if (this.level == 5 && this.score => this.levels[this.level].pointsForNextLevel ){
+        if (this.level == 5 && this.score >= this.levels[this.level].pointsForNextLevel ){
 
           this.condoms.callAll('stop');
           this.condomGenerator.timer.stop();
