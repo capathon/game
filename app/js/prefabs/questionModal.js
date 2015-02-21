@@ -80,10 +80,8 @@ QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     //score =
     if(correctAnswer){
         this.doPositive();
-        this.game.add.audio('correct').play();
     } else{
         this.doNegative();
-        this.game.add.audio('wrong').play();
         //game.state.states.Game.score = 0;
         //game.state.states.Game.truthometer.updateHealthbar(0);
     }
