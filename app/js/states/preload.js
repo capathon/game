@@ -28,9 +28,9 @@ BasicGame.Preloader.prototype = {
         this.load.spritesheet('virus', 'app/assets/img/virus.png', 43,43,1);
         this.load.spritesheet('truthometer', 'app/assets/img/truth-o-meter.png', 100,228,1);
         this.load.image('startButton', 'app/assets/img/start-button.png');
-        this.load.image('buttonTrue', 'app/assets/img/buttonTrue.png');
-        this.load.image('buttonFalse', 'app/assets/img/buttonFalse.png');
-        this.load.image('buttonOk', 'app/assets/img/buttonOk.png');
+        this.load.spritesheet('buttonTrue', 'app/assets/img/buttonTrue.png', 95, 46, 3);
+        this.load.spritesheet('buttonFalse', 'app/assets/img/buttonFalse.png', 95, 46, 3);
+        this.load.spritesheet('buttonOk', 'app/assets/img/buttonOk.png', 95, 46, 3);
 
         this.load.image('instructions', 'app/assets/img/instructions.png');
         this.load.image('getReady', 'app/assets/img/get-ready.png');

@@ -26,12 +26,12 @@ var QuestionModal = function(game, parent) {
     this.questionText.align = 'center';
 
     // add our True button with a callback
-    this.answerButton1 = this.game.add.button(-80, 30, 'buttonTrue', this.answerButtonClick1, this);
+    this.answerButton1 = this.game.add.button(-80, 30, 'buttonTrue', this.answerButtonClick1, this, 2, 1, 0);
     this.answerButton1.width = 60;
     this.answerButton1.inputEnabled = true;
 
     // add our False button with a callback
-    this.answerButton2 = this.game.add.button(20, 30, 'buttonFalse', this.answerButtonClick2, this);
+    this.answerButton2 = this.game.add.button(20, 30, 'buttonFalse', this.answerButtonClick2, this, 2, 1, 0);
     this.answerButton2.width = 60;
     this.answerButton2.inputEnabled = true;
 
@@ -94,7 +94,7 @@ QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     this.answerText.wordWrapWidth = 200;
     this.answerText.align = 'center';
 
-    this.okButton = this.game.add.button(-40, 30, 'buttonOk', this.okButtonClick, this);
+    this.okButton = this.game.add.button(-40, 30, 'buttonOk', this.okButtonClick, this, 2, 1, 0);
     this.okButton.inputEnabled = true;
     this.okButton.width = 60;
 
