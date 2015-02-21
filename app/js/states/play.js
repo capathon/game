@@ -196,6 +196,8 @@ BasicGame.Game.prototype = {
 
         this.speedbooster = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.speedUp, this);
         this.speedbooster.timer.start();
+
+        this.globalUpdateToCurrentLevel = this.updateToCurrentLevel;
     },
 
     update: function () {
@@ -380,20 +382,39 @@ BasicGame.Game.prototype = {
         var nextLevel = this.level + 1;
         if (this.score >= pointsForNextLevel) {
             this.level = nextLevel;
-            this.updateToCurrentLevel();
             this.score = 0;
             console.log("Set to level: " + this.level);
             this.game.state.states.Game.truthometer.updateHealthbar(this.score);
+            this.danceOMeterStart();
         }
     },
     danceOMeterStart: function() {
-        this.danceometer = new DanceOMeter(this.game, 20, 20);
-        this.danceometer.updateDanceLevelBar(this.score);
+        this.pauseGame();
+        this.danceText = this.add.text(
+            this.world.centerX,
+            this.world.centerY,
+            "",
+            {
+                size: "100px",
+                fill: "#FFF",
+                align: "center"
+            }
+        );      
+        this.danceText.anchor.setTo(0.5, 0.5);
+
+        this.danceText.setText("Now Dance for Live!");
+
+        this.danceometer = new DanceOMeter(this.game, 0, 0);
+        this.danceometer.updateDanceLevelBar(0);
         this.game.add.existing(this.danceometer);
+
+        setTimeout(function(){
+            game.state.states.Game.danceText.destroy();
+        }, 5000);
 
 	   var accElem = document.getElementById('acceleration'),
             accGravityElem = document.getElementById('acceleration-gravity'),
-            dancOMeterLevel = 0,
+            danceOMeterLevel = 0,
             // Define an event handler function for processing the device’s acceleration values
             handleDeviceMotionEvent = function(e) {
                                 
@@ -405,8 +426,32 @@ BasicGame.Game.prototype = {
                     accGravity = e.accelerationIncludingGravity,
                     maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
                     if(maxAccGravity > 10 || maxAccGravity < 9){
-                        dancOMeterLevel++;
-                        game.state.states.Game.danceometer.globalUpdateDanceLevelBar(dancOMeterLevel);
+                        danceOMeterLevel++;
+                        if (danceOMeterLevel <= game.height){
+                           game.state.states.Game.danceometer.globalUpdateDanceLevelBar(danceOMeterLevel);
+                        }
+                    }
+                    if (danceOMeterLevel > game.height){
+                        this.game.danceDoneText = this.game.add.text(
+                            game.world.centerX,
+                            game.world.centerY,
+                            "",
+                            {
+                                size: "200px",
+                                fill: "#FFF",
+                                align: "center"
+                            }
+                        );   
+                        this.game.danceDoneText.anchor.setTo(0.5, 0.5);
+
+                        this.game.danceDoneText.setText("You can go to the next level!");
+
+
+                        setTimeout(function(){
+                            window.removeEventListener('devicemotion');
+                            game.state.states.Game.danceometer.globalRemoveDanceLevelBar();
+                            game.state.states.Game.globalUpdateToCurrentLevel();
+                        }, 500);
                     }
             };
          
