@@ -382,8 +382,10 @@ BasicGame.Game.prototype = {
         game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
     },
     doNegative : function() {
-        game.state.states.Game.score = 0;
-        game.state.states.Game.truthometer.updateHealthbar(0);
+        game.state.states.Game.score = Math.abs(game.state.states.Game.score / 2);
+        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+
+        this.game.state.states.Game.resGame();
     },
     touchedGround: function (player, ground) {
         this.player.numberOfJumps = 0;
@@ -462,13 +464,17 @@ BasicGame.Game.prototype = {
             } else {
 
                 // do some questions first
+                console.log("asdf");
                 this.pauseGame();
+                console.log("asdfasdf");
                 var that = this;
                 this.questionModal = new QuestionModal(function(){
+                    console.log("answered correctly, starting to dance");
                     // on correct answer: count the correct answers, when enough go to next level
-                    console.log("going to next level");
-                    //this.danceOMeterStart();
-                    that.gotoNextLevel();
+                    that.danceOMeterStart(function(){
+                        console.log("going to next level");
+                        that.gotoNextLevel();
+                    });
                 }, function() {
                     // do nothing on a wrong answer
                 }, this.game);
@@ -479,8 +485,6 @@ BasicGame.Game.prototype = {
         }
     },
     gotoNextLevel: function() {
-
-        // TODO fixme, if end of game, do not go to next level
         this.level ++;
         this.resumeGame();
         this.score = 0;
@@ -488,8 +492,9 @@ BasicGame.Game.prototype = {
         this.game.state.states.Game.truthometer.updateHealthbar(this.score);
 
     },
-    danceOMeterStart: function() {
-        this.pauseGame();
+    danceOMeterStart: function(doneCallback) {
+        //this.pauseGame();
+        console.log("doncemotorstart")
         this.danceText = this.add.text(
             this.world.centerX,
             this.world.centerY,
@@ -502,7 +507,7 @@ BasicGame.Game.prototype = {
         );      
         this.danceText.anchor.setTo(0.5, 0.5);
 
-        this.danceText.setText("Now Dance for Live!");
+        this.danceText.setText("Now Dance for Live!/n shake or mouse!");
 
         this.danceDoneText = this.add.text(
             this.world.centerX,
@@ -533,15 +538,27 @@ BasicGame.Game.prototype = {
             danceOMeterLevel = 0,
             // Define an event handler function for processing the device’s acceleration values
             handleDeviceMotionEvent = function(e) {
-                                
-                // Get the current acceleration values in 3 axes and find the greatest of these
-                var acc = e.acceleration,
-                    maxAcc = Math.max(acc.x, acc.y, acc.z),
+
+                //debugger;
+                var acc, maxAcc, isdancing =false;
+
+                if (e.type === "mousemove") {
+                    maxAcc = Math.max(e.screenX, e.screenY);
+                    isdancing = true;
+                } else {
+                    // Get the current acceleration values in 3 axes and find the greatest of these
+                    acc = e.acceleration;
+                    maxAcc = Math.max(acc.x, acc.y, acc.z);
+                    var accGravity = e.accelerationIncludingGravity,
+                        maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
+
+                    isdancing = maxAccGravity > 10 || maxAccGravity < 9;
+                }
+
          
                     // Get the acceleration values including gravity and find the greatest of these
-                    accGravity = e.accelerationIncludingGravity,
-                    maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
-                    if(maxAccGravity > 10 || maxAccGravity < 9){
+
+                    if(isdancing){
                         danceOMeterLevel++;
                         if (danceOMeterLevel <= game.height){
                            game.state.states.Game.danceometer.globalUpdateDanceLevelBar(danceOMeterLevel);
@@ -551,17 +568,26 @@ BasicGame.Game.prototype = {
                         game.state.states.Game.danceDoneText.alpha = 1;
 
 
+                        window.removeEventListener('devicemotion', handleDeviceMotionEvent);
+                        window.removeEventListener('mousemove', handleDeviceMotionEvent);
                         setTimeout(function(){
-                            window.removeEventListener('devicemotion');
                             game.state.states.Game.danceDoneText.destroy();
                             game.state.states.Game.danceometer.globalRemoveDanceLevelBar();
-                            game.state.states.Game.globalUpdateToCurrentLevel();
+                            //game.state.states.Game.globalUpdateToCurrentLevel();
+
+                            // done
+                            doneCallback();
                         }, 500);
+
+
                     }
             };
          
         // Assign the event handler function to execute when the device is moving
         window.addEventListener('devicemotion', handleDeviceMotionEvent, false);
+
+        //assign to mousemove for desktop
+        window.addEventListener('mousemove', handleDeviceMotionEvent, false);
     },
     resumeGame: function () {
         this.condoms = this.game.add.group();
@@ -569,6 +595,7 @@ BasicGame.Game.prototype = {
         this.ledges = this.game.add.group();
 
         this.background.stopScroll();
+        //errors backgroundAutoScroll, condomVelocity of undefined
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
         game.stage.backgroundColor = this.levels[this.level].backgroundColor;
         this.background.alpha = this.levels[this.level].backgroundAlpha;

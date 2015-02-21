@@ -71,20 +71,28 @@ QuestionModal.prototype.answerButtonClick2 = function() {
 };
 
 QuestionModal.prototype.okButtonClick = function() {
-    this.game.state.states.Game.resGame();
+    console.log("okbutton");
+    //debugger;
+    if(this.correctAnswer){
+        this.doPositive();
+    } else{
+        this.doNegative();
+    }
+
+    //this.game.state.states.Game.resGame();
+
     this.destroy();
     this.questionmodalGroup.destroy();
 };
 
 QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     //score =
-    if(correctAnswer){
-        this.doPositive();
-    } else{
-        this.doNegative();
-        //game.state.states.Game.score = 0;
-        //game.state.states.Game.truthometer.updateHealthbar(0);
-    }
+    // quick fix, refactor correctanswer out
+    this.correctAnswer = correctAnswer;
+
+    //this.game.state.states.Game.resGame();
+
+
     this.questionText.destroy();
     this.answerButton1.destroy();
     this.answerButton2.destroy();
