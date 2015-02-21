@@ -3,7 +3,7 @@
 var Ground = function(game, x, y, width, height) {
     Phaser.TileSprite.call(this, game, x, y, width, height, 'ground');
     // start scrolling our ground
-    var scrollSpeed = (this.game.state.states.Game.level) ? this.game.state.states.Game.levels[this.game.state.states.Game.level].groundAutoScroll : -200;
+    var scrollSpeed = (this.game.state.states.Game && this.game.state.states.Game.level) ? this.game.state.states.Game.levels[this.game.state.states.Game.level].groundAutoScroll : -200;
     this.autoScroll(scrollSpeed,0);
 
     // enable physics on the ground sprite
