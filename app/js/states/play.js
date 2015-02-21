@@ -406,12 +406,12 @@ BasicGame.Game.prototype = {
         window.addEventListener('devicemotion', handleDeviceMotionEvent, false);
     },
     updateToCurrentLevel: function () {
-        this.condomGenerator.timer.stop();
-        this.condomGenerator = null;
-        this.virusGenerator.timer.stop();
-        this.virusGenerator = null;
-        this.ledgeGenerator.timer.stop();
-        this.ledgeGenerator = null;
+        // this.condomGenerator.timer.stop();
+        // this.condomGenerator = null;
+        // this.virusGenerator.timer.stop();
+        // this.virusGenerator = null;
+        // this.ledgeGenerator.timer.stop();
+        // this.ledgeGenerator = null;
 
         this.background.stopScroll();
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
