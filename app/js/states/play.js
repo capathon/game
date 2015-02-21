@@ -456,12 +456,20 @@ BasicGame.Game.prototype = {
                 this.questionModal = new QuestionModal(function(){
                     console.log("answered correctly, starting to dance");
                     // on correct answer: count the correct answers, when enough go to next level
+
+                    that.scoreSound.play();
                     that.danceOMeterStart(function(){
                         console.log("going to next level");
                         that.gotoNextLevel();
                     });
                 }, function() {
                     // do nothing on a wrong answer
+
+
+                    game.state.states.Game.score = Math.abs(game.state.states.Game.score / 2);
+                    game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+
+                    that.resumeGame();
                 }, this.game);
                 this.game.add.existing(this.questionModal);
             }
