@@ -478,7 +478,7 @@ BasicGame.Game.prototype = {
                 }, function() {
                     // do nothing on a wrong answer
 
-
+                    that.wrongSound.play();
                     game.state.states.Game.score = Math.abs(game.state.states.Game.score / 2);
                     game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
 
