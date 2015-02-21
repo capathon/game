@@ -26,12 +26,12 @@ BasicGame.Game = function (game) {
             condomTimer: 1.25,
             condomVelocity: -200,
             virusTimer: 1.50,
-            virusVelocity: -250,
+            virusVelocity: -200,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 10
         }, {
             level: 2,
-            pointsForNextLevel: 45,
             backgroundAutoScroll: -220,
             groundAutoScroll: -400,
             condomTimer: 1.25,
@@ -39,40 +39,49 @@ BasicGame.Game = function (game) {
             virusTimer: 1.50,
             virusVelocity: -250,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 20,
+            backgroundColor: '#ffff00',
+            backgroundAlpha: 0.5
         }, {
             level: 3,
-            pointsForNextLevel: 90,
             backgroundAutoScroll: -420,
             groundAutoScroll: -600,
             condomTimer: 1.25,
-            condomVelocity: -200,
+            condomVelocity: -600,
             virusVelocity: -250,
             virusTimer: 1.50,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 40,
+            backgroundColor: '#cccc00',
+            backgroundAlpha: 0.5
         }, {
             level: 4,
-            pointsForNextLevel: 120,
             backgroundAutoScroll: -720,
             groundAutoScroll: -900,
             condomTimer: 1.25,
             condomVelocity: -200,
-            virusTimer: 1.50,
-            virusVelocity: -250,
+            virusTimer: 3.50,
+            virusVelocity: -100,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 60,
+            backgroundColor: '#ff00ff',
+            backgroundAlpha: 0.5
         }, {
             level: 5,
-            pointsForNextLevel: 150,
             backgroundAutoScroll: -920,
             groundAutoScroll: -1100,
             condomTimer: 1.25,
             condomVelocity: -200,
             virusTimer: 1.50,
-            virusVelocity: -250,
+            virusVelocity: -400,
             ledgeTimer: 5.00,
-            ledgeVelocity: -150
+            ledgeVelocity: -150,
+            pointsForNextLevel: 60,
+            backgroundColor: '#cc0000',
+            backgroundAlpha: 0.5
         }
     ];
     this.processSpeed = {}; // boost the autoScroll;
@@ -200,7 +209,7 @@ BasicGame.Game.prototype = {
         if (!this.gameover) {
             // enable collisions between the player and each group in the condoms group
             this.condoms.forEach(function (condomGroup) {
-                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpObject, null, this);
+                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpCondom, null, this);
             }, this);
 
             // enable collisions between the player and each group in the virusses group
@@ -289,7 +298,7 @@ BasicGame.Game.prototype = {
         }
 
     },
-    pickUpObject: function (player, enemy) {
+    pickUpCondom: function (player, enemy) {
         this.checkScore();
         enemy.kill();
     },
@@ -369,8 +378,8 @@ BasicGame.Game.prototype = {
         this.player.animations.play('jump', 12, true);
     },
     evaluateLevel: function () {
-        var nextLevel = this.level + 1,
-            pointsForNextLevel = this.levels[nextLevel].pointsForNextLevel;
+        var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
+        var nextLevel = this.level + 1;
         if (this.score >= pointsForNextLevel) {
             this.level = nextLevel;
             this.score = 0;
@@ -402,7 +411,8 @@ BasicGame.Game.prototype = {
         setTimeout(function(){
             game.state.states.Game.danceText.destroy();
         }, 5000);
-	var accElem = document.getElementById('acceleration'),
+
+	   var accElem = document.getElementById('acceleration'),
             accGravityElem = document.getElementById('acceleration-gravity'),
             danceOMeterLevel = 0,
             // Define an event handler function for processing the device’s acceleration values
@@ -458,6 +468,8 @@ BasicGame.Game.prototype = {
 
         this.background.stopScroll();
         this.background.autoScroll(this.levels[this.level].backgroundAutoScroll, 0);
+        game.stage.backgroundColor = this.levels[this.level].backgroundColor;
+        this.background.alpha = this.levels[this.level].backgroundAlpha;
 
         this.ground.stopScroll();
         this.ground.autoScroll(this.levels[this.level].groundAutoScroll, 0);
@@ -472,5 +484,13 @@ BasicGame.Game.prototype = {
         this.ledgeGenerator.timer.start();
 
 
+
+    },
+
+    render: function() {
+        if (document.location.hostname == "localhost") {
+            this.game.time.advancedTiming = true;
+            this.game.debug.text(this.game.time.fps || '--', 2, 14, "#ffffff");
+        }
     }
 };
