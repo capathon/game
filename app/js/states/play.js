@@ -395,20 +395,41 @@ BasicGame.Game.prototype = {
         console.log(this.score);
         if (this.score >= pointsForNextLevel) {
 
-            // do some questions first
-            this.pauseGame();
+            if (this.levels[nextLevel] === undefined) {
+                this.condoms.callAll('stop');
+                this.condomGenerator.timer.stop();
 
-            var that = this;
+                this.virusses.callAll('stop');
+                this.virusGenerator.timer.stop();
 
-            this.questionModal = new QuestionModal(function(){
-                // on correct answer: count the correct answers, when enough go to next level
-                console.log("going to next level");
-                //this.danceOMeterStart();
-                that.gotoNextLevel();
-            }, function() {
-                // do nothing on a wrong answer
-            }, this.game);
-            this.game.add.existing(this.questionModal);
+                this.ledges.callAll('stop');
+                this.ledgeGenerator.timer.stop();
+
+                this.ground.stopScroll();
+
+                this.player.animations.stop();
+
+                this.endModal = new EndModal(this.game);
+                this.game.add.existing(this.endModal);
+
+                $('.twitter-icon').removeClass('hidden');
+
+            } else {
+
+                // do some questions first
+                this.pauseGame();
+                var that = this;
+                this.questionModal = new QuestionModal(function(){
+                    // on correct answer: count the correct answers, when enough go to next level
+                    console.log("going to next level");
+                    //this.danceOMeterStart();
+                    that.gotoNextLevel();
+                }, function() {
+                    // do nothing on a wrong answer
+                }, this.game);
+                this.game.add.existing(this.questionModal);
+            }
+
 
         }
     },
