@@ -44,8 +44,8 @@
       "statement":"A mother with HIV might infect her unborn child ",
       "answer":true,
       "motivations":{
-        "true":"True! While a woman with HIV who is pregnant can spread the virus to her child during childbirth or pregnancy.",
-        "false":"Wrong! While a woman with HIV who is pregnant can spread the virus to her child during childbirth or pregnancy."
+        "true":"True! A woman with HIV who is pregnant can spread the virus to her child during childbirth or pregnancy.",
+        "false":"Wrong! A woman with HIV who is pregnant can spread the virus to her child during childbirth or pregnancy."
       }
     },
     {
@@ -61,7 +61,7 @@
       "answer":false,
       "motivations":{
         "true":"Wrong! Mosquito can carry infections such as malaria, dengue fever, but HIV cannot be transmitted in that way.",
-        "false":"True! Mosquito can carry infections such as malaria, dengue fever, but HIV cannot be transmitted in that way."
+        "false":"Indeed! Mosquito can carry infections such as malaria, dengue fever, but HIV cannot be transmitted in that way."
       }
     },
     {
@@ -77,7 +77,7 @@
       "answer":false,
       "motivations":{
         "true":"Wrong! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives.",
-        "false":"True! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives."
+        "false":"Correct! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives."
       }
     },
     {
@@ -85,7 +85,7 @@
       "answer":false,
       "motivations":{
         "true":"Wrong! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives.",
-        "false":"True! In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives."
+        "false":"Correct. In fact people are living with HIV longer today than ever before. Medications allows infected people to live normal, productive lives."
       }
     },
     {
@@ -93,7 +93,7 @@
       "answer":false,
       "motivations":{
         "true":"Wrong! Women living with HIV can and do have families. While certain steps and precautions have to be taken.",
-        "false":"True! Women living with HIV can and do have families. While certain steps and precautions have to be taken."
+        "false":"Right! Women living with HIV can and do have families. While certain steps and precautions have to be taken."
       }
     },
     {
@@ -109,7 +109,7 @@
       "answer":false,
       "motivations":{
         "true":"Wrong! Don't bet on it. In fact, people over 50 make up a rapidly growing segment of the HIV and AIDS population.",
-        "false":"True! In fact, people over 50 make up a rapidly growing segment of the HIV and AIDS population. "
+        "false":"Right! In fact, people over 50 make up a rapidly growing segment of the HIV and AIDS population. "
       }
     },
     {
@@ -117,7 +117,7 @@
       "answer":false,
       "motivations":{
         "true":"Not true. Experts are seeing more an more incidences of re-infection, making HIV and AIDS treatment even more difficult.",
-        "false":"True! Experts are seeing more an more incidences of re-infection, making HIV and AIDS treatment even more difficult. "
+        "false":"Correct! Experts are seeing more an more incidences of re-infection, making HIV and AIDS treatment even more difficult. "
       }
     },
     {
@@ -125,7 +125,7 @@
       "answer":false,
       "motivations":{
         "true":"Not true. HIV is a virus and AIDS is a collection of illnesses.",
-        "false":"True! HIV is a virus and AIDS is a collection of illnesses."
+        "false":"Indeed! HIV is a virus and AIDS is a collection of illnesses."
       }
     }
 
