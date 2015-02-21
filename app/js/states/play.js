@@ -50,7 +50,7 @@ BasicGame.Game = function (game) {
             backgroundAutoScroll: -420,
             groundAutoScroll: -600,
             condomTimer: 1.25,
-            condomVelocity: -600,
+            condomVelocity: -300,
             virusVelocity: -250,
             virusTimer: 1.50,
             ledgeTimer: 5.00,
@@ -63,7 +63,7 @@ BasicGame.Game = function (game) {
             backgroundAutoScroll: -720,
             groundAutoScroll: -900,
             condomTimer: 1.25,
-            condomVelocity: -200,
+            condomVelocity: -400,
             virusTimer: 3.50,
             virusVelocity: -100,
             ledgeTimer: 5.00,
@@ -76,7 +76,7 @@ BasicGame.Game = function (game) {
             backgroundAutoScroll: -920,
             groundAutoScroll: -1100,
             condomTimer: 1.25,
-            condomVelocity: -200,
+            condomVelocity: -500,
             virusTimer: 1.50,
             virusVelocity: -400,
             ledgeTimer: 5.00,
@@ -207,16 +207,6 @@ BasicGame.Game.prototype = {
         this.globalUpdateToCurrentLevel = this.resumeGame;
 
         this.scoreboard = new Scoreboard(this.game);
-        //this.scoreboard.show(100);
-        //this.scoreboard = this.game.add.group();
-        //this.scoreboard.z = 1000;
-        //
-        //var text = "- phaser -\n with a sprinkle of \n pixi dust.";
-        //var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-        //
-        //var t = this.game.add.text(game.world.centerX-300, 0, text, style);
-        //
-        //this.scoreboard.add(t);
     },
 
     update: function () {
