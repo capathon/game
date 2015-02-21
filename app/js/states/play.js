@@ -298,8 +298,19 @@ BasicGame.Game.prototype = {
 
         this.pauseGame();
 
-        this.questionModal = new QuestionModal(this.game);
+        this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
         this.game.add.existing(this.questionModal);
+    },
+    doPositive : function() {
+
+        game.state.states.Game.score+= 30;
+
+        //game.state.states.Game.score = score;
+        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+    },
+    doNegative : function() {
+        game.state.states.Game.score = 0;
+        game.state.states.Game.truthometer.updateHealthbar(0);
     },
     touchedGround: function (player, ground) {
         this.player.numberOfJumps = 0;
@@ -371,6 +382,9 @@ BasicGame.Game.prototype = {
         var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
         var nextLevel = this.level + 1;
         if (this.score >= pointsForNextLevel) {
+
+            // do some questions first
+
             this.level = nextLevel;
             this.updateToCurrentLevel();
             this.score = 0;
