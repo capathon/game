@@ -89,7 +89,7 @@
       }
     },
     {
-      "statement":"When I have HIV, I can not get children without giving them HIV, too?",
+      "statement":"When I have HIV, I can not have children without giving them HIV, too?",
       "answer":false,
       "motivations":{
         "true":"Wrong! Women living with HIV can and do have families. While certain steps and precautions have to be taken.",
