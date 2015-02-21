@@ -17,7 +17,7 @@ var Scoreboard = function (game, parent) {
     var style = {font: "18px Arial", fill: "#fff", align: "right"};
 
     // Total score
-    this.totalScoreText = this.game.add.text(this.game.width - 75, 10, this.totalScore.toString(), style);
+    this.totalScoreText = this.game.add.text(this.game.width - 100, 10, this.totalScore.toString(), style);
     this.totalSCoreImg = this.game.add.sprite(this.game.width - 45, 7, 'cup');
     this.totalSCoreImg.width = this.totalSCoreImg.width - 320;
     this.totalSCoreImg.height = this.totalSCoreImg.height - 230;
@@ -25,7 +25,7 @@ var Scoreboard = function (game, parent) {
     this.totalScoreGroup.add(this.totalSCoreImg);
 
     // Condom score
-    this.condomScoreText = this.game.add.text(this.game.width - 75, 50, this.condomCount.toString(), style);
+    this.condomScoreText = this.game.add.text(this.game.width - 100, 50, this.condomCount.toString(), style);
     this.condomScoreImg = this.game.add.sprite(this.game.width - 50, 45, 'condom');
     this.condomScoreImg.width = this.condomScoreImg.width - 30;
     this.condomScoreImg.height = this.condomScoreImg.height - 30;
@@ -33,7 +33,7 @@ var Scoreboard = function (game, parent) {
     this.condomScoreGroup.add(this.condomScoreImg);
 
     // Virus score
-    this.virusScoreText = this.game.add.text(this.game.width - 75, 90, this.virusCount.toString(), style)
+    this.virusScoreText = this.game.add.text(this.game.width - 100, 90, this.virusCount.toString(), style)
     this.virusScoreImg = this.game.add.sprite(this.game.width - 40, 83, 'virus');
     this.virusScoreImg.width = this.virusScoreImg.width - 10;
     this.virusScoreImg.height = this.virusScoreImg.height - 10;
