@@ -512,7 +512,7 @@ BasicGame.Game.prototype = {
         );      
         this.danceText.anchor.setTo(0.5, 0.5);
 
-        this.danceText.setText("Now Dance for Live!/n shake or mouse!");
+        this.danceText.setText("Now Dance for Life!/n shake or mouse!");
 
         this.danceDoneText = this.add.text(
             this.world.centerX,
