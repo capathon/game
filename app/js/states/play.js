@@ -404,6 +404,22 @@ BasicGame.Game.prototype = {
 
         this.danceText.setText("Now Dance for Live!");
 
+        this.danceDoneText = this.add.text(
+            this.world.centerX,
+            this.world.centerY,
+            "",
+            {
+                size: "200px",
+                fill: "#FFF",
+                align: "center"
+            }
+        );   
+        this.danceDoneText.anchor.setTo(0.5, 0.5);
+        this.danceDoneText.alpha = 0;
+
+        this.danceDoneText.setText("You can go to the next level!");
+
+
         this.danceometer = new DanceOMeter(this.game, 0, 0);
         this.danceometer.updateDanceLevelBar(0);
         this.game.add.existing(this.danceometer);
@@ -432,23 +448,12 @@ BasicGame.Game.prototype = {
                         }
                     }
                     if (danceOMeterLevel > game.height){
-                        this.game.danceDoneText = this.game.add.text(
-                            game.world.centerX,
-                            game.world.centerY,
-                            "",
-                            {
-                                size: "200px",
-                                fill: "#FFF",
-                                align: "center"
-                            }
-                        );   
-                        this.game.danceDoneText.anchor.setTo(0.5, 0.5);
-
-                        this.game.danceDoneText.setText("You can go to the next level!");
+                        game.state.states.Game.danceDoneText.alpha = 1;
 
 
                         setTimeout(function(){
                             window.removeEventListener('devicemotion');
+                            game.state.states.Game.danceDoneText.destroy();
                             game.state.states.Game.danceometer.globalRemoveDanceLevelBar();
                             game.state.states.Game.globalUpdateToCurrentLevel();
                         }, 500);
