@@ -464,9 +464,7 @@ BasicGame.Game.prototype = {
             } else {
 
                 // do some questions first
-                console.log("asdf");
                 this.pauseGame();
-                console.log("asdfasdf");
                 var that = this;
                 this.questionModal = new QuestionModal(function(){
                     console.log("answered correctly, starting to dance");
@@ -488,7 +486,6 @@ BasicGame.Game.prototype = {
         this.level ++;
         this.resumeGame();
         this.score = 0;
-        console.log("Set to level: " + this.level);
         this.game.state.states.Game.truthometer.updateHealthbar(this.score);
 
     },
