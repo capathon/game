@@ -243,7 +243,7 @@ BasicGame.Game.prototype = {
 
         this.truthometer.updateHealthbar(this.score);
 
-        if (this.score = 90 && this.level == 5 ){
+        if (this.score = 10 && this.level == 1 ){
 
           this.condoms.callAll('stop');
           this.condomGenerator.timer.stop();
@@ -261,7 +261,7 @@ BasicGame.Game.prototype = {
           this.endModal = new EndModal(this.game);
           this.game.add.existing(this.endModal);
 
-          $('.twitter-icon').removeClass('hidden');
+          $('.social-icons').removeClass('hidden');
 
         }
 
