@@ -44,6 +44,7 @@ BasicGame.Preloader.prototype = {
         this.load.audio('groundHit', 'app/assets/sounds/ground-hit.wav');
         this.load.audio('score', 'app/assets/sounds/score.wav');
         this.load.audio('ouch', 'app/assets/sounds/ouch.wav');
+        this.load.audio('music', 'app/assets/sounds/wasted-8bit-universe.mp3')
 
         this.load.bitmapFont('jumppyfont', 'app/assets/fonts/jumppyfont/jumppyfont.png', 'app/assets/fonts/jumppyfont/jumppyfont.fnt');
 
@@ -59,6 +60,9 @@ BasicGame.Preloader.prototype = {
     update: function () {
         if(!!this.ready) {
             this.game.state.start('MainMenu');
+            
+            this.music = this.game.add.audio('music');
+            this.music.play();
         }
 
     },
