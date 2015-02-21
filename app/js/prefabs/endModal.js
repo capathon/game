@@ -23,7 +23,7 @@ var EndModal = function(game, totalscore, parent) {
   this.congratulationText.wordWrapWidth = 300;
   this.congratulationText.align = 'center';
 
-  var totaltext = "Your score: "+totalscore;
+  var totaltext = "Your score: " + totalscore;
   var totaltextStyle = { font: "24px Arial", fill: "#000", align: "center" };
 
   this.totalScoreText = this.game.add.text(-120, -80, totaltext, totaltextStyle);

@@ -279,7 +279,7 @@ BasicGame.Game.prototype = {
 
           this.player.animations.stop();
 
-          this.endModal = new EndModal(this.game, this.scoreboard.totalScore);
+          this.endModal = new EndModal(this.game, this.finalScore);
           this.game.add.existing(this.endModal);
 
           $('.social-icons').removeClass('hidden');
@@ -446,7 +446,7 @@ BasicGame.Game.prototype = {
 
                 this.player.animations.stop();
 
-                this.endModal = new EndModal(this.game);
+                this.endModal = new EndModal(this.game, this.finalScore);
                 this.game.add.existing(this.endModal);
 
                 $('.twitter-icon').removeClass('hidden');
