@@ -166,6 +166,7 @@ BasicGame.Game.prototype = {
         this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
         this.truthometer = new Truthometer(this.game, this.game.width*0.05, this.game.height*0.05);
+        this.truthometer.z = 1000;
         this.score = 0;
         this.truthometer.updateHealthbar(this.score);
         this.game.add.existing(this.truthometer);
@@ -198,6 +199,18 @@ BasicGame.Game.prototype = {
         this.speedbooster.timer.start();
 
         this.globalUpdateToCurrentLevel = this.updateToCurrentLevel;
+
+        this.scoreboard = new Scoreboard(this.game);
+        //this.scoreboard.show(100);
+        //this.scoreboard = this.game.add.group();
+        //this.scoreboard.z = 1000;
+        //
+        //var text = "- phaser -\n with a sprinkle of \n pixi dust.";
+        //var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+        //
+        //var t = this.game.add.text(game.world.centerX-300, 0, text, style);
+        //
+        //this.scoreboard.add(t);
     },
 
     update: function () {
@@ -253,6 +266,31 @@ BasicGame.Game.prototype = {
         //this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
+
+        if (this.score = 10 && this.level == 1 ){
+
+          this.condoms.callAll('stop');
+          this.condomGenerator.timer.stop();
+
+          this.virusses.callAll('stop');
+          this.virusGenerator.timer.stop();
+
+          this.ledges.callAll('stop');
+          this.ledgeGenerator.timer.stop();
+
+          this.ground.stopScroll();
+
+          this.player.animations.stop();
+
+          this.endModal = new EndModal(this.game);
+          this.game.add.existing(this.endModal);
+
+          $('.social-icons').removeClass('hidden');
+
+        }
+
+
+
         this.evaluateLevel();
         // this.scoreSound.play();
     },
@@ -272,9 +310,9 @@ BasicGame.Game.prototype = {
         if(enemy instanceof Ground && !this.player.state === "ground") {
             this.groundHitSound.play();
 
-            this.scoreboard = new Scoreboard(this.game);
-            this.game.add.existing(this.scoreboard);
-            this.scoreboard.show(this.score);
+            //this.scoreboard = new Scoreboard(this.game);
+            //this.game.add.existing(this.scoreboard);
+            //this.scoreboard.show(this.score);
             //this.player.onGround = true;
 
             this.player.state  = "ground";
