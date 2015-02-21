@@ -446,9 +446,10 @@ BasicGame.Game.prototype = {
                 var that = this;
                 this.questionModal = new QuestionModal(function(){
                     // on correct answer: count the correct answers, when enough go to next level
-                    console.log("going to next level");
-                    //this.danceOMeterStart();
-                    that.gotoNextLevel();
+                    that.danceOMeterStart(function(){
+                        console.log("going to next level");
+                        that.gotoNextLevel();
+                    });
                 }, function() {
                     // do nothing on a wrong answer
                 }, this.game);
@@ -468,8 +469,9 @@ BasicGame.Game.prototype = {
         this.game.state.states.Game.truthometer.updateHealthbar(this.score);
 
     },
-    danceOMeterStart: function() {
-        this.pauseGame();
+    danceOMeterStart: function(doneCallback) {
+        //this.pauseGame();
+        console.log("doncemotorstart")
         this.danceText = this.add.text(
             this.world.centerX,
             this.world.centerY,
@@ -536,7 +538,12 @@ BasicGame.Game.prototype = {
                             game.state.states.Game.danceDoneText.destroy();
                             game.state.states.Game.danceometer.globalRemoveDanceLevelBar();
                             game.state.states.Game.globalUpdateToCurrentLevel();
+
+                            // done
+                            doneCallback();
                         }, 500);
+
+
                     }
             };
          

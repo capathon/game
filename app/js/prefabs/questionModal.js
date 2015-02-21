@@ -3,8 +3,13 @@ var QuestionModal = function(doPositive, doNegative, game, parent) {
     Phaser.Group.call(this, game, parent);
 
     this.doPositive = doPositive;
+<<<<<<< Updated upstream
     this.doNegative = doNegative
     this.correctAnswer = false;
+=======
+    this.doNegative = doNegative;
+    this.correctanswer = "ryan";
+>>>>>>> Stashed changes
 
     // Add the modal
     //this.questionmodal = this.create(this.game.width/2, -this.game.height/2, 'questionmodal');
@@ -83,6 +88,7 @@ QuestionModal.prototype.okButtonClick = function() {
 
 QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     //score =
+    // quick fix, refactor correctanswer out
     this.correctAnswer = correctAnswer;
     if(correctAnswer){
         this.doPositive();
@@ -91,6 +97,16 @@ QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
         game.state.states.Game.score = Math.abs(game.state.states.Game.score / 2);
         game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
     }
+
+    this.game.state.states.Game.resGame();
+    this.destroy();
+    this.questionmodalGroup.destroy();
+};
+
+QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
+    //todo refactor out correctAnswer
+    this.correctanswer = correctAnswer;
+
     this.questionText.destroy();
     this.answerButton1.destroy();
     this.answerButton2.destroy();
