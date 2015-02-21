@@ -45,6 +45,8 @@ BasicGame.Preloader.prototype = {
         this.load.audio('groundHit', 'app/assets/sounds/ground-hit.wav');
         this.load.audio('score', 'app/assets/sounds/score.wav');
         this.load.audio('ouch', 'app/assets/sounds/ouch.wav');
+        this.load.audio('correct', 'app/assets/sounds/correct.wav');
+        this.load.audio('wrong', 'app/assets/sounds/wrong.wav');
         this.load.audio('music', 'app/assets/sounds/wasted-8bit-universe.mp3')
 
         this.load.bitmapFont('jumppyfont', 'app/assets/fonts/jumppyfont/jumppyfont.png', 'app/assets/fonts/jumppyfont/jumppyfont.fnt');
@@ -62,8 +64,8 @@ BasicGame.Preloader.prototype = {
         if(!!this.ready) {
             this.game.state.start('MainMenu');
             
-            this.music = this.game.add.audio('music');
-            this.music.play();
+            this.music = this.game.add.audio('music', 1, true);
+            this.music.play('', 0, 1, true);
         }
 
     },

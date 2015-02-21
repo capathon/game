@@ -190,6 +190,7 @@ BasicGame.Game.prototype = {
         this.virusHitSound = this.game.add.audio('condomHit');
         this.groundHitSound = this.game.add.audio('groundHit');
         this.scoreSound = this.game.add.audio('score');
+        this.wrongSound = this.game.add.audio('wrong');
 
         this.resGame = this.resumeGame;
         this.evalLevel = this.evaluateLevel;
@@ -341,12 +342,14 @@ BasicGame.Game.prototype = {
     pickUpObject: function (player, enemy) {
         this.scoreboard.updateCondomScore(1);
         enemy.kill();
+        this.scoreSound.play();
         this.checkScore();
     },
     pickUpVirus: function (player, enemy) {
         this.scoreboard.updateVirusScore(1)
         this.downScore();
         enemy.kill();
+        this.wrongSound.play();
 
         //this.pauseGame();
         //this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
