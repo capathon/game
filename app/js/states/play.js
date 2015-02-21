@@ -300,12 +300,14 @@ BasicGame.Game.prototype = {
     },
     pickUpObject: function (player, enemy) {
         enemy.kill();
+        this.game.add.audio('score').play();
         console.log("pickupobject");
         this.checkScore();
     },
     pickUpVirus: function (player, enemy) {
         //this.downScore();
         enemy.kill();
+        this.game.add.audio('wrong').play();
 
         //this.pauseGame();
         //this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
