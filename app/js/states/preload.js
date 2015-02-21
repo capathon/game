@@ -61,8 +61,8 @@ BasicGame.Preloader.prototype = {
         if(!!this.ready) {
             this.game.state.start('MainMenu');
             
-            this.music = this.game.add.audio('music');
-            this.music.play();
+            this.music = this.game.add.audio('music', 1, true);
+            this.music.play('', 0, 1, true);
         }
 
     },
