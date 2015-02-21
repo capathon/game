@@ -1,4 +1,8 @@
-var Scoreboard = function(game, parent) {
+var Scoreboard = function (game, parent) {
+
+    this.totalScore = 0;
+    this.condomCount = 0;
+    this.virusCount = 0;
 
     Phaser.Group.call(this, game, parent);
 
@@ -10,32 +14,27 @@ var Scoreboard = function(game, parent) {
     this.virusScoreGroup = this.game.add.group();
 
     // Define the scoreboard text styling
-    var style = { font: "18px Arial", fill: "#fff", align: "right" };
+    var style = {font: "18px Arial", fill: "#fff", align: "right"};
 
     // Total score
-    this.totalScore = "1000";
-    this.totalScoreText = this.game.add.text(this.game.width-100, 10, this.totalScore, style);
-    this.totalSCoreImg = this.game.add.sprite(this.game.width-45, 7, 'cup');
-    console.log(this.totalSCoreImg.width)
-    console.log(this.totalSCoreImg.height)
+    this.totalScoreText = this.game.add.text(this.game.width - 75, 10, this.totalScore.toString(), style);
+    this.totalSCoreImg = this.game.add.sprite(this.game.width - 45, 7, 'cup');
     this.totalSCoreImg.width = this.totalSCoreImg.width - 320;
     this.totalSCoreImg.height = this.totalSCoreImg.height - 230;
     this.totalScoreGroup.add(this.totalScoreText);
     this.totalScoreGroup.add(this.totalSCoreImg);
 
     // Condom score
-    this.condomScore = "1000";
-    this.condomScoreText = this.game.add.text(this.game.width-100, 50, this.condomScore, style);
-    this.condomScoreImg = this.game.add.sprite(this.game.width-50, 45, 'condom');
+    this.condomScoreText = this.game.add.text(this.game.width - 75, 50, this.condomCount.toString(), style);
+    this.condomScoreImg = this.game.add.sprite(this.game.width - 50, 45, 'condom');
     this.condomScoreImg.width = this.condomScoreImg.width - 30;
     this.condomScoreImg.height = this.condomScoreImg.height - 30;
     this.condomScoreGroup.add(this.condomScoreText);
     this.condomScoreGroup.add(this.condomScoreImg);
 
     // Virus score
-    this.virusScore = "1000";
-    this.virusScoreText = this.game.add.text(this.game.width-100, 90, this.virusScore, style)
-    this.virusScoreImg = this.game.add.sprite(this.game.width-40, 83, 'virus');
+    this.virusScoreText = this.game.add.text(this.game.width - 75, 90, this.virusCount.toString(), style)
+    this.virusScoreImg = this.game.add.sprite(this.game.width - 40, 83, 'virus');
     this.virusScoreImg.width = this.virusScoreImg.width - 10;
     this.virusScoreImg.height = this.virusScoreImg.height - 10;
     this.virusScoreGroup.add(this.virusScoreText);
@@ -45,47 +44,22 @@ var Scoreboard = function(game, parent) {
     this.scoreboardGroup.add(this.totalScoreGroup);
     this.scoreboardGroup.add(this.condomScoreGroup);
     this.scoreboardGroup.add(this.virusScoreGroup);
-
-    //var gameover;
-
-    //Phaser.Group.call(this, game);
-    //gameover = this.create(this.game.width / 2, 100, 'gameover');
-    //gameover.anchor.setTo(0.5, 0.5);
-
-    //this.scoreboard = this.create(this.game.width / 2, 200, 'scoreboard');
-    //this.scoreboard.anchor.setTo(0.5, 0.5);
-
-    //this.scoreText = this.game.add.bitmapText(this.scoreboard.width, 180, 'jumppyfont', '', 18);
-    //this.scoreText = this.game.add.bitmapText(this.scoreboard.width, 180, 'jumppyfont', '', 18);
-    //var style = { font: "18px Arial", fill: "#fff", align: "center" };
-    //this.scoreText = this.game.add.text(-75, -95, 'score', style);
-    //this.add(this.scoreText);
-
-    //this.bestText = this.game.add.bitmapText(this.scoreboard.width, 230, 'jumppyfont', '', 18);
-    //this.add(this.bestText);
-
-    // add our start button with a callback
-    //this.startButton = this.game.add.button(this.game.width/2, 300, 'startButton', this.startClick, this);
-    //this.startButton.anchor.setTo(0.5,0.5);
-
-    //this.add(this.startButton);
-
-    //this.y = this.game.height;
-    //this.x = 0;
-
 };
 
 Scoreboard.prototype = Object.create(Phaser.Group.prototype);
 Scoreboard.prototype.constructor = Scoreboard;
 
-Scoreboard.prototype.updateCondomScore = function () {
-    this.virusScoreText
+Scoreboard.prototype.updateCondomScore = function (score) {
+    this.condomCount = this.condomCount + score;
+    this.condomScoreText.setText(this.condomCount.toString());
 };
 
-Scoreboard.prototype.show = function(score) {
-    //this.scoreText.setText(score.toString());
+Scoreboard.prototype.updateVirusScore = function (score) {
+    this.virusCount = this.virusCount + score;
+    this.virusScoreText.setText(this.virusCount.toString());
 };
 
-Scoreboard.prototype.update = function() {
-    // write your prefab's specific update code here
+Scoreboard.prototype.updateTotalScore = function (score) {
+    this.totalScore = this.totalScore + score;
+    this.totalScoreText.setText(this.totalScore.toString());
 };

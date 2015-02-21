@@ -266,7 +266,7 @@ BasicGame.Game.prototype = {
     checkScore: function () {
         this.score = this.score + 5;
 
-        //this.evaluateLevel();
+        this.scoreboard.updateTotalScore(this.score);
 
         this.truthometer.updateHealthbar(this.score);
 
@@ -340,12 +340,13 @@ BasicGame.Game.prototype = {
 
     },
     pickUpObject: function (player, enemy) {
+        this.scoreboard.updateCondomScore(1);
         enemy.kill();
         this.scoreSound.play();
-        console.log("pickupobject");
         this.checkScore();
     },
     pickUpVirus: function (player, enemy) {
+        this.scoreboard.updateVirusScore(1)
         this.downScore();
         enemy.kill();
         this.wrongSound.play();
@@ -358,6 +359,7 @@ BasicGame.Game.prototype = {
 
         game.state.states.Game.score+= 30;
 
+        this.scoreboard.updateTotalScore(game.state.states.Game.score);
         //game.state.states.Game.score = score;
         game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
     },
