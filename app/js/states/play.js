@@ -170,6 +170,9 @@ BasicGame.Game.prototype = {
         this.truthometer = new Truthometer(this.game, this.game.width*0.05, this.game.height*0.05);
         this.truthometer.z = 1000;
         this.score = 0;
+        this.finalScore = 0;
+        this.multiplier = 1;
+        this.condomsInRow = 0;
         this.truthometer.updateHealthbar(this.score);
         this.game.add.existing(this.truthometer);
 
@@ -225,7 +228,7 @@ BasicGame.Game.prototype = {
         if (!this.gameover) {
             // enable collisions between the player and each group in the condoms group
             this.condoms.forEach(function (condomGroup) {
-                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpObject, null, this);
+                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpCondom, null, this);
             }, this);
 
             // enable collisions between the player and each group in the virusses group
@@ -265,8 +268,9 @@ BasicGame.Game.prototype = {
     },
     checkScore: function () {
         this.score = this.score + 5;
+        this.finalScore = this.finalScore + (5 * this.multiplier);
 
-        this.scoreboard.updateTotalScore(this.score);
+        this.scoreboard.updateTotalScore(this.finalScore);
 
         this.truthometer.updateHealthbar(this.score);
 
@@ -304,6 +308,12 @@ BasicGame.Game.prototype = {
             this.score = this.score - 10;
         }
 
+        if (this.finalScore - 10 <= 0) {
+            this.finalScore = 0;
+        } else {
+            this.finalScore -= 10;
+        }
+
         this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
@@ -339,8 +349,13 @@ BasicGame.Game.prototype = {
         }
 
     },
-    pickUpObject: function (player, enemy) {
+    pickUpCondom: function (player, enemy) {
         this.scoreboard.updateCondomScore(1);
+        this.condomsInRow++;
+        if (this.condomsInRow % 2 === 0) {
+            this.multiplier++;
+        }
+
         enemy.kill();
         this.scoreSound.play();
         this.checkScore();
@@ -350,6 +365,8 @@ BasicGame.Game.prototype = {
         this.downScore();
         enemy.kill();
         this.wrongSound.play();
+        this.condomsInRow = 0;
+        this.multiplier = 1;
 
         //this.pauseGame();
         //this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
@@ -357,9 +374,10 @@ BasicGame.Game.prototype = {
     },
     doPositive : function() {
 
-        game.state.states.Game.score+= 30;
+        this.score += 30;
+        this.finalScore += 30;
 
-        this.scoreboard.updateTotalScore(game.state.states.Game.score);
+        this.scoreboard.updateTotalScore(game.state.states.Game.finalScore);
         //game.state.states.Game.score = score;
         game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
     },
@@ -404,8 +422,6 @@ BasicGame.Game.prototype = {
         this.virusses.destroy();
         this.ledges.destroy();
 
-        console.log("PAUSED GAME");
-
         this.condoms.callAll('stop');
         this.condomGenerator.timer.stop();
 
@@ -424,7 +440,6 @@ BasicGame.Game.prototype = {
         var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
         var nextLevel = this.level + 1;
         //debugger;
-        console.log(this.score);
         if (this.score >= pointsForNextLevel) {
 
             if (this.levels[nextLevel] === undefined) {
@@ -449,9 +464,7 @@ BasicGame.Game.prototype = {
             } else {
 
                 // do some questions first
-                console.log("asdf");
                 this.pauseGame();
-                console.log("asdfasdf");
                 var that = this;
                 this.questionModal = new QuestionModal(function(){
                     console.log("answered correctly, starting to dance");
@@ -481,7 +494,6 @@ BasicGame.Game.prototype = {
         this.level ++;
         this.resumeGame();
         this.score = 0;
-        console.log("Set to level: " + this.level);
         this.game.state.states.Game.truthometer.updateHealthbar(this.score);
 
     },
@@ -544,8 +556,7 @@ BasicGame.Game.prototype = {
                     maxAcc = Math.max(acc.x, acc.y, acc.z);
                     var accGravity = e.accelerationIncludingGravity,
                         maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
-
-                    isdancing = maxAccGravity > 10 || maxAccGravity < 9;
+                    isdancing = maxAccGravity > 10 || maxAccGravity < 7;
                 }
 
          
