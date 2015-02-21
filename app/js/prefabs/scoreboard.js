@@ -14,10 +14,10 @@ var Scoreboard = function (game, parent) {
     this.virusScoreGroup = this.game.add.group();
 
     // Define the scoreboard text styling
-    var style = {font: "18px Arial", fill: "#fff", align: "right"};
+    var style = {font: "18px Arial", fill: "#fff", align: "left"};
 
     // Total score
-    this.totalScoreText = this.game.add.text(this.game.width - 75, 10, this.totalScore.toString(), style);
+    this.totalScoreText = this.game.add.text(this.game.width - 88, 10, this.totalScore.toString(), style);
     this.totalSCoreImg = this.game.add.sprite(this.game.width - 45, 7, 'cup');
     this.totalSCoreImg.width = this.totalSCoreImg.width - 320;
     this.totalSCoreImg.height = this.totalSCoreImg.height - 230;
