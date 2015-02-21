@@ -469,12 +469,20 @@ BasicGame.Game.prototype = {
                 this.questionModal = new QuestionModal(function(){
                     console.log("answered correctly, starting to dance");
                     // on correct answer: count the correct answers, when enough go to next level
+
+                    that.scoreSound.play();
                     that.danceOMeterStart(function(){
                         console.log("going to next level");
                         that.gotoNextLevel();
                     });
                 }, function() {
                     // do nothing on a wrong answer
+
+                    that.wrongSound.play();
+                    game.state.states.Game.score = Math.abs(game.state.states.Game.score / 2);
+                    game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+
+                    that.resumeGame();
                 }, this.game);
                 this.game.add.existing(this.questionModal);
             }
@@ -504,7 +512,7 @@ BasicGame.Game.prototype = {
         );      
         this.danceText.anchor.setTo(0.5, 0.5);
 
-        this.danceText.setText("Now Dance for Live!/n shake or mouse!");
+        this.danceText.setText("Now Dance for Life!/n shake or mouse!");
 
         this.danceDoneText = this.add.text(
             this.world.centerX,
@@ -548,8 +556,7 @@ BasicGame.Game.prototype = {
                     maxAcc = Math.max(acc.x, acc.y, acc.z);
                     var accGravity = e.accelerationIncludingGravity,
                         maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
-
-                    isdancing = maxAccGravity > 10 || maxAccGravity < 9;
+                    isdancing = maxAccGravity > 10 || maxAccGravity < 7;
                 }
 
          
