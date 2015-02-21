@@ -266,6 +266,31 @@ BasicGame.Game.prototype = {
         //this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
+
+        if (this.score = 10 && this.level == 1 ){
+
+          this.condoms.callAll('stop');
+          this.condomGenerator.timer.stop();
+
+          this.virusses.callAll('stop');
+          this.virusGenerator.timer.stop();
+
+          this.ledges.callAll('stop');
+          this.ledgeGenerator.timer.stop();
+
+          this.ground.stopScroll();
+
+          this.player.animations.stop();
+
+          this.endModal = new EndModal(this.game);
+          this.game.add.existing(this.endModal);
+
+          $('.social-icons').removeClass('hidden');
+
+        }
+
+
+
         this.evaluateLevel();
         // this.scoreSound.play();
     },
