@@ -209,7 +209,7 @@ BasicGame.Game.prototype = {
         if (!this.gameover) {
             // enable collisions between the player and each group in the condoms group
             this.condoms.forEach(function (condomGroup) {
-                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpCondom, null, this);
+                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpObject, null, this);
             }, this);
 
             // enable collisions between the player and each group in the virusses group
@@ -250,7 +250,7 @@ BasicGame.Game.prototype = {
     checkScore: function () {
         this.score = this.score + 5;
 
-        this.evaluateLevel();
+        //this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
         this.evaluateLevel();
@@ -298,18 +298,29 @@ BasicGame.Game.prototype = {
         }
 
     },
-    pickUpCondom: function (player, enemy) {
-        this.checkScore();
+    pickUpObject: function (player, enemy) {
         enemy.kill();
+        console.log("pickupobject");
+        this.checkScore();
     },
     pickUpVirus: function (player, enemy) {
-        this.downScore();
+        //this.downScore();
         enemy.kill();
 
-        this.pauseGame();
+        //this.pauseGame();
+        //this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
+        //this.game.add.existing(this.questionModal);
+    },
+    doPositive : function() {
 
-        this.questionModal = new QuestionModal(this.game);
-        this.game.add.existing(this.questionModal);
+        game.state.states.Game.score+= 30;
+
+        //game.state.states.Game.score = score;
+        game.state.states.Game.truthometer.updateHealthbar(game.state.states.Game.score);
+    },
+    doNegative : function() {
+        game.state.states.Game.score = 0;
+        game.state.states.Game.truthometer.updateHealthbar(0);
     },
     touchedGround: function (player, ground) {
         this.player.numberOfJumps = 0;
@@ -380,13 +391,57 @@ BasicGame.Game.prototype = {
     evaluateLevel: function () {
         var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
         var nextLevel = this.level + 1;
+        //debugger;
+        console.log(this.score);
         if (this.score >= pointsForNextLevel) {
-            this.level = nextLevel;
-            this.score = 0;
-            console.log("Set to level: " + this.level);
-            this.game.state.states.Game.truthometer.updateHealthbar(this.score);
-            this.danceOMeterStart();
+
+            if (this.levels[nextLevel] === undefined) {
+                this.condoms.callAll('stop');
+                this.condomGenerator.timer.stop();
+
+                this.virusses.callAll('stop');
+                this.virusGenerator.timer.stop();
+
+                this.ledges.callAll('stop');
+                this.ledgeGenerator.timer.stop();
+
+                this.ground.stopScroll();
+
+                this.player.animations.stop();
+
+                this.endModal = new EndModal(this.game);
+                this.game.add.existing(this.endModal);
+
+                $('.twitter-icon').removeClass('hidden');
+
+            } else {
+
+                // do some questions first
+                this.pauseGame();
+                var that = this;
+                this.questionModal = new QuestionModal(function(){
+                    // on correct answer: count the correct answers, when enough go to next level
+                    console.log("going to next level");
+                    //this.danceOMeterStart();
+                    that.gotoNextLevel();
+                }, function() {
+                    // do nothing on a wrong answer
+                }, this.game);
+                this.game.add.existing(this.questionModal);
+            }
+
+
         }
+    },
+    gotoNextLevel: function() {
+
+        // TODO fixme, if end of game, do not go to next level
+        this.level ++;
+        this.updateToCurrentLevel();
+        this.score = 0;
+        console.log("Set to level: " + this.level);
+        this.game.state.states.Game.truthometer.updateHealthbar(this.score);
+
     },
     danceOMeterStart: function() {
         this.pauseGame();
@@ -404,7 +459,23 @@ BasicGame.Game.prototype = {
 
         this.danceText.setText("Now Dance for Live!");
 
-        this.danceometer = new DanceOMeter(this.game, 0, 0);
+        this.danceDoneText = this.add.text(
+            this.world.centerX,
+            this.world.centerY,
+            "",
+            {
+                size: "200px",
+                fill: "#FFF",
+                align: "center"
+            }
+        );   
+        this.danceDoneText.anchor.setTo(0.5, 0.5);
+        this.danceDoneText.alpha = 0;
+
+        this.danceDoneText.setText("You can go to the next level!");
+
+
+        this.danceometer = new DanceOMeter(this.game, -200, -200);
         this.danceometer.updateDanceLevelBar(0);
         this.game.add.existing(this.danceometer);
 
@@ -432,23 +503,12 @@ BasicGame.Game.prototype = {
                         }
                     }
                     if (danceOMeterLevel > game.height){
-                        this.game.danceDoneText = this.game.add.text(
-                            game.world.centerX,
-                            game.world.centerY,
-                            "",
-                            {
-                                size: "200px",
-                                fill: "#FFF",
-                                align: "center"
-                            }
-                        );   
-                        this.game.danceDoneText.anchor.setTo(0.5, 0.5);
-
-                        this.game.danceDoneText.setText("You can go to the next level!");
+                        game.state.states.Game.danceDoneText.alpha = 1;
 
 
                         setTimeout(function(){
                             window.removeEventListener('devicemotion');
+                            game.state.states.Game.danceDoneText.destroy();
                             game.state.states.Game.danceometer.globalRemoveDanceLevelBar();
                             game.state.states.Game.globalUpdateToCurrentLevel();
                         }, 500);
