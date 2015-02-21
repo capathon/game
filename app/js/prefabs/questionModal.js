@@ -3,8 +3,7 @@ var QuestionModal = function(doPositive, doNegative, game, parent) {
     Phaser.Group.call(this, game, parent);
 
     this.doPositive = doPositive;
-    this.doNegative = doNegative
-    this.correctAnswer = false;
+    this.doNegative = doNegative;
 
     // Add the modal
     //this.questionmodal = this.create(this.game.width/2, -this.game.height/2, 'questionmodal');
@@ -80,6 +79,8 @@ QuestionModal.prototype.okButtonClick = function() {
         this.doNegative();
     }
 
+    //this.game.state.states.Game.resGame();
+
     this.destroy();
     this.questionmodalGroup.destroy();
 };
@@ -89,15 +90,8 @@ QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
     // quick fix, refactor correctanswer out
     this.correctAnswer = correctAnswer;
 
-    this.game.state.states.Game.resGame();
-    this.destroy();
-    this.questionmodalGroup.destroy();
-};
+    //this.game.state.states.Game.resGame();
 
-QuestionModal.prototype.showAnswer = function(text, correctAnswer) {
-
-    //todo refactor out correctAnswer
-    this.correctAnswer = correctAnswer;
 
     this.questionText.destroy();
     this.answerButton1.destroy();

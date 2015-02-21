@@ -15,14 +15,18 @@ var Scoreboard = function(game, parent) {
     // Total score
     this.totalScore = "1000";
     this.totalScoreText = this.game.add.text(this.game.width-100, 10, this.totalScore, style);
-    //this.totalSCoreImg
+    this.totalSCoreImg = this.game.add.sprite(this.game.width-45, 7, 'cup');
+    console.log(this.totalSCoreImg.width)
+    console.log(this.totalSCoreImg.height)
+    this.totalSCoreImg.width = this.totalSCoreImg.width - 320;
+    this.totalSCoreImg.height = this.totalSCoreImg.height - 230;
     this.totalScoreGroup.add(this.totalScoreText);
-    //this.totalScoreGroup.add(this.totalSCoreImg);
+    this.totalScoreGroup.add(this.totalSCoreImg);
 
     // Condom score
     this.condomScore = "1000";
     this.condomScoreText = this.game.add.text(this.game.width-100, 50, this.condomScore, style);
-    this.condomScoreImg = new Condom(this.game, this.game.width-30, 60, 1);
+    this.condomScoreImg = this.game.add.sprite(this.game.width-50, 45, 'condom');
     this.condomScoreImg.width = this.condomScoreImg.width - 30;
     this.condomScoreImg.height = this.condomScoreImg.height - 30;
     this.condomScoreGroup.add(this.condomScoreText);
@@ -31,7 +35,7 @@ var Scoreboard = function(game, parent) {
     // Virus score
     this.virusScore = "1000";
     this.virusScoreText = this.game.add.text(this.game.width-100, 90, this.virusScore, style)
-    this.virusScoreImg = new Virus(this.game, this.game.width-30, 100, 1);
+    this.virusScoreImg = this.game.add.sprite(this.game.width-40, 83, 'virus');
     this.virusScoreImg.width = this.virusScoreImg.width - 10;
     this.virusScoreImg.height = this.virusScoreImg.height - 10;
     this.virusScoreGroup.add(this.virusScoreText);
@@ -73,6 +77,10 @@ var Scoreboard = function(game, parent) {
 
 Scoreboard.prototype = Object.create(Phaser.Group.prototype);
 Scoreboard.prototype.constructor = Scoreboard;
+
+Scoreboard.prototype.updateCondomScore = function () {
+    this.virusScoreText
+};
 
 Scoreboard.prototype.show = function(score) {
     //this.scoreText.setText(score.toString());
