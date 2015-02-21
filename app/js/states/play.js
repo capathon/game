@@ -207,7 +207,7 @@ BasicGame.Game.prototype = {
         if (!this.gameover) {
             // enable collisions between the player and each group in the condoms group
             this.condoms.forEach(function (condomGroup) {
-                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpObject, null, this);
+                this.game.physics.arcade.collide(this.player, condomGroup, this.pickUpCondom, null, this);
             }, this);
 
             // enable collisions between the player and each group in the virusses group
@@ -296,7 +296,7 @@ BasicGame.Game.prototype = {
         }
 
     },
-    pickUpObject: function (player, enemy) {
+    pickUpCondom: function (player, enemy) {
         this.checkScore();
         enemy.kill();
     },
@@ -391,7 +391,7 @@ BasicGame.Game.prototype = {
         this.danceometer.updateDanceLevelBar(this.score);
         this.game.add.existing(this.danceometer);
 
-	var accElem = document.getElementById('acceleration'),
+	   var accElem = document.getElementById('acceleration'),
             accGravityElem = document.getElementById('acceleration-gravity'),
             dancOMeterLevel = 0,
             // Define an event handler function for processing the device’s acceleration values
