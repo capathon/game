@@ -548,8 +548,7 @@ BasicGame.Game.prototype = {
                     maxAcc = Math.max(acc.x, acc.y, acc.z);
                     var accGravity = e.accelerationIncludingGravity,
                         maxAccGravity = Math.round(Math.max(accGravity.x, accGravity.y, accGravity.z));
-
-                    isdancing = maxAccGravity > 10 || maxAccGravity < 9;
+                    isdancing = maxAccGravity > 10 || maxAccGravity < 7;
                 }
 
          
