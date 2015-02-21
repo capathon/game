@@ -184,10 +184,6 @@ BasicGame.Game.prototype = {
 
         this.questions = JSON.parse(game.cache.getText('someData'));
 
-        this.danceometer = new DanceOMeter(this.game, 20, 20);
-        this.score = 0;
-        this.danceometer.updateDanceLevelBar(this.score);
-        this.game.add.existing(this.danceometer);
 
         this.speedbooster = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.speedUp, this);
         this.speedbooster.timer.start();
@@ -380,7 +376,11 @@ BasicGame.Game.prototype = {
         }
     },
     danceOMeterStart: function() {
-        var accElem = document.getElementById('acceleration'),
+        this.danceometer = new DanceOMeter(this.game, 20, 20);
+        this.danceometer.updateDanceLevelBar(this.score);
+        this.game.add.existing(this.danceometer);
+
+	var accElem = document.getElementById('acceleration'),
             accGravityElem = document.getElementById('acceleration-gravity'),
             dancOMeterLevel = 0,
             // Define an event handler function for processing the device’s acceleration values
