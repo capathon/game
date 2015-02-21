@@ -66,7 +66,7 @@ Scoreboard.prototype.updateVirusScore = function (score) {
 };
 
 Scoreboard.prototype.updateTotalScore = function (score) {
-    this.totalScore = this.totalScore + score;
+    this.totalScore = score;
     if(this.totalScore > 9 && this.totalScore < 99) {
         this.totalScoreText.x = this.game.width - 70;
     }

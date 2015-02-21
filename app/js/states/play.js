@@ -342,7 +342,7 @@ BasicGame.Game.prototype = {
     pickUpCondom: function (player, enemy) {
         this.scoreboard.updateCondomScore(1);
         this.condomsInRow++;
-        if (this.condomsInRow % 2 === 0) {
+        if (this.condomsInRow % 3 === 0) {
             this.multiplier++;
             if (this.multiplier > 8) {
                 this.multiplier = 8;
