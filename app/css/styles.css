@@ -15,3 +15,15 @@ p {
 a {
   color: #3caaff;
 }
+
+
+.twitter-icon {
+  left: 47%;
+  position: absolute;
+  top: 50%;
+}
+
+.hidden{
+  display: none;
+  overflow: hidden;
+}
