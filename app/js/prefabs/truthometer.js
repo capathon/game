@@ -27,7 +27,7 @@ Truthometer.prototype.updateHealthbar = function(score) {
     this.health.drawRect(0, 0, 22, percentage * -1);
     this.health.endFill();
 
-    if (typeof this.game.state.states.Game.evalLevel !== 'undefined') {
-        this.game.state.states.Game.evalLevel();
-    }
+    //if (typeof this.game.state.states.Game.evalLevel !== 'undefined') {
+    //    this.game.state.states.Game.evalLevel();
+    //}
 };

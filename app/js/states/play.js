@@ -248,7 +248,7 @@ BasicGame.Game.prototype = {
     checkScore: function () {
         this.score = this.score + 5;
 
-        this.evaluateLevel();
+        //this.evaluateLevel();
 
         this.truthometer.updateHealthbar(this.score);
         this.evaluateLevel();
@@ -297,17 +297,17 @@ BasicGame.Game.prototype = {
 
     },
     pickUpObject: function (player, enemy) {
-        this.checkScore();
+        console.log("pickupobject");
         enemy.kill();
+        this.checkScore();
     },
     pickUpVirus: function (player, enemy) {
-        this.downScore();
+        //this.downScore();
         enemy.kill();
 
-        this.pauseGame();
-
-        this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
-        this.game.add.existing(this.questionModal);
+        //this.pauseGame();
+        //this.questionModal = new QuestionModal(this.doPositive, this.doNegative, this.game);
+        //this.game.add.existing(this.questionModal);
     },
     doPositive : function() {
 
@@ -389,16 +389,37 @@ BasicGame.Game.prototype = {
     evaluateLevel: function () {
         var pointsForNextLevel = this.levels[this.level].pointsForNextLevel;
         var nextLevel = this.level + 1;
+        //debugger;
+        console.log(this.score);
         if (this.score >= pointsForNextLevel) {
 
             // do some questions first
+            this.pauseGame();
 
-            this.level = nextLevel;
-            this.updateToCurrentLevel();
-            this.score = 0;
-            console.log("Set to level: " + this.level);
-            this.game.state.states.Game.truthometer.updateHealthbar(this.score);
+            var that = this;
+
+            this.questionModal = new QuestionModal(function(){
+                // on correct answer: count the correct answers, when enough go to next level
+                console.log("going to next level");
+                that.gotoNextLevel();
+            }, function() {
+                // do nothing on a wrong answer
+            }, this.game);
+            this.game.add.existing(this.questionModal);
+
+
+            //this.gotoNextLevel();
         }
+    },
+    gotoNextLevel: function() {
+
+        // TODO fixme, if end of game, do not go to next level
+        this.level ++;
+        this.updateToCurrentLevel();
+        this.score = 0;
+        console.log("Set to level: " + this.level);
+        this.game.state.states.Game.truthometer.updateHealthbar(this.score);
+
     },
     danceOMeterStart: function() {
         this.danceometer = new DanceOMeter(this.game, 20, 20);
